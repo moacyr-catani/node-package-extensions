@@ -1,0 +1,48 @@
+{
+    "author": "Moacyr Catani, Jr.",
+    "name": "extensions-utility",
+    "description": "A package to add util extensions to JavaScript basic types and objects ",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": [
+    ],
+    "homepage": "https://https://github.com/moacyr-catani/node-package-extensions#readme",
+    "bugs": {
+        "url": "https://github.com/moacyr-catani/node-package-extensions/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/moacyr-catani/node-package-extensions.git"
+    },
+    "type": "module",
+    "main": "./lib/index.js",
+    "types": "./lib/types/index.d.ts",
+    "files": [
+        "lib/**/*"
+    ],
+    "scripts": {
+        "build": "npm run clean && npm run build:esm",
+        "build2": "npm run clean && npm run build:esm && npm run build:cjs",
+        "build:esm": "tsc -p ./configs/tsconfig.esm.json",
+        "build:esm2": "tsc -p ./configs/tsconfig.esm.json && shx mv lib/esm/index.js lib/esm/index.mjs",
+        "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+        "build:local": "tsc -p ./configs/tsconfig.local.json",
+        "clean": "shx rm -rf ./lib",
+        "examples": "npm run build:local && node ./dist/examples/index.js",
+        "prepack": "npm run build",
+        "test": "jest --config=./configs/jest.config.ts",
+        "test:cjs": "npm run --silent build && npm run --silent build:local && node ./tests/cjs/index.js",
+        "test:esm": "npm run --silent build && npm run --silent build:local && node ./tests/esm/index.js"
+    },
+    "devDependencies": {
+        "@inquirer/prompts": "^7.3.2",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.13.5",
+        "jest": "^29.7.0",
+        "shx": "^0.3.4",
+        "ts-jest": "^29.2.6",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.19.3",
+        "typescript": "^5.7.3"
+    }
+}

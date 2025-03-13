@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": 
+  {
+    "diagnostics": true,
+    "outDir": "../dist",
+    "declarationDir": "../dist/types"
+
+  },
+  "files": 
+  [
+    "../src/index.ts", 
+    "../debug/index.ts", 
+    //"../examples/index.ts",
+    //"../tests/common/callback-functions.ts"
+  ]
+}
