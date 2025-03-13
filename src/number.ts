@@ -20,8 +20,8 @@ const INTEGER_REPRESENTATIONS: string[] = Object.values(IntegerRepresentations);
 
 
 
-function ConvertIntFromBase(p_value: string, 
-                            p_radix: number): bigint
+function _convertIntFromBase(p_value: string, 
+                             p_radix: number): bigint
 { 
     // Asset value is string
     p_value = p_value.toString();
@@ -41,7 +41,7 @@ function ConvertIntFromBase(p_value: string,
 
 
 
-function ConvertIntToBuffer(p_value: number | bigint): Buffer
+function _convertIntToBuffer(p_value: number | bigint): Buffer
 {
     let   intValue: bigint = BigInt(p_value);       // Assert bigint
     const arrBytes: Array<number> = [];
@@ -53,6 +53,37 @@ function ConvertIntToBuffer(p_value: number | bigint): Buffer
     }
 
     return Buffer.from(arrBytes.reverse());
+}
+
+
+
+function _formatInteger(p_Value: string,
+                        p_ThousandSeparator: string): string
+{
+    if ("" === p_ThousandSeparator)
+        return p_Value;
+
+    let intIndex:  number = 0,
+        intSize:   number = p_Value.length % 3,
+        strReturn: string = "";
+
+    intSize = 0 === intSize ?
+                  3 :
+                  intSize;
+
+    while (intIndex < p_Value.length)
+    {
+        strReturn+= p_Value.substring(intIndex, intIndex + intSize);
+
+        intIndex += intSize;
+        intSize  = 3;
+
+        strReturn += intIndex < p_Value.length ?
+                         p_ThousandSeparator :
+                         "";
+    }
+
+    return strReturn;
 }
 
 
@@ -74,69 +105,77 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
     {
         if ("string" === typeof p_Value)
         {
+            // Adjust to lower case
+            p_Value = p_Value.toLowerCase();
+
+
             // Tries to get a prefix
             if (p_Value.length >= 3)
             {
                 const strPrefix: string = p_Value.substring(0, 2).toLowerCase();
                 
                 if ("0x" === strPrefix)
-                {
                     p_fromRepresentation = IntegerRepresentations.StringHexadecimal;
-                }
+
                 else if ("0b" === strPrefix)
-                {
                     p_fromRepresentation = IntegerRepresentations.StringBinary;
-                }
+
                 else if ("0o" === strPrefix)
-                {
                     p_fromRepresentation = IntegerRepresentations.StringOctal;
-                }
             }
-            else
-            {
-                if (p_Value.$_isInt())
-                {
-                    p_fromRepresentation = IntegerRepresentations.StringDecimal;
-                }
-            }
+
+            // Decimal
+            else if (p_Value.$_isInt())
+                p_fromRepresentation = IntegerRepresentations.StringDecimal;
         }
+
         else if ("number" === typeof p_Value)
-        {
             p_fromRepresentation = IntegerRepresentations.Number;
-        }
+
         else if ("bigint" === typeof p_Value)
-        {
             p_fromRepresentation = IntegerRepresentations.BigInt;
-        }
+
         else if (p_Value instanceof Buffer)
-        {
             p_fromRepresentation = IntegerRepresentations.BufferUInt8;
-        }
     }
+
 
 
     // Check if valid 'from' representation found
     if ("undefined" === typeof p_fromRepresentation ||
         !INTEGER_REPRESENTATIONS.includes(p_fromRepresentation))
-    {
         throw new Error(`Invalid integer representation: '${p_fromRepresentation}'`);
-    }
+
 
 
     // Check for valid 'to' representation
     if (!INTEGER_REPRESENTATIONS.includes(p_toRepresentation))
-    {
         throw new Error(`Invalid integer representation: '${p_toRepresentation}'`);
-    }
+
 
 
     // Sanity check
     if (p_toRepresentation === p_fromRepresentation)
-    {
         return p_Value;
-    }
 
 
+
+    // Include prefixes for hex, octal or binary
+    if (IntegerRepresentations.StringBinary === p_fromRepresentation &&
+        (<string>p_Value).substring(0, 2) !== "0b")
+        p_Value = "0b" + p_Value;
+
+    else if (IntegerRepresentations.StringHexadecimal === p_fromRepresentation &&
+             (<string>p_Value).substring(0, 2) !== "0x")
+        p_Value = "0x" + p_Value;
+
+    else if (IntegerRepresentations.StringOctal === p_fromRepresentation &&
+             (<string>p_Value).substring(0, 2) !== "0o")
+        p_Value = "0o" + p_Value;
+    
+
+
+    // Get intValue (intermediate)
     let intValue: bigint;
 
     switch (p_fromRepresentation)
@@ -161,7 +200,7 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
 
 
         case IntegerRepresentations.StringBase36:
-            intValue = ConvertIntFromBase(<string>p_Value, 36);
+            intValue = _convertIntFromBase(<string>p_Value, 36);
             break;
 
 
@@ -176,7 +215,6 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
 
         default:
             throw new Error("Something while generating random integer.")
-
     }
 
 
@@ -199,7 +237,7 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
 
 
         case IntegerRepresentations.BufferUInt8:
-            return ConvertIntToBuffer(intValue!);
+            return _convertIntToBuffer(intValue!);
 
 
         case IntegerRepresentations.StringBase36:
@@ -207,11 +245,11 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
 
 
         case IntegerRepresentations.StringBase64:
-            return ConvertIntToBuffer(intValue!).toString('base64');
+            return _convertIntToBuffer(intValue!).toString('base64');
 
 
         case IntegerRepresentations.StringBase64Url:
-            return ConvertIntToBuffer(intValue!).toString('base64url');
+            return _convertIntToBuffer(intValue!).toString('base64url');
 
 
         case IntegerRepresentations.StringBinary:
@@ -236,49 +274,63 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
 }
 
 
+
 Number.prototype.$_toDecimal = function(p_DecimalPlaces: DecimalPlaces): number | undefined
 {
-    if (isFinite(Number(this)))
-    {
-        return parseFloat(this.toFixed(p_DecimalPlaces));
-    }
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
 
-    return undefined;
+    return parseFloat(this.toFixed(p_DecimalPlaces));
 }
 
 
-Number.prototype.$_toDecimalString = function(p_ThousandSeparator: string,
-                                              p_DecimalPlaces:     DecimalPlaces): string
+
+Number.prototype.$_toDecimalString = function(p_DecimalPlaces:     DecimalPlaces = 2,
+                                              p_DecimalSeparator:  string = ".",
+                                              p_ThousandSeparator: string = ""): string | undefined
 {
-    p_ThousandSeparator = p_ThousandSeparator || ".";
-    p_DecimalPlaces     = p_DecimalPlaces || 2;
-    // TODO
-    throw new Error("Not implemented");
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
+
+
+    const strValue: string = this.toFixed(p_DecimalPlaces);
+
+    
+    if (p_DecimalPlaces === 0)
+        return _formatInteger(strValue, p_ThousandSeparator);
+    
+
+    const intDecimalPos: number = strValue.indexOf(".");
+    const strInteger:    string = _formatInteger(strValue.substring(0, intDecimalPos), p_ThousandSeparator);
+    const strDecimal:    string = strValue.substring(intDecimalPos + 1);
+
+    return strInteger + p_DecimalSeparator + strDecimal;
 }
+
 
 
 Number.prototype.$_toInt = function(): number | undefined
 {
-    if (isFinite(Number(this)))
-    {
-        return Math.round(Number(this));
-    }
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
 
-    return undefined;
+    if (<number>this > 0)
+        return Math.floor(Number(this));
+    else
+        return Math.ceil(Number(this));
 }
 
 
-Number.prototype.$_toIntString = function(): string | undefined
+
+Number.prototype.$_toIntString = function(p_ThousandSeparator: string = ""): string | undefined
 {
-    const intNumber: number | undefined = Number(this).$_toInt();
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
 
-    if ("undefined" != typeof intNumber)
-    {
-        return intNumber.toString();
-    }
-
-    return undefined;
+    return _formatInteger( (<number>this).$_toInt()!.toString(), 
+                           p_ThousandSeparator);
 }
+
 
 
 Number.$_randomInt = function(p_SizeInBytes: number, 
@@ -286,13 +338,16 @@ Number.$_randomInt = function(p_SizeInBytes: number,
 {
     // Check params 
     //-------------------------------------------------------------------------------------------------------------
+
+    // Assure it is an integer
     p_SizeInBytes = Math.round(p_SizeInBytes);
     
     if (isNaN(p_SizeInBytes) || (p_SizeInBytes < 1 ||
                                  p_SizeInBytes > 128))
-    {
         throw "Size of random number in bytes must be a positive integer between 1 and 128";
-    }
+
+    if (p_SizeInBytes > 6 && p_ReturnIn === IntegerRepresentations.Number)
+        throw "'Number' type can be used only for 6 bytes or less";
     //-------------------------------------------------------------------------------------------------------------
 
     
@@ -347,13 +402,13 @@ Number.$_randomInt = function(p_SizeInBytes: number,
 
         case IntegerRepresentations.BufferUInt8:
             if (p_SizeInBytes >= 9)
-            {
                 return bufBytes!;
-            }
+
             else
-            {
-                return ConvertIntToBuffer(BigInt(strBin));
-            }
+                return _convertIntToBuffer(BigInt(strBin));
+
+        case IntegerRepresentations.Number:
+            return Number(strBin || strHex);
 
 
         case IntegerRepresentations.StringBase36:
@@ -362,35 +417,26 @@ Number.$_randomInt = function(p_SizeInBytes: number,
 
         case IntegerRepresentations.StringBase64:
             if (p_SizeInBytes >= 9)
-            {
                 return bufBytes!.toString('base64');
-            }
+
             else
-            {
-                return ConvertIntToBuffer(BigInt(strBin)).toString('base64');
-            }
+                return _convertIntToBuffer(BigInt(strBin)).toString('base64');
 
 
         case IntegerRepresentations.StringBase64Url:
             if (p_SizeInBytes >= 9)
-            {
                 return bufBytes!.toString('base64url');
-            }
+
             else
-            {
-                return ConvertIntToBuffer(BigInt(strBin)).toString('base64url');
-            }
+                return _convertIntToBuffer(BigInt(strBin)).toString('base64url');
 
 
         case IntegerRepresentations.StringBinary:
             if (p_SizeInBytes < 9)
-            {
                 return strBin.substring(2);
-            }
+
             else
-            {
                 return BigInt(strHex).toString(2);
-            }
 
 
         case IntegerRepresentations.StringDecimal:
@@ -403,13 +449,10 @@ Number.$_randomInt = function(p_SizeInBytes: number,
 
         case IntegerRepresentations.StringHexadecimal:
             if (p_SizeInBytes >= 9)
-            {
                 return strHex.substring(2);
-            }
+
             else
-            {
                 return BigInt(strBin).toString(16);
-            }
 
          default:
              throw new Error("Something while generating random integer.")

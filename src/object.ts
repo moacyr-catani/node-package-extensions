@@ -82,7 +82,7 @@ Object.$_assertDecimal = function(p_Value:            any,
                 break;
 
             case "string":
-                objValue = p_Value.$_toDecimal(18);
+                objValue = p_Value.$_toDecimal();
 
             default:
                 objValue = NaN;
@@ -129,7 +129,9 @@ const $__getObject = function(p_Object:   Record<string, any>,
                                              .trim();
                 const arrFilterKey: any[]  = arrParts[0]
                                              .substring(arrParts[0].indexOf("["))
-                                             .trim().$_trimChar("[").$_trimChar("]")
+                                             //.trim().$_trimChar("[").$_trimChar("]")
+                                             .trim()
+                                             .$_trim(["[", "]"])
                                              .split(",")
                                              .map ( strElement =>
                                              {
@@ -141,7 +143,7 @@ const $__getObject = function(p_Object:   Record<string, any>,
                                                                                   });
                                                 return {
                                                           key: arrElementParts[0],
-                                                          value: arrElementParts[1].$_trimChar("'")
+                                                          value: arrElementParts[1].$_trim("'")
                                                        }
                                              });
 

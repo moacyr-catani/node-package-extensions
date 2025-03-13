@@ -4,7 +4,7 @@ export type StringExtractionResult =
     end: number, 
     value: string | undefined
 };
-type DecimalPlaces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18;
+//type DecimalPlaces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18;
 
 
 
@@ -36,6 +36,7 @@ function GetRegExp(p_Pattern: string,
 
 function EscapeRegExp(p_String: string): string
 {
+    //return p_String.replace(/([()[{*+.$^\\|?])/g, '\\$&');
     return p_String.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
@@ -55,8 +56,7 @@ String.prototype.$_extractBetween = function(p_Start: string | string[] | undefi
                                              p_Words: boolean = false): StringExtractionResult
 {
     // Check inputs
-    if // Start
-    ("undefined" === typeof p_Start || null === p_Start)
+    if ("undefined" === typeof p_Start || null === p_Start)  // Start
         p_Start = "^";
 
     else
@@ -65,13 +65,12 @@ String.prototype.$_extractBetween = function(p_Start: string | string[] | undefi
         if (!Array.isArray(p_Start))
             p_Start = [p_Start];
     
-        p_Start = p_Start.map( strElement => EscapeRegExp(strElement) + (p_Words ? "\\W+" : "") );
-        p_Start = p_Start.join('|');
+        p_Start = p_Start.map( strElement => EscapeRegExp(strElement) + (p_Words ? "\\W+" : "") )
+                         .join('|');
     }
 
 
-    if // End
-    ("undefined" === typeof p_End || null === p_End)
+    if ("undefined" === typeof p_End || null === p_End) // End
         p_End = "$";
 
     else
@@ -80,11 +79,9 @@ String.prototype.$_extractBetween = function(p_Start: string | string[] | undefi
         if (!Array.isArray(p_End))
             p_End = [p_End];
     
-        p_End = p_End.map( strElement => (p_Words ? "\\W+" : "") + EscapeRegExp(strElement) );
-        p_End = p_End.join('|');
+        p_End = p_End.map( strElement => (p_Words ? "\\W+" : "") + EscapeRegExp(strElement) )
+                     .join('|');
     }
-
-
 
     
     // Create regexp
@@ -95,7 +92,7 @@ String.prototype.$_extractBetween = function(p_Start: string | string[] | undefi
     // Check if found
     if (arrExec !== null)
         return { 
-                   value: arrExec[0],
+                   value: p_Words ? arrExec[0].trim() : arrExec[0],
                    start: arrExec.index || 0,
                    end:   (arrExec.index || 0) + arrExec[0].length
                };
@@ -332,9 +329,8 @@ String.prototype.$_toDate = function(p_ParseFormat: string): Date | undefined
 
             // Tries to convert to int only if string represents a valid integer
             if (strValue.$_isInt())
-            {
                 objDateParts[strDatePart].value = strValue.$_toInt();
-            }
+
 
             // "Removes" parsed part
             p_ParseFormat.replace(strDatePart, "*".repeat(strDatePart.length));
@@ -355,48 +351,41 @@ String.prototype.$_toDate = function(p_ParseFormat: string): Date | undefined
          8 == objDateParts.MM.value ||
         10 == objDateParts.MM.value ||
         12 == objDateParts.MM.value)
-    {
         intDayMax = 31;
-    }
-    else if (2 == objDateParts.MM.value)
-    {
-        intDayMax = 28 + (blnLeapYear ? 1 : 0);
-    }
-    else
-    {
-        intDayMax = 30;
-    }
 
+    else if (2 == objDateParts.MM.value)
+        intDayMax = 28 + (blnLeapYear ? 1 : 0);
+
+
+    else
+        intDayMax = 30;
+
+        
     // Month
     if (objDateParts.MM.value < 1 || objDateParts.MM.value > 12)
-    {
         return undefined;
-    }
 
+    
     // Day
     if (objDateParts.DD.value < 1 || objDateParts.DD.value > intDayMax)
-    {
         return undefined;
-    }
+
 
     // Hours
     if (objDateParts.hh.value < 0 || objDateParts.hh.value > 23)
-    {
         return undefined;
-    }
 
+    
     // Minutes
     if (objDateParts.mm.value < 0 || objDateParts.mm.value > 59)    
-    {
         return undefined;
-    }
 
+    
     // Seconds
     if (objDateParts.ss.value < 0 || objDateParts.ss.value > 59)
-    {
         return undefined;
-    }
 
+    
     // Milliseconds. It is not needed to check, since all values in range are valid (0 - 999)
 
 
@@ -410,15 +399,15 @@ String.prototype.$_toDate = function(p_ParseFormat: string): Date | undefined
                                      objDateParts.ss.value,
                                      objDateParts.nnn.value);
 
+
+    // Adjust for timezone
+    //const userTimezoneOffset: number = dtmResult.getTimezoneOffset() * 60000;
+    //return new Date(dtmResult.getTime() - userTimezoneOffset);
+
+
     // Checks if date is valid
     if (dtmResult instanceof Date && !isNaN(dtmResult.getTime()))
-    {
-        // Adjust for timezone
-        //const userTimezoneOffset: number = dtmResult.getTimezoneOffset() * 60000;
-        //return new Date(dtmResult.getTime() - userTimezoneOffset);
-
         return dtmResult;    
-    }
 
 
     return undefined;
@@ -438,42 +427,43 @@ String.prototype.$_toDateString = function(p_ParseFormat: string,
 
 
 
-String.prototype.$_toDecimal = function(p_DecimalPlaces: DecimalPlaces): number | undefined
+String.prototype.$_toDecimal = function(decimalSeparator:  string = ".",
+                                        thousandSeparator: string = ""): number | undefined
 {
     // Checks if value is a valid number
-    if (this.$_isNumber())
+    if (this.$_isNumber(thousandSeparator, decimalSeparator))
     {
-        return parseFloat(parseFloat(String(this))
-                        .toFixed(p_DecimalPlaces));
+        let strValue: string = <string>this;
+
+        if (thousandSeparator !== "")
+            strValue = strValue.$_replace(thousandSeparator, "");
+
+        if (decimalSeparator !== ".")
+            strValue = strValue.$_replace(decimalSeparator, ".");
+
+        return parseFloat(strValue);
     }
 
     return undefined;
 }
 
 
-String.prototype.$_toInt = function(): number | undefined
+
+String.prototype.$_toInt = function(p_ThousandSeparator: string = ""): number | undefined
 {
     // Checks if value is a valid integer
-    if (this.$_isInt())
-    {
-        return parseInt(String(this));
-    }
+    if (this.$_isInt(p_ThousandSeparator))
+        return parseInt( p_ThousandSeparator ? 
+                             <string>this.$_replace(p_ThousandSeparator, "") : 
+                             <string>this); 
 
     return undefined;
 }
 
-
-// String.prototype.$_trimChar = function(p_Char: string): string
-// {
-//     p_Char = EscapeRegExp(p_Char);
-
-//     return this.replace(new RegExp(`^[${p_Char}]+|[${p_Char}]+$`, "g"),
-//                         "");
-// }
 
 
 String.prototype.$_trim = function (entries:       string | string[],
-                                    caseSensitive: boolean): string
+                                    caseSensitive: boolean = false): string
 {
     return this.$_trimStart(entries, caseSensitive)
                .$_trimEnd(entries, caseSensitive);
@@ -492,18 +482,14 @@ String.prototype.$_trimStart = function (entries:       string | string[],
 
     // Check params
     if (!Array.isArray(entries))
-    {
         entries = [entries];
-    }
 
 
     while (true)
     {
         // Reached end of string
         if (intIndex >= intLength)
-        {
             return "";
-        }
 
         
         // Reset boolean
@@ -522,16 +508,14 @@ String.prototype.$_trimStart = function (entries:       string | string[],
 
 
         if (!blnFound) 
-        {
             return this.substring(intIndex);
-        }
     }
 }
 
 
 
 String.prototype.$_trimEnd = function (entries:       string |string[],
-                                       caseSensitive: boolean): string
+                                       caseSensitive: boolean = false): string
 {
     let  intIndex:  number  = 0;
     let  intLength: number  = this.length;
@@ -541,18 +525,14 @@ String.prototype.$_trimEnd = function (entries:       string |string[],
 
     // Check params
     if (!Array.isArray(entries))
-    {
         entries = [entries];
-    }
 
         
     while (true)
     {
         // Reached end of string
         if (intIndex >= intLength)
-        {
             return "";
-        }
 
         
         // Reset boolean
@@ -571,9 +551,7 @@ String.prototype.$_trimEnd = function (entries:       string |string[],
 
 
         if (!blnFound) 
-        {
             return this.substring(intIndex, intLength);
-        }
     }
 }
 

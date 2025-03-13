@@ -3,6 +3,8 @@ export default
 {
     collectCoverage: false,
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    maxWorkers: 1,
+    workerThreads: true,
     preset: 'ts-jest',
     reporters:       
     [

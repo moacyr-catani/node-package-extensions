@@ -23,9 +23,24 @@ declare global
 {
     interface String
     {
+        /**
+         * Extracts string among specific substrings
+         * @param {string|string[]} start String or strings (array) that are just before the text you are looking for
+         * @param {string|string[]} end   String or strings (array) that are just after the text you are looking for
+         * @param {boolean}         words If true, indicate the text you are looking for is surrounded by 'non word' characters, i.e.: spaces, tabs, new lines, ...
+         * @example 
+         * const procedure = 
+         * `CREATE PROCEDURE sp_Test
+         * AS
+         * SELECT * FROM [TABLE]`
+         * 
+         * const procName  = procedure.$_extractBetween(["PROCEDURE", "PROC"], "", true).value;
+         * const statement = procedure.$_extractBetween("AS", "", true).value;
+         */
         $_extractBetween(start?: string | string[] | undefined,
                          end?:   string | string[] | undefined,
-                         words?: boolean): StringExtractionResult;
+                         words?: boolean): StringExtractionResult;                          
+
 
 
 
@@ -33,6 +48,7 @@ declare global
          * Decodes Base64Url value into string
          */
         $_fromBase64Url(): string;
+
 
 
 
@@ -63,6 +79,7 @@ declare global
         
 
 
+
         /**
          * Replaces a substring for a new value.
          * All occurrences of the searched string will be replaced
@@ -86,11 +103,13 @@ declare global
 
 
 
+
         /**
          * Remove sequential latin characters
          * @example "immediately " will be replaced by "imediately "
          */
         $_removeSequentialLatinLetters(): string;
+
 
 
 
@@ -101,11 +120,13 @@ declare global
 
 
 
+
         /**
          * Keeps only basic latin letter
          * @example "á ô ç ñ" will be replaced by "a o c n"
          */
         $_toBasicLatinLetters(): string
+
 
 
 
@@ -131,10 +152,21 @@ declare global
 
         /**
          * Returns a decimal number from a string
-         * @param decimalPlaces Number of decimal places to include in result
          */
-        $_toDecimal(decimalPlaces: DecimalPlaces): number | undefined;
-
+        $_toDecimal(): number | undefined;
+        /**
+         * Returns a decimal number from a string
+         * @param {string} decimalSeparator  Character used to separate decimal part
+         */
+        $_toDecimal(decimalSeparator: string): number | undefined;
+        /**
+         * Returns a decimal number from a string
+         * @param {string} decimalSeparator  Character used to separate decimal part
+         * @param {string} thousandSeparator Character used to separate thousands groups
+         */
+        $_toDecimal(decimalSeparator: string,
+                    thousandSeparator:  string): number | undefined;
+    
 
 
 
@@ -142,20 +174,58 @@ declare global
          * Returns an integer number from a string
          */
         $_toInt(): number | undefined;
+        /**
+         * Returns an integer number from a string
+         * @param {string} thousandSeparator Character used to separate thousands groups
+         */
+        $_toInt(thousandSeparator: string): number | undefined;
 
         
-        //$_trimChar(p_Char: string): string;
 
-        $_trim     (entries: string | string[], caseSensitive?: boolean): string;
+
+        /**
+         * Removes specific string or strings (array) from the beginning and the end of a string 
+         * @param {string|string[]} entries String or strings (array) to be removed
+         */
+        $_trim(entries: string | string[]): string;
+        /**
+         * Removes specific string or strings (array) from the beginning and the end of a string 
+         * @param {string|string[]} entries String or strings (array) to be removed
+         * @param {boolean} caseSensitive True indicates that the search should respect entries casing
+         */
+        $_trim(entries: string | string[], caseSensitive?: boolean): string;
+
+
+
+
+        /**
+         * Removes specific string or strings (array) from the end a string 
+         * @param {string|string[]} entries String or strings (array) to be removed
+         */
+        $_trimEnd(entries: string | string[]): string;
+        /**
+         * Removes specific string or strings (array) from the end a string 
+         * @param {string|string[]} entries String or strings (array) to be removed
+         * @param {boolean} caseSensitive True indicates that the search should respect entries casing
+         */
+        $_trimEnd(entries: string | string[], caseSensitive?: boolean): string;
+
+
+
+
+        /**
+         * Removes specific string or strings (array) from the beginning a string 
+         * @param {string|string[]} entries String or strings (array) to be removed
+         */
+        $_trimStart(entries: string | string[]): string;
+        /**
+         * Removes specific string or strings (array) from the beginning a string 
+         * @param {string|string[]} entries String or strings (array) to be removed
+         * @param {boolean} caseSensitive True indicates that the search should respect entries casing
+         */
         $_trimStart(entries: string | string[], caseSensitive?: boolean): string;
-        $_trimEnd  (entries: string | string[], caseSensitive?: boolean): string;
-
-
-
-        $_indexOfAny(...p_Characters: string[]): number;
-
-
     }
+
 
 
     interface Date
@@ -176,6 +246,16 @@ declare global
         $_changeIntegerRepresentation(p_Value:               number | bigint | string | ArrayBuffer,
                                       p_toRepresentation:    IntegerRepresentations,
                                       p_fromRepresentation?: IntegerRepresentations): number | bigint | string | ArrayBuffer;
+
+
+        /**
+         * Creates a random integer with size from 1 to 128 bytes (extremelly huge number).
+         * @param {number} p_SizeInBytes Size of the random integer in bytes (from 1 to 128)
+         * @param {IntegerRepresentations} p_ReturnIn The format to return the created integer
+         * @example
+         * // Create a 64 bits (8 bytes) random integer and return it as BigInt
+         * const bigNumber: BigInt = Number.$_randomInt(8, IntegerRepresentations.BigInt);
+         */
         $_randomInt(p_SizeInBytes: number, 
                     p_ReturnIn?:   IntegerRepresentations): number | bigint | string | ArrayBuffer;
     }
@@ -186,12 +266,20 @@ declare global
         $_changeIntegerRepresentation(p_Value:            number | bigint | string | ArrayBuffer,
                                       p_toRepresentation: IntegerRepresentations): number | bigint | string | ArrayBuffer;
 
-        $_toDecimal(p_DecimalPlaces: DecimalPlaces): number | undefined;
-        // TODO 
-        $_toDecimalString(p_ThousandSeparator: string,
-                          p_DecimalPlaces:     DecimalPlaces): string;
+        $_toDecimal(decimalPlaces: DecimalPlaces): number | undefined;
+
+        $_toDecimalString(): string | undefined;
+        $_toDecimalString(decimalPlaces:     DecimalPlaces): string | undefined;
+        $_toDecimalString(decimalPlaces:     DecimalPlaces,
+                          decimalSeparator:  string): string | undefined;
+        $_toDecimalString(decimalPlaces:     DecimalPlaces,
+                          decimalSeparator:  string,
+                          thousandSeparator: string): string | undefined;
+
         $_toInt():       number | undefined;
+
         $_toIntString(): string | undefined;
+        $_toIntString(thousandSeparator: string): string | undefined;
 
     }
 

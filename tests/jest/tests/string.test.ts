@@ -16,7 +16,7 @@ describe("String extensions", () =>
 
         expect(result.value)
         .toBe("abcd--");
-
+ 
         expect(result.start)
         .toBe(2);
 
@@ -25,6 +25,9 @@ describe("String extensions", () =>
 
         expect("start abcd end".$_extractBetween("start", "end", true)?.value)
         .toBe("abcd");
+
+        expect("start abcd end".$_extractBetween(undefined, "end", true)?.value)
+        .toBe("start abcd");
 
         expect("start\nabcd\nend".$_extractBetween("start", "end", true)?.value)
         .toBe("abcd");
@@ -35,8 +38,37 @@ describe("String extensions", () =>
         expect("(abcd)".$_extractBetween("(", ")")?.value)
         .toBe("abcd");
 
-        expect("CREATE PROCEDURE proc_test \n \r AS]".$_extractBetween("PROCEDURE", "", true)?.value)
+        expect("bb 123456 aa]})".$_extractBetween( ["aa", "bb", "cc"], ["aa", "bb", "cc"], true)?.value)
+        .toBe("123456");
+
+        expect("(abcd)".$_extractBetween( ["(", "[", "{"], [")", "]", "}"])?.value)
+        .toBe("abcd");
+
+        expect("[abcd]".$_extractBetween( ["(", "[", "{"], [")", "]", "}"])?.value)
+        .toBe("abcd");
+
+        expect("CREATE PROCEDURE proc_test \n \r AS]".$_extractBetween("PROCEDURE", "", true).value)
         .toBe("proc_test");
+
+        expect("CREATE PROCEDURE proc_test AS]".$_extractBetween("PROCEDURE", "", true).value)
+        .toBe("proc_test");
+
+        expect("start\nabcd\nend".$_extractBetween("begin", "finish").value)
+        .toBeUndefined();
+
+        const procedure: string = 
+        `CREATE PROCEDURE sp_Test
+        AS
+        SELECT * FROM [TABLE]`
+         
+        const procName  = procedure.$_extractBetween(["PROCEDURE", "PROC"], "", true).value;
+        const statement = procedure.$_extractBetween("AS", undefined, true).value;
+
+        expect(procName)
+        .toBe("sp_Test");
+
+        expect(statement)
+        .toBe("SELECT * FROM [TABLE]");
     });     
 
 
@@ -94,7 +126,7 @@ describe("String extensions", () =>
 
 
 
-    test(".$_isValidNumber -> valid", () =>
+    test(".$_isNumber -> valid", () =>
     {
         expect("12".$_isNumber())
         .toBe(true);
@@ -114,7 +146,7 @@ describe("String extensions", () =>
 
 
 
-    test(".$_isValidNumber -> invalid", () =>
+    test(".$_isNumber -> invalid", () =>
     {
         expect("12jhghgf".$_isNumber())
         .toBe(false);
@@ -130,6 +162,13 @@ describe("String extensions", () =>
 
         expect("123e10".$_isNumber())
         .toBe(false);
+
+        expect( () => "1,234,567,890,123.0012".$_isNumber(",,", "."))
+        .toThrow();
+
+        expect( () => "1,234,567,890,123.0012".$_isNumber(",", ".."))
+        .toThrow();
+
     });                                                 
 
 
@@ -188,19 +227,19 @@ describe("String extensions", () =>
 
         
         // Date
-        dtmResult = "2023-09-24".$_toDate("YYYY-MM-DD");
+        dtmResult = "2024-02-29".$_toDate("YYYY-MM-DD");
 
         expect(dtmResult)
         .toBeInstanceOf(Date);
 
         expect( (<Date>dtmResult).getFullYear() )
-        .toBe(2023);
+        .toBe(2024);
 
         expect( (<Date>dtmResult).getMonth() )
-        .toBe(8);
+        .toBe(1);
 
         expect( (<Date>dtmResult).getDate() )
-        .toBe(24);
+        .toBe(29);
 
         expect( (<Date>dtmResult).getHours() )
         .toBe(0);
@@ -314,6 +353,15 @@ describe("String extensions", () =>
 
         expect("vwxyz".$_toDate("YYYY-MM-DD"))
         .toBeUndefined();
+
+        expect("2023-11-24 25:30:30:123".$_toDate("YYYY-MM-DD hh:mm:ss:nnn"))
+        .toBeUndefined();
+
+        expect("2023-11-24 23:65:30:123".$_toDate("YYYY-MM-DD hh:mm:ss:nnn"))
+        .toBeUndefined();
+
+        expect("2023-11-24 23:25:72:123".$_toDate("YYYY-MM-DD hh:mm:ss:nnn"))
+        .toBeUndefined();
     });                                                 
 
 
@@ -363,27 +411,30 @@ describe("String extensions", () =>
 
     test(".$_toDecimal -> valid", () =>
     {
-        expect("1".$_toDecimal(2))
+        expect("1".$_toDecimal())
         .toBe(1.0);
 
-        expect("-5.123456789".$_toDecimal(4))
-        .toBe(-5.1235);
+        expect("-5.123456789".$_toDecimal())
+        .toBe(-5.123456789);
 
-        expect("123456823.12316".$_toDecimal(4))
-        .toBe(123456823.1232);
+        expect("-5,123456789".$_toDecimal(","))
+        .toBe(-5.123456789);
+
+        expect("123,456,823.12316".$_toDecimal(".", ","))
+        .toBe(123456823.12316);
     });                                                 
     
 
 
     test(".$_toDecimal -> invalid", () =>
     {
-        expect("1d".$_toDecimal(2))
+        expect("1d".$_toDecimal())
         .toBeUndefined();
 
-        expect("-5.123456789fg".$_toDecimal(4))
+        expect("-5.123456789fg".$_toDecimal())
         .toBeUndefined();
 
-        expect("rtsd".$_toDecimal(4))
+        expect("rtsd".$_toDecimal())
         .toBeUndefined();
     });                                                 
 
@@ -398,6 +449,12 @@ describe("String extensions", () =>
         .toBe(-5123456789);
 
         expect("12345682312316".$_toInt())
+        .toBe(12345682312316);
+
+        expect("12.345.682.312.316".$_toInt("."))
+        .toBe(12345682312316);
+
+        expect("12,345,682,312,316".$_toInt(","))
         .toBe(12345682312316);
     });                                                 
 
@@ -417,37 +474,15 @@ describe("String extensions", () =>
 
 
 
-    // test(".$_trimChar", () =>
-    // {
-    //     expect("--abcd--".$_trimChar("-"))
-    //     .toBe("abcd");
 
-    //     expect("<fgh>".$_trimChar("<"))
-    //     .toBe("fgh>");
+    test(".$_trim", () =>
+    {
+        expect("ABCDEF \r \n \r [word] A XY 123456".$_trim([" ", "\r", "\n", "\t", "A", "B", "C", "D", "E", "F", "G", "1", "2", "3", "4", "5", "6", "7", "XY"]))
+        .toBe("[word]");
 
-    //     expect("[fgh]".$_trimChar("["))
-    //     .toBe("fgh]");
-
-    //     expect("[fgh]".$_trimChar("]"))
-    //     .toBe("[fgh");
-
-    //     expect("\\klmn\\".$_trimChar("\\"))
-    //     .toBe("klmn");
-
-    //     expect("^^klmn^^".$_trimChar("^"))
-    //     .toBe("klmn");
-
-    //     expect("^^klmn^^".$_trimChar("^^"))
-    //     .toBe("klmn");
-
-    //     expect("+-klmn+-".$_trimChar("+-"))
-    //     .toBe("klmn");
-
-    //     expect("abcd".$_trimChar("|"))
-    //     .toBe("abcd");
-    // });                                                 
-
-
+        expect("ABCDEF \r \n \r [word] A XY 123456".$_trim([" ", "\r", "\n", "\t", "A", "B", "C", "D", "E", "F", "G", "1", "2", "3", "4", "5", "6", "7", "Xy"], true))
+        .toBe("[word] A XY");
+    });     
 
 
 
@@ -459,10 +494,29 @@ describe("String extensions", () =>
         expect("ABCDEF \r \n \r [word] 1 XY 123456".$_trimEnd([" ", "\r", "\n", "\t", "1", "2", "3", "4", "5", "6", "7", "XY"]))
         .toBe("ABCDEF \r \n \r [word]");
 
-        expect("ABCDEF \r \n \r [word] A XY 123456".$_trim([" ", "\r", "\n", "\t", "A", "B", "C", "D", "E", "F", "G", "1", "2", "3", "4", "5", "6", "7", "XY"]))
-        .toBe("[word]");
+        expect("1 XY 123456".$_trimStart([" ", "\r", "\n", "\t", "1", "2", "3", "4", "5", "6", "7", "XY"]))
+        .toBe("");
 
-        expect("ABCDEF \r \n \r [word] A XY 123456".$_trim([" ", "\r", "\n", "\t", "A", "B", "C", "D", "E", "F", "G", "1", "2", "3", "4", "5", "6", "7", "Xy"], true))
-        .toBe("[word] A XY");
+        expect("123456 1 XY".$_trimStart("123456"))
+        .toBe(" 1 XY");
+
+    });     
+
+
+
+    test(".$_trimEnd", () =>
+    {
+        expect("ABCDEF \r \n \r [word] A XY 123456".$_trimStart([" ", "\r", "\n", "\t", "A", "B", "C", "D", "E", "F", "G", "XY"]))
+        .toBe("[word] A XY 123456");
+
+        expect("ABCDEF \r \n \r [word] 1 XY 123456".$_trimEnd([" ", "\r", "\n", "\t", "1", "2", "3", "4", "5", "6", "7", "XY"]))
+        .toBe("ABCDEF \r \n \r [word]");
+
+        expect("1 XY 123456".$_trimEnd([" ", "\r", "\n", "\t", "1", "2", "3", "4", "5", "6", "7", "XY"]))
+        .toBe("");
+
+        expect("1 XY 123456".$_trimEnd("123456"))
+        .toBe("1 XY ");
+
     });     
 });

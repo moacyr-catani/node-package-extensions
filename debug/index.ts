@@ -102,9 +102,10 @@ import "../src/index.js";
 
 
 
+//console.log( "aa 12345 cc".replace ( /(?<=aa|bb|cc).*?(?=aa|bb|cc)/isgd, ""));
+const arrExec: RegExpMatchArray | null = /(?<=aa|bb|cc).*?(?=aa|bb|cc)/isgd.exec("bb 12345 cc");
 
-
-console.log("000"[0]);
+console.log(arrExec);
 //dGhlIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZw==
 //dGhlIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZw
 console.log( "the brown fox jumps over the lazy dog".$_toBase64Url());
