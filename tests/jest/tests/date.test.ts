@@ -9,6 +9,12 @@ describe("Date extensions", () =>
 
         expect(dtmTeste.$_addDays(4).$_toDateString())
         .toBe("2020-02-25");
+
+        expect(dtmTeste.$_addDays(10).$_toDateString())
+        .toBe("2020-03-06");
+
+        expect(dtmTeste.$_addDays(-2).$_toDateString())
+        .toBe("2020-03-04");
     });  
 
 
