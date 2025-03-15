@@ -1,10 +1,7 @@
-import "../../../src/index";
-import { StringExtractionResult } from "../../../src/index";
+import "../../../src/extensions/index";
+import { StringExtractionResult } from "../../../src/extensions/index";
 
 
-// Need to use 'require' to add extensions
-//require("../src/string.ts");
-//import "../src/string.ts"
 
 
 describe("String extensions", () => 

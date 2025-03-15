@@ -7,7 +7,7 @@ export default
     [
         "/tests/"
     ],
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', "d.ts"],
     preset: 'ts-jest',
     reporters:       
     [

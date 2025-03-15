@@ -4,12 +4,18 @@
   {
     "diagnostics": true,
     "outDir": "../dist",
-    "declarationDir": "../dist/types"
-
+    "declarationDir": "../dist/types",
+    "sourceMap": true,
   },
+
+  "include": 
+  [
+    "../src/extensions/declarations/*"
+  ],
   "files": 
   [
     "../src/index.ts", 
+    "../src/extensions/index.ts",
     "../debug/index.ts", 
     //"../examples/index.ts",
     //"../tests/common/callback-functions.ts"

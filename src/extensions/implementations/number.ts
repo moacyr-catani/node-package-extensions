@@ -20,6 +20,7 @@ const INTEGER_REPRESENTATIONS: string[] = Object.values(IntegerRepresentations);
 
 
 
+
 function _convertIntFromBase(p_value: string, 
                              p_radix: number): bigint
 { 
@@ -95,6 +96,9 @@ function _formatInteger(p_Value: string,
 // ------------------------------------------------------------------------------------------------------------------------------
 
 
+// --------------------------------------------------------------------------------------------------------------------
+// #region Constructor
+// --------------------------------------------------------------------------------------------------------------------
 
 Number.$_changeIntegerRepresentation = function(p_Value:               number | bigint | string | Buffer,
                                                 p_toRepresentation:    IntegerRepresentations,
@@ -275,64 +279,6 @@ Number.$_changeIntegerRepresentation = function(p_Value:               number | 
 
 
 
-Number.prototype.$_toDecimal = function(p_DecimalPlaces: DecimalPlaces): number | undefined
-{
-    if (isNaN(<number>this) || !isFinite(<number>this))
-        return undefined;
-
-    return parseFloat(this.toFixed(p_DecimalPlaces));
-}
-
-
-
-Number.prototype.$_toDecimalString = function(p_DecimalPlaces:     DecimalPlaces = 2,
-                                              p_DecimalSeparator:  string = ".",
-                                              p_ThousandSeparator: string = ""): string | undefined
-{
-    if (isNaN(<number>this) || !isFinite(<number>this))
-        return undefined;
-
-
-    const strValue: string = this.toFixed(p_DecimalPlaces);
-
-    
-    if (p_DecimalPlaces === 0)
-        return _formatInteger(strValue, p_ThousandSeparator);
-    
-
-    const intDecimalPos: number = strValue.indexOf(".");
-    const strInteger:    string = _formatInteger(strValue.substring(0, intDecimalPos), p_ThousandSeparator);
-    const strDecimal:    string = strValue.substring(intDecimalPos + 1);
-
-    return strInteger + p_DecimalSeparator + strDecimal;
-}
-
-
-
-Number.prototype.$_toInt = function(): number | undefined
-{
-    if (isNaN(<number>this) || !isFinite(<number>this))
-        return undefined;
-
-    if (<number>this > 0)
-        return Math.floor(Number(this));
-    else
-        return Math.ceil(Number(this));
-}
-
-
-
-Number.prototype.$_toIntString = function(p_ThousandSeparator: string = ""): string | undefined
-{
-    if (isNaN(<number>this) || !isFinite(<number>this))
-        return undefined;
-
-    return _formatInteger( (<number>this).$_toInt()!.toString(), 
-                           p_ThousandSeparator);
-}
-
-
-
 Number.$_randomInt = function(p_SizeInBytes: number, 
                               p_ReturnIn:    IntegerRepresentations = IntegerRepresentations.BigInt): number | bigint | string | ArrayBuffer
 {
@@ -458,6 +404,76 @@ Number.$_randomInt = function(p_SizeInBytes: number,
              throw new Error("Something while generating random integer.")
     }
 }
+
+// #endregion
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+// --------------------------------------------------------------------------------------------------------------------
+// #region Prototype
+// --------------------------------------------------------------------------------------------------------------------
+
+Number.prototype.$_toDecimal = function(p_DecimalPlaces: DecimalPlaces): number | undefined
+{
+    //const a: $x_Int32
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
+
+    return parseFloat(this.toFixed(p_DecimalPlaces));
+}
+
+
+
+Number.prototype.$_toDecimalString = function(p_DecimalPlaces:     DecimalPlaces = 2,
+                                              p_DecimalSeparator:  string = ".",
+                                              p_ThousandSeparator: string = ""): string | undefined
+{
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
+
+
+    const strValue: string = this.toFixed(p_DecimalPlaces);
+
+    
+    if (p_DecimalPlaces === 0)
+        return _formatInteger(strValue, p_ThousandSeparator);
+    
+
+    const intDecimalPos: number = strValue.indexOf(".");
+    const strInteger:    string = _formatInteger(strValue.substring(0, intDecimalPos), p_ThousandSeparator);
+    const strDecimal:    string = strValue.substring(intDecimalPos + 1);
+
+    return strInteger + p_DecimalSeparator + strDecimal;
+}
+
+
+
+Number.prototype.$_toInt = function(): number | undefined
+{
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
+
+    if (<number>this > 0)
+        return Math.floor(Number(this));
+    else
+        return Math.ceil(Number(this));
+}
+
+
+
+Number.prototype.$_toIntString = function(p_ThousandSeparator: string = ""): string | undefined
+{
+    if (isNaN(<number>this) || !isFinite(<number>this))
+        return undefined;
+
+    return _formatInteger( (<number>this).$_toInt()!.toString(), 
+                           p_ThousandSeparator);
+}
+
+// #endregion
+// --------------------------------------------------------------------------------------------------------------------
+
 
 // #endregion 
 // ------------------------------------------------------------------------------------------------------------------------------

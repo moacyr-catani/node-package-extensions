@@ -2,7 +2,7 @@
 export default 
 {
     collectCoverage: false,
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', "d.ts"],
     maxWorkers: 1,
     workerThreads: true,
     preset: 'ts-jest',

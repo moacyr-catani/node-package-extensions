@@ -1,4 +1,4 @@
-import "../../../src/index";
+import "../../../src/extensions/index";
 
 
 describe("Date extensions", () => 

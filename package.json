@@ -16,7 +16,7 @@
     },
     "type": "module",
     "main": "./lib/index.js",
-    "types": "./lib/types/index.d.ts",
+    "__types": "./lib/types/index.d.js",
     "files": [
         "lib/**/*"
     ],

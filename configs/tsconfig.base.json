@@ -30,7 +30,7 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "outDir": "./dist",
-      "sourceMap": true,
+      "sourceMap": false,
       "strict": true,
       "strictBindCallApply": true,
       "strictBuiltinIteratorReturn": true,
@@ -39,5 +39,6 @@
       "strictPropertyInitialization": true,
       "target": "ES2022",
     },
-    "files": ["../src/index.ts"]
+    "files": ["../src/index.ts", "../src/extensions/index.ts"],
+    //"include": ["../src/extensions/declarations/*"]
   }
