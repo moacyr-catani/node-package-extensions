@@ -1,4 +1,4 @@
-import { StringLib } from "./string";
+import { StringLib } from "./string.js";
 
 
 import * as Crypto from "node:crypto";   

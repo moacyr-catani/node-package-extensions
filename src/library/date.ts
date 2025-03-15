@@ -5,30 +5,30 @@
 
 interface IDateLib
 {
-    addDays(p_Value: Date, 
-            p_Days:  number): Date;
+    addDays(value: Date, 
+            days:  number): Date;
 
 
-    toDateString( p_Value: Date ): string
+    toDateString( value: Date ): string
     
     
-    toMonthEnd( p_Value: Date ): Date;
+    toMonthEnd( value: Date ): Date;
     
     
-    toMonthStart( p_Value: Date ): Date;
+    toMonthStart( value: Date ): Date;
     
     
-    toString( p_Value: Date,
-              p_ResultFormat: string ): string;
+    toString( value: Date,
+              resultFormat: string ): string;
     
     
-    toTimeString( p_Value: Date ): string
+    toTimeString( value: Date ): string
 
 
-    toYearEnd( p_Value: Date ): Date;
+    toYearEnd( value: Date ): Date;
 
 
-    toYearStart( p_Value: Date ): Date;
+    toYearStart( value: Date ): Date;
 }
 
 

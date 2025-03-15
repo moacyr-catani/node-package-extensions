@@ -1,5 +1,5 @@
-import { NumberLib } from "./number";
-import { DateLib }   from "./date";
+//import { NumberLib } from "./number.js";
+import { DateLib }   from "./date.js";
 
 
 
