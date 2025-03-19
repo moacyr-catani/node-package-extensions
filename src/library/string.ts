@@ -1,16 +1,7 @@
-//import { NumberLib } from "./number.js";
-import { DateLib }   from "./date.js";
+import { DateLib }               from "./date.js";
+import { StringExtractionResult} from "./../common/index.js"
 
 
-
-
-export type StringExtractionResult = 
-{ 
-    start: number, 
-    end: number, 
-    value: string | undefined
-};
-//type DecimalPlaces = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18;
 
 
 
@@ -76,9 +67,7 @@ function GetRegExp(p_Pattern: string,
 
     // Check for cache, create if doesn't exist
     if ( !(strKey in m_RECache) )
-    {
         m_RECache[strKey] = new RegExp(p_Pattern, p_Flags)
-    }
 
 
     return m_RECache[strKey];
@@ -100,10 +89,10 @@ function EscapeRegExp(p_String: string): string
 
 
 // ------------------------------------------------------------------------------------------------------------------------------
-// #region Private members and helpers
+// #region Interface
 // ------------------------------------------------------------------------------------------------------------------------------
 
-export interface IStringLib
+interface IStringLib
 {
     /**
      * Extracts string among specific substrings
@@ -329,10 +318,6 @@ export interface IStringLib
 
 // #endregion
 // ------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 
 
@@ -946,4 +931,6 @@ const StringLib: IStringLib =
 
 // Export object
 Object.seal( StringLib )
-export  { StringLib };
+export  { IStringLib, 
+          StringLib,
+          StringExtractionResult };

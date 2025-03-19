@@ -2,7 +2,7 @@
 export default 
 {
     collectCoverage: true,
-    coverageDirectory: '<rootDir>/tests/jest/coverage',
+    coverageDirectory: '<rootDir>/tests/jest/coverage/library',
     coveragePathIgnorePatterns: 
     [
         "/tests/"
@@ -17,7 +17,7 @@ export default
     testEnvironment: 'node',
     testMatch:       
     [
-        '<rootDir>/tests/**/*.test.ts'
+        '<rootDir>/tests/jest/library/**/*.test.ts'
     ],
     testPathIgnorePatterns: 
     [
