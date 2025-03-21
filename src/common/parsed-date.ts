@@ -2,12 +2,15 @@ import { IStringLib } from "./../library/interfaces/string.js"
 import * as Constants from "./constants.js";
 
 
+
+
 type DateStructBaseValue =
 {
     index_start: number;
     index_end:   number;
     length:      number;
 }
+
 
 
 type DateStructNumberValue = DateStructBaseValue &
@@ -24,7 +27,7 @@ type DateStructStringValue = DateStructBaseValue &
 
 
 
-type DateStruct = //{[key: string]: DateStructStringValue | DateStructNumberValue} &
+type DateStruct = 
 {
     YYYY:   DateStructNumberValue; // Year (4 digits)
     YY:     DateStructNumberValue; // Year (2 digits)
@@ -41,7 +44,7 @@ type DateStruct = //{[key: string]: DateStructStringValue | DateStructNumberValu
 
 
 
-// Keys of DateStruct whose values are fixed lenght
+// Keys of DateStruct which values are fixed length
 const DateStructFixedLengthKeys: Array<keyof DateStruct> = 
 [
     "YYYY", 
@@ -146,9 +149,9 @@ export class ParsedDate
             this.#Invalid = true;
             return;
         }
-        else if (this.#DateParts.hh.value > -1)
+        else if (this.#DateParts.HH.value > -1)
         {
-            this.#DateParts.HH.value = this.#DateParts.hh.value % 12
+            this.#DateParts.hh.value = this.#DateParts.HH.value % 12
         }
         else
         {
@@ -273,14 +276,14 @@ export class ParsedDate
             index_start: -1,
             index_end:   -1,
             length:      2,
-            value:       0  // If not present, defaults to 0
+            value:       -1  // If not present, defaults to 0
         },
         HH:
         {
             index_start: -1,
             index_end:   -1,
             length:      2,
-            value:       0  // If not present, defaults to 0
+            value:       -1  // If not present, defaults to 0
         },
         mm:
         {
@@ -503,5 +506,4 @@ export class ParsedDate
 
     // #endregion
     // ------------------------------------------------------------------------------------------------------------------------------
-
 }

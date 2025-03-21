@@ -401,7 +401,7 @@ const StringLib: IStringLib =
             throw new Error("Invalid thousand separator");
 
 
-        return GetRegExp(`^-?\\d{1,3}(${thousandSeparator}\\d{3})*?$`).test(p_Value);
+        return GetRegExp(`^[-+]?\\d{1,3}(${thousandSeparator}\\d{3})*?$`).test(p_Value);
     },
 
 

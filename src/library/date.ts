@@ -202,6 +202,7 @@ const DateLib: IDateLib =
 
     toWeekEnd( value: Date, firstWeekDay: WeekDays ): Date
     {
+        console.log(value, firstWeekDay);
         throw new Error("Not implemented");
     },
 
@@ -209,6 +210,7 @@ const DateLib: IDateLib =
 
     toWeekStart( value: Date, firstWeekDay: WeekDays ): Date
     {
+        console.log(value, firstWeekDay);
         throw new Error("Not implemented");
     },
 
