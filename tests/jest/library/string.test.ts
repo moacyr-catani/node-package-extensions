@@ -4,7 +4,7 @@ import { XT, StringExtractionResult } from "../../../src/index";
 
 
 
-describe("String extensions", () => 
+describe("String library", () => 
 {
 
     test("extractBetween", () =>
@@ -279,7 +279,7 @@ describe("String extensions", () =>
 
         // Datetime
         dtmResult = XT.String.toDate("2052-01-25T12:35:02:858Z", "YYYY-MM-DD hh:mm:ss:nnn");
-console.log(dtmResult)
+
         expect(dtmResult)
         .toBeInstanceOf(Date);
 
@@ -496,7 +496,7 @@ console.log(dtmResult)
     });     
 
 
-    
+
 
     test("trimStart", () =>
     {

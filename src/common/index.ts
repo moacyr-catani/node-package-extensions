@@ -1,3 +1,6 @@
+export * as Constants from "./constants.js";
+
+
 export type StringExtractionResult = 
 { 
     start: number, 
@@ -20,3 +23,18 @@ export enum IntegerRepresentations
     StringBase64      = "STRING_BASE64",
     StringBase64Url   = "STRING_BASE64_URL"
 }
+
+
+export enum WeekDays
+{
+    SUNDAY    = "SUNDAY",
+    MONDAY    = "MONDAY",
+    TUESDAY   = "TUESDAY",
+    WEDNESDAY = "WEDNESDAY",
+    THURSDAY  = "THURSDAY",
+    FRIDAY    = "FRIDAY",
+    SATURDAY  = "SATURDAY" 
+}
+
+
+

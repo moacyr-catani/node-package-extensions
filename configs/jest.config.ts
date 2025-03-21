@@ -9,6 +9,7 @@ export default
     ],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', "d.ts"],
     preset: 'ts-jest',
+    maxWorkers: 1,
     reporters:       
     [
         'default'

@@ -5,7 +5,16 @@ import * as Crypto                from "node:crypto";
 import { Buffer }                 from "node:buffer";
 
 
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// #region Constants
+// ------------------------------------------------------------------------------------------------------------------------------
+
 const INTEGER_REPRESENTATIONS: string[] = Object.values(IntegerRepresentations);
+
+// #endregion
+// ------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -92,14 +101,15 @@ function _formatInteger(p_Value: string,
 // #region Interface
 // ------------------------------------------------------------------------------------------------------------------------------
 
-export interface INumberLib
+interface INumberLib
 {
     changeIntegerRepresentation (value:               number | bigint | string | Buffer,
                                  toRepresentation:    IntegerRepresentations,
                                  fromRepresentation?: IntegerRepresentations): number | bigint | string | Buffer ;
 
 
-
+ 
+                                 
     /**
      * Creates a random integer with size from 1 to 128 bytes (extremelly huge number).
      * @param {number} p_SizeInBytes Size of the random integer in bytes (from 1 to 128)
@@ -116,6 +126,15 @@ export interface INumberLib
                decimalPlaces: DecimalPlaces): number | undefined;
  
 
+    toDecimalString (value:             number): string | undefined;
+
+    toDecimalString (value:             number,
+                     decimalPlaces:     DecimalPlaces): string | undefined;
+
+    toDecimalString (value:             number,
+                     decimalPlaces:     DecimalPlaces,
+                     decimalSeparator:  string): string | undefined;
+
     toDecimalString (value:             number,
                      decimalPlaces:     DecimalPlaces,
                      decimalSeparator:  string,
@@ -125,6 +144,8 @@ export interface INumberLib
     toInt (value: number): number | undefined;
 
 
+
+    toIntString (value:             number): string | undefined;
 
     toIntString (value:             number,
                  thousandSeparator: string): string | undefined;
@@ -521,4 +542,4 @@ const NumberLib: INumberLib =
 
 // Export object
 Object.seal(NumberLib)
-export  { NumberLib };
+export  { INumberLib, NumberLib };

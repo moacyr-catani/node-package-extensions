@@ -1,0 +1,1 @@
+export const DATETIME_FORMAT_ISO: string = "YYYY-MM-DDTHH:mm:ss.nnnOFFSET";

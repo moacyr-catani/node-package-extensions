@@ -1,0 +1,5 @@
+{
+    "extends": "./../../configs/tsconfig.esm.json",
+    "files": ["./index.ts"],
+    "include": ["./declarations/*"]
+}

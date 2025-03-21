@@ -1,6 +1,8 @@
 import { IDateLib,   DateLib}    from "./date.js";
 import { INumberLib, NumberLib}  from "./number.js";
-import { IStringLib, StringLib}  from "./string.js";
+
+import { IStringLib}  from "./interfaces/string.js";
+import { StringLib}   from "./string.js";
 
 
 
