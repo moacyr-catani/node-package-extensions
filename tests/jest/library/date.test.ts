@@ -1,4 +1,5 @@
-import { XT } from "../../../src/index";
+import { XT, 
+         WeekDays } from "../../../src/index";
 
 
 describe("Date library", () => 
@@ -29,6 +30,133 @@ describe("Date library", () =>
         expect( dtmTeste.getFullYear()).toBe(2020);
         expect( dtmTeste.getMonth())   .toBe(2);
         expect( dtmTeste.getDate())    .toBe(4);
+    });  
+
+
+
+    test("addHours", () =>
+    {
+        const dtmTeste: Date = new Date(2020, 1, 21, 1, 0, 0);
+
+        // Adds 4 days in dtmTest
+        XT.Date.addHours(dtmTeste, 4)
+
+        expect( dtmTeste.getFullYear()).toBe(2020);
+        expect( dtmTeste.getMonth())   .toBe(1);
+        expect( dtmTeste.getDate())    .toBe(21);
+        expect( dtmTeste.getHours())   .toBe(5);
+
+        // Adds 10 days in dtmTest
+        XT.Date.addHours(dtmTeste, -10)
+
+        expect( dtmTeste.getFullYear()).toBe(2020);
+        expect( dtmTeste.getMonth())   .toBe(1);
+        expect( dtmTeste.getDate())    .toBe(20);
+        expect( dtmTeste.getHours())   .toBe(19);
+    });  
+
+
+
+    test("addMilliseconds", () =>
+    {
+        const dtmTeste: Date = new Date(2020, 1, 21, 0, 0, 0, 150);
+
+        
+        XT.Date.addMilliseconds(dtmTeste, 150)
+
+        expect( dtmTeste.getFullYear())    .toBe(2020);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(21);
+        expect( dtmTeste.getHours())       .toBe(0);
+        expect( dtmTeste.getMilliseconds()).toBe(300);
+
+        
+        XT.Date.addMilliseconds(dtmTeste, -900)
+
+        expect( dtmTeste.getFullYear())    .toBe(2020);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(20);
+        expect( dtmTeste.getHours())       .toBe(23);
+        expect( dtmTeste.getMilliseconds()).toBe(400);
+    });  
+
+
+
+    test("addMinutes", () =>
+    {
+        const dtmTeste: Date = new Date(2020, 1, 21, 0, 0, 0);
+
+        
+        XT.Date.addMinutes(dtmTeste, 15)
+
+        expect( dtmTeste.getFullYear())    .toBe(2020);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(21);
+        expect( dtmTeste.getHours())       .toBe(0);
+        expect( dtmTeste.getMinutes())     .toBe(15);
+
+        
+        XT.Date.addMinutes(dtmTeste, -90)
+
+        expect( dtmTeste.getFullYear())    .toBe(2020);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(20);
+        expect( dtmTeste.getHours())       .toBe(22);
+        expect( dtmTeste.getMinutes())     .toBe(45);
+    });  
+
+
+
+    test("addSeconds", () =>
+    {
+        const dtmTeste: Date = new Date(2020, 1, 21, 0, 0, 0);
+
+        
+        XT.Date.addSeconds(dtmTeste, 25)
+
+        expect( dtmTeste.getFullYear())    .toBe(2020);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(21);
+        expect( dtmTeste.getHours())       .toBe(0);
+        expect( dtmTeste.getMinutes())     .toBe(0);
+        expect( dtmTeste.getSeconds())     .toBe(25);
+
+        
+        XT.Date.addSeconds(dtmTeste, -90)
+
+        expect( dtmTeste.getFullYear())    .toBe(2020);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(20);
+        expect( dtmTeste.getHours())       .toBe(23);
+        expect( dtmTeste.getMinutes())     .toBe(58);
+        expect( dtmTeste.getSeconds())     .toBe(55);
+    });  
+
+
+
+    test("addYears", () =>
+    {
+        const dtmTeste: Date = new Date(2020, 1, 21, 0, 0, 0);
+
+        
+        XT.Date.addYears(dtmTeste, 25)
+
+        expect( dtmTeste.getFullYear())    .toBe(2045);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(21);
+        expect( dtmTeste.getHours())       .toBe(0);
+        expect( dtmTeste.getMinutes())     .toBe(0);
+        expect( dtmTeste.getSeconds())     .toBe(0);
+
+        
+        XT.Date.addYears(dtmTeste, -90)
+
+        expect( dtmTeste.getFullYear())    .toBe(1955);
+        expect( dtmTeste.getMonth())       .toBe(1);
+        expect( dtmTeste.getDate())        .toBe(21);
+        expect( dtmTeste.getHours())       .toBe(0);
+        expect( dtmTeste.getMinutes())     .toBe(0);
+        expect( dtmTeste.getSeconds())     .toBe(0);
     });  
 
 
@@ -155,7 +283,237 @@ describe("Date library", () =>
     });  
 
 
+
+    test("toWeekEnd", () =>
+    {
+        let dtmTeste: Date;
+            
+        dtmTeste = new Date(2025, 2, 26);
     
+        XT.Date.toWeekEnd(dtmTeste);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(29);
+    
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.MONDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(30);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.TUESDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(31);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.WEDNESDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(3);
+        expect( dtmTeste.getDate())    .toBe(1);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.THURSDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(26);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.FRIDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(27);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.SATURDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(28);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.SUNDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(29);
+
+
+
+        dtmTeste = new Date(2025, 2, 23);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.SUNDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(29);
+
+
+
+        dtmTeste = new Date(2025, 2, 24);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.MONDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(30);
+
+
+
+        dtmTeste = new Date(2025, 2, 23);
+    
+        XT.Date.toWeekEnd(dtmTeste, WeekDays.TUESDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(24);
+    });  
+    
+
+
+    test("toWeekStart", () =>
+    {
+        let dtmTeste: Date;
+            
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(23);
+    
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.MONDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(24);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.TUESDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(25);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.WEDNESDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(26);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.THURSDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(20);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.FRIDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(21);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.SATURDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(22);
+
+
+
+        dtmTeste = new Date(2025, 2, 26);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.SUNDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(23);
+
+
+
+        dtmTeste = new Date(2025, 2, 23);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.SUNDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(23);
+
+
+
+        dtmTeste = new Date(2025, 2, 24);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.MONDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(24);
+
+
+
+        dtmTeste = new Date(2025, 2, 23);
+    
+        XT.Date.toWeekStart(dtmTeste, WeekDays.TUESDAY);
+    
+        expect( dtmTeste.getFullYear()).toBe(2025);
+        expect( dtmTeste.getMonth())   .toBe(2);
+        expect( dtmTeste.getDate())    .toBe(18);
+    });  
+    
+    
+
     test("toYearEnd", () =>
     {
         let dtmTeste: Date;

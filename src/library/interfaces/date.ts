@@ -36,14 +36,22 @@ export interface IDateLib
 
     toStringISO( value: Date ): string
 
-    
+
     toTimeString( value: Date ): string
 
 
-    toWeekEnd( value: Date, firstWeekDay: WeekDays ): Date;
+    toWeekEnd( value: Date ): Date;
 
 
-    toWeekStart( value: Date, firstWeekDay: WeekDays ): Date;
+    toWeekEnd( value: Date, 
+               firstWeekDay: WeekDays ): Date;
+
+
+    toWeekStart( value: Date ): Date;
+
+
+    toWeekStart( value: Date, 
+                 firstWeekDay: WeekDays ): Date;
 
 
     toYearEnd( value: Date ): Date;

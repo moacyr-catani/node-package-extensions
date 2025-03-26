@@ -1,4 +1,5 @@
 export { XT }                     from "./library/index.js";
 export { DecimalPlaces,
          IntegerRepresentations, 
-         StringExtractionResult } from "./common/index.js";
+         StringExtractionResult,
+        WeekDays }                from "./common/index.js";

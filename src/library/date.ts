@@ -157,7 +157,7 @@ const DateLib: IDateLib =
         return DateLib.toString(p_Value, Constants.DATETIME_FORMAT_ISO);
     },
 
-    
+
 
     toTimeString( p_Value: Date ): string
     {
@@ -166,18 +166,92 @@ const DateLib: IDateLib =
 
 
 
-    toWeekEnd( value: Date, firstWeekDay: WeekDays ): Date
+    toWeekEnd( p_Value:        Date, 
+               p_FirstWeekDay: WeekDays = WeekDays.SUNDAY ): Date
     {
-        console.log(value, firstWeekDay);
-        throw new Error("Not implemented");
+        let intDay:    number = p_Value.getDay(),
+            intOffset: number = 0;
+
+        switch (p_FirstWeekDay)
+        {
+            case WeekDays.SUNDAY:
+                intOffset = 0;
+                break;
+
+            case WeekDays.MONDAY:
+                intOffset = 1;
+                break;
+
+            case WeekDays.TUESDAY:
+                intOffset = 2;
+                break;
+
+            case WeekDays.WEDNESDAY:
+                intOffset = 3;
+                break;
+
+            case WeekDays.THURSDAY:
+                intOffset = 4;
+                break;
+
+            case WeekDays.FRIDAY:
+                intOffset = 5;
+                break;
+
+            case WeekDays.SATURDAY:
+                intOffset = 6;
+                break;
+        }
+
+        if (intDay < intOffset)
+            intDay += 7;
+
+        return DateLib.addDays(p_Value, -intDay + intOffset + 6);
     },
 
 
 
-    toWeekStart( value: Date, firstWeekDay: WeekDays ): Date
+    toWeekStart( p_Value: Date, 
+                 p_FirstWeekDay: WeekDays = WeekDays.SUNDAY ): Date
     {
-        console.log(value, firstWeekDay);
-        throw new Error("Not implemented");
+        let intDay:    number = p_Value.getDay(),
+            intOffset: number = 0;
+
+        switch (p_FirstWeekDay)
+        {
+            case WeekDays.SUNDAY:
+                intOffset = 0;
+                break;
+
+            case WeekDays.MONDAY:
+                intOffset = 1;
+                break;
+
+            case WeekDays.TUESDAY:
+                intOffset = 2;
+                break;
+
+            case WeekDays.WEDNESDAY:
+                intOffset = 3;
+                break;
+
+            case WeekDays.THURSDAY:
+                intOffset = 4;
+                break;
+
+            case WeekDays.FRIDAY:
+                intOffset = 5;
+                break;
+
+            case WeekDays.SATURDAY:
+                intOffset = 6;
+                break;
+        }
+
+        if (intDay < intOffset)
+            intDay += 7;
+
+        return DateLib.addDays(p_Value, -intDay + intOffset);
     },
 
 
