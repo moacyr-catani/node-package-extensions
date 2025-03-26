@@ -1,7 +1,8 @@
-import { INumberLib } from "./interfaces/number.js"
+import { INumberLib }             from "./interfaces/number.js";
 import { StringLib }              from "./string.js";
 import { DecimalPlaces,
-         IntegerRepresentations } from "./../common/index.js"
+         IntegerRepresentations } from "./../common/index.js";
+import * as Constants             from "./../common/constants.js";
 import * as Crypto                from "node:crypto";   
 import { Buffer }                 from "node:buffer";
 
@@ -89,6 +90,22 @@ function _formatInteger(p_Value: string,
     }
 
     return strReturn;
+}
+
+
+
+function _isInIntRange(p_Value:    number | bigint,
+                       p_ValueMin: number | bigint,
+                       p_ValueMax: number | bigint): boolean
+{
+    if (!NumberLib.isInt(p_Value))
+        return false;
+
+    if (p_Value >= p_ValueMin && 
+        p_Value <= p_ValueMax)
+        return true;
+
+    return false;
 }
 
 // #endregion
@@ -273,6 +290,93 @@ const NumberLib: INumberLib =
             case IntegerRepresentations.StringOctal:
                 return intValue!.toString(8);
         }
+    },
+
+
+
+    isInt (p_Value: number | bigint): boolean
+    {
+        if ("bigint" === typeof p_Value)
+            return true;
+
+        if (!isNaN(p_Value) && isFinite(p_Value))
+            return p_Value % 1.0 === 0? 
+                       true : 
+                       false;
+
+        return false;
+    },
+
+
+
+    isInt8 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             Constants.INT8_MIN_VALUE,
+                             Constants.INT8_MAX_VALUE);
+    },
+
+
+    
+    isInt16 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             Constants.INT16_MIN_VALUE,
+                             Constants.INT16_MAX_VALUE);
+    },
+
+
+
+    isInt32 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             Constants.INT32_MIN_VALUE,
+                             Constants.INT32_MAX_VALUE);
+    },
+
+
+
+    isInt64 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             Constants.INT64_MIN_VALUE,
+                             Constants.INT64_MAX_VALUE);
+    },
+
+
+
+    isUInt8 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             0,
+                             Constants.UINT8_MAX_VALUE);
+    },
+
+
+    
+    isUInt16 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             0,
+                             Constants.UINT16_MAX_VALUE);
+    },
+
+
+
+    isUInt32 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             0,
+                             Constants.UINT32_MAX_VALUE);
+    },
+
+
+
+    isUInt64 (p_Value: number | bigint): boolean
+    {
+        return _isInIntRange(p_Value,
+                             0,
+                             Constants.UINT64_MAX_VALUE);
     },
 
 

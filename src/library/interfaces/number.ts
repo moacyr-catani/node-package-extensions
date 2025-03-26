@@ -10,7 +10,34 @@ export interface INumberLib
 
 
  
-                                 
+               
+    isInt (value: number | bigint): boolean;
+
+
+    isInt8 (value: number | bigint): boolean;
+
+
+    isInt16 (value: number | bigint): boolean;
+
+
+    isInt32 (value: number | bigint): boolean;
+
+
+    isInt64 (value: number | bigint): boolean;
+
+
+    isUInt8 (value: number | bigint): boolean;
+
+
+    isUInt16 (value: number | bigint): boolean;
+
+
+    isUInt32 (value: number | bigint): boolean;
+
+
+    isUInt64 (value: number | bigint): boolean;
+
+
     /**
      * Creates a random integer with size from 1 to 128 bytes (extremelly huge number).
      * @param {number} p_SizeInBytes Size of the random integer in bytes (from 1 to 128)

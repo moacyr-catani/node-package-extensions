@@ -194,6 +194,210 @@ describe("Number library", () =>
 
 
 
+    test("isInt", () =>
+    {
+        expect( XT.Number.isInt(123_123))
+        .toBe(true);
+
+        expect( XT.Number.isInt(123_123.0))
+        .toBe(true);
+
+        expect( XT.Number.isInt(123_123.1))
+        .toBe(false);
+
+        expect( XT.Number.isInt(12345654321354312353120131n))
+        .toBe(true);
+
+        expect( XT.Number.isInt(-12345654321354312353120131n))
+        .toBe(true);
+
+        expect( XT.Number.isInt(0.00001))
+        .toBe(false);
+
+        expect( XT.Number.isInt(10/0))
+        .toBe(false);
+
+        expect( XT.Number.isInt(NaN))
+        .toBe(false);
+
+        expect( XT.Number.isInt(Infinity))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isInt8", () =>
+    {
+        expect( XT.Number.isInt8(123))
+        .toBe(true);
+
+        expect( XT.Number.isInt8(128))
+        .toBe(false);
+
+        expect( XT.Number.isInt8(-128))
+        .toBe(true);
+
+        expect( XT.Number.isInt8(10.0001))
+        .toBe(false);
+
+        expect( XT.Number.isInt8(10/0))
+        .toBe(false);
+
+        expect( XT.Number.isInt8(NaN))
+        .toBe(false);
+
+        expect( XT.Number.isInt8(Infinity))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isInt16", () =>
+    {
+        expect( XT.Number.isInt16(32_000))
+        .toBe(true);
+
+        expect( XT.Number.isInt16(32_768))
+        .toBe(false);
+
+        expect( XT.Number.isInt16(-32_768))
+        .toBe(true);
+
+        expect( XT.Number.isInt16(-32_769))
+        .toBe(false);
+
+        expect( XT.Number.isInt16(10.0001))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isInt32", () =>
+    {
+        expect( XT.Number.isInt32(1_532_145))
+        .toBe(true);
+
+        expect( XT.Number.isInt32(2_147_483_648))
+        .toBe(false);
+
+        expect( XT.Number.isInt32(-2_147_483_648))
+        .toBe(true);
+
+        expect( XT.Number.isInt32(2_147_483_645))
+        .toBe(true);
+
+        expect( XT.Number.isInt32(-2_147_483_649))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isInt64", () =>
+    {
+        expect( XT.Number.isInt64(9_223_372_036_854_775_807n))
+        .toBe(true);
+
+        expect( XT.Number.isInt64(9_223_372_036_854_775_808n))
+        .toBe(false);
+
+        expect( XT.Number.isInt64(-9_223_372_036_854_775_808n))
+        .toBe(true);
+
+        expect( XT.Number.isInt64(2_147_483_645))
+        .toBe(true);
+
+        expect( XT.Number.isInt64(-9_223_372_036_854_775_809n))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt8", () =>
+    {
+        expect( XT.Number.isUInt8(0))
+        .toBe(true);
+
+        expect( XT.Number.isUInt8(123))
+        .toBe(true);
+
+        expect( XT.Number.isUInt8(255))
+        .toBe(true);
+
+        expect( XT.Number.isUInt8(256))
+        .toBe(false);
+
+        expect( XT.Number.isUInt8(-128))
+        .toBe(false);
+
+        expect( XT.Number.isUInt8(10.0001))
+        .toBe(false);
+
+        expect( XT.Number.isUInt8(10/0))
+        .toBe(false);
+
+        expect( XT.Number.isUInt8(NaN))
+        .toBe(false);
+
+        expect( XT.Number.isUInt8(Infinity))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt16", () =>
+    {
+        expect( XT.Number.isUInt16(32_000))
+        .toBe(true);
+
+        expect( XT.Number.isUInt16(65_535))
+        .toBe(true);
+
+        expect( XT.Number.isUInt16(-32_768))
+        .toBe(false);
+
+        expect( XT.Number.isUInt16(65_536))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt32", () =>
+    {
+        expect( XT.Number.isUInt32(1_532_145))
+        .toBe(true);
+
+        expect( XT.Number.isUInt32(-2))
+        .toBe(false);
+
+        expect( XT.Number.isUInt32(4_294_967_295))
+        .toBe(true);
+
+        expect( XT.Number.isUInt32(4_294_967_296))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt64", () =>
+    {
+        expect( XT.Number.isUInt64(10))
+        .toBe(true);
+
+        expect( XT.Number.isUInt64(-1))
+        .toBe(false);
+
+        expect( XT.Number.isUInt64(-9_223_372_036_854_775_808n))
+        .toBe(false);
+
+        expect( XT.Number.isUInt64(18_446_744_073_709_551_615n))
+        .toBe(true);
+
+        expect( XT.Number.isUInt64(18_446_744_073_709_551_616n))
+        .toBe(false);
+    });   
+
+
+
     test("toDecimal -> valid", () =>
     {
         expect( XT.Number.toDecimal(123.123, 2))
