@@ -1,10 +1,11 @@
-import { IDateLib,   DateLib}    from "./date.js";
-import { INumberLib, NumberLib}  from "./number.js";
+import { IDateLib}   from "./interfaces/date.js";
+import { DateLib}    from "./date.js";
+
+import { INumberLib}  from "./interfaces/number.js";
+import { NumberLib}   from "./number.js";
 
 import { IStringLib}  from "./interfaces/string.js";
 import { StringLib}   from "./string.js";
-
-
 
 
 
@@ -31,8 +32,9 @@ Object.seal(XT);
 export 
 { 
     IXT,
-    XT,
     IDateLib,
     INumberLib,
-    IStringLib
+    IStringLib,
+
+    XT,
 };

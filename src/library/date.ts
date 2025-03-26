@@ -1,58 +1,8 @@
 //import { StringLib } from "./string";
-
+import { IDateLib } from "./interfaces/date.js";
 import { Constants, WeekDays } from "./../common/index.js" 
 
 
-interface IDateLib
-{
-    addDays(value: Date, 
-            days:  number): Date;
-
-    addHours(value: Date, 
-             hours: number): Date;
-
-    addMilliseconds(value:        Date, 
-                    milliseconds: number): Date;
-
-    addMinutes(value:   Date, 
-               minutes: number): Date;
-
-    addSeconds(value:   Date, 
-               seconds: number): Date;
-
-    addYears(value: Date, 
-             years: number): Date;
-
-    toDateString( value: Date ): string
-    
-
-    toDateStringISO( value: Date ): string
-
-
-    toMonthEnd( value: Date ): Date;
-    
-    
-    toMonthStart( value: Date ): Date;
-    
-    
-    toString( value: Date,
-              resultFormat: string ): string;
-    
-    
-    toTimeString( value: Date ): string
-
-
-    toWeekEnd( value: Date, firstWeekDay: WeekDays ): Date;
-
-
-    toWeekStart( value: Date, firstWeekDay: WeekDays ): Date;
-
-
-    toYearEnd( value: Date ): Date;
-
-
-    toYearStart( value: Date ): Date;
-}
 
 
 
@@ -132,13 +82,6 @@ const DateLib: IDateLib =
 
 
 
-    toDateStringISO(p_Value: Date): string
-    {
-        return DateLib.toString(p_Value, Constants.DATETIME_FORMAT_ISO);
-    },
-
-
-
     toMonthEnd( p_Value: Date ): Date
     {
         p_Value.setMonth(p_Value.getMonth() + 1); // Go to next month
@@ -162,36 +105,59 @@ const DateLib: IDateLib =
     toString( p_Value:        Date,
               p_ResultFormat: string ): string
     {
-        // Adjust for timezone
-        // const userTimezoneOffset: number = this.getTimezoneOffset() * 60000;
-        // const dtmValue:           Date   = new Date(this.getTime() + userTimezoneOffset);
-        //const dtmValue: Date = new Date(p_Value.getTime() );
+        let strAMPM:   string = "",
+            intHour:   number = p_Value.getHours(),
+            strOffset: string = "";
+
+
+        // Includes AM/PM indicator
+        if ( p_ResultFormat.indexOf("tt") > -1)
+        {
+            if (intHour > 12)
+            {
+                intHour -= 12;
+                strAMPM = "PM";
+            }
+            else
+                strAMPM = "AM";
+
+            p_ResultFormat = p_ResultFormat.replace(/tt/g, strAMPM)
+        }
+
+
+        // Include Offset from UTC
+        if ( p_ResultFormat.indexOf("OFFSET") > -1)
+        {
+            const intTotalMinutesOffset: number = p_Value.getTimezoneOffset(),
+                  intHoursOffset:        number = intTotalMinutesOffset / 60,
+                  intMinutesOffset:      number = intTotalMinutesOffset % 60;
+            
+            strOffset = intTotalMinutesOffset < 0 ? "-" : "+" +
+                        intHoursOffset.toString().padStart(2, "0") + ":" + 
+                        intMinutesOffset.toString().padStart(2, "0"); 
+
+            p_ResultFormat = p_ResultFormat.replace(/OFFSET/g, strOffset);
+        }
 
 
         return p_ResultFormat.replace(/YYYY/g, p_Value.getFullYear()    .toString())
                              .replace(/YY/g,   p_Value.getFullYear()    .toString().substring(2))
                              .replace(/MM/g,  (p_Value.getMonth() + 1)  .toString().padStart(2, "0"))
                              .replace(/DD/g,   p_Value.getDate()        .toString().padStart(2, "0"))
-                             .replace(/HH/g,   p_Value.getHours()       .toString().padStart(2, "0"))
-                             .replace(/hh/g,   p_Value.getHours()       .toString().padStart(2, "0"))
+                             .replace(/hh/g,   intHour                  .toString().padStart(2, "0"))
                              .replace(/mm/g,   p_Value.getMinutes()     .toString().padStart(2, "0"))
                              .replace(/ss/g,   p_Value.getSeconds()     .toString().padStart(2, "0"))
                              .replace(/nnn/g,  p_Value.getMilliseconds().toString().padStart(3, "0"));
-
-                            //  return format.replace(/YYYY/g,   this.#DateParts.YYYY.value.toString())
-                            //  .replace(/YY/g,     this.#DateParts.YYYY.value.toString().substring(2))
-                            //  .replace(/MM/g,     this.#DateParts.MM.value  .toString().padStart(2, "0"))
-                            //  .replace(/DD/g,     this.#DateParts.DD.value  .toString().padStart(2, "0"))
-                            //  .replace(/hh/g,     this.#DateParts.hh.value  .toString().padStart(2, "0"))
-                            //  .replace(/HH/g,     this.#DateParts.HH.value  .toString().padStart(2, "0"))
-                            //  .replace(/mm/g,     this.#DateParts.mm.value  .toString().padStart(2, "0"))
-                            //  .replace(/ss/g,     this.#DateParts.ss.value  .toString().padStart(2, "0"))
-                            //  .replace(/nnn/g,    this.#DateParts.nnn.value .toString().padStart(3, "0"))
-                            //  .replace(/tt/g,     this.#DateParts.tt.value)
-                            //  .replace(/OFFSET/g, this.#DateParts.OFFSET.value);
     },
 
 
+
+    toStringISO(p_Value: Date): string
+    {
+        return DateLib.toString(p_Value, Constants.DATETIME_FORMAT_ISO);
+    },
+
+    
 
     toTimeString( p_Value: Date ): string
     {
@@ -243,4 +209,4 @@ const DateLib: IDateLib =
 
 // Export object
 Object.seal(DateLib)
-export  { IDateLib, DateLib };
+export  { DateLib };

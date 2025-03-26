@@ -26,11 +26,11 @@
         "build:esm": "tsc -p ./configs/tsconfig.esm.json",
         "build:esm2": "tsc -p ./configs/tsconfig.esm.json && shx mv lib/esm/index.js lib/esm/index.mjs",
         "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
-        "build:local": "tsc -p ./configs/tsconfig.local.json",
+        "build:local": "tsc -p ./configs/tsconfig.library.local.json",
         "clean": "shx rm -rf ./lib",
         "examples": "npm run build:local && node ./dist/examples/index.js",
         "prepack": "npm run build",
-        "test": "jest --config=./configs/jest.config.ts",
+        "test": "jest --config=./configs/jest.config.library.ts",
         "test:cjs": "npm run --silent build && npm run --silent build:local && node ./tests/cjs/index.js",
         "test:esm": "npm run --silent build && npm run --silent build:local && node ./tests/esm/index.js"
     },

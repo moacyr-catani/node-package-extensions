@@ -1,0 +1,21 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": 
+    {
+        "diagnostics":    false,
+
+        "declarationMap": false,
+        "sourceMap":      false,
+      
+        "declarationDir": "../lib/extensions/types",
+        "outDir":         "../lib/extensions",
+    },
+    "files": 
+    [
+        "../src/extensions/index.ts",
+    ],
+    "include": 
+    [
+        "../src/extensions/declarations/*"
+    ],
+  }

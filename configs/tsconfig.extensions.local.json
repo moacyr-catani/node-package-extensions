@@ -1,0 +1,24 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": 
+    {
+        "diagnostics":    true,
+
+        "declarationMap": true,
+        "sourceMap":      true,
+        
+        "declarationDir": "../dist/extensions/types",
+        "outDir":         "../dist/extensions",
+    },
+    "files": 
+    [
+        "../src/extensions/index.ts",
+        "../debug/index.ts", 
+        //"../examples/index.ts",
+        //"../tests/common/callback-functions.ts"
+    ],
+    "include": 
+    [
+        "../src/extensions/declarations/*"
+    ],
+}

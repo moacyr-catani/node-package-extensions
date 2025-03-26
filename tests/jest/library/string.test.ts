@@ -22,15 +22,17 @@ describe("String library", () =>
         expect(result.value).toBe("abcd");
         
         
+        result = XT.String.extractBetween("start abcd end", undefined, "end", true);
+        expect(result.value).toBe("start abcd");
 
-        // expect("start abcd end".$_extractBetween(undefined, "end", true)?.value)
+        // expect( "start abcd end".$_extractBetween(undefined, "end", true)?.value)
         // .toBe("start abcd");
 
         // expect("start\nabcd\nend".$_extractBetween("start", "end", true)?.value)
         // .toBe("abcd");
 
-        // expect("start abcd end".$_extractBetween("start", "end", false)?.value)
-        // .toBe(" abcd ");
+        result = XT.String.extractBetween("start abcd end", "start", "end", false);
+        expect(result.value).toBe(" abcd ");
 
         // expect("(abcd)".$_extractBetween("(", ")")?.value)
         // .toBe("abcd");
@@ -66,6 +68,9 @@ describe("String library", () =>
 
         // expect(statement)
         // .toBe("SELECT * FROM [TABLE]");
+
+        result = XT.String.extractBetween("start abcd end", "end", "start", true);
+        expect(result.value).toBeUndefined();
     });     
 
 
@@ -227,6 +232,35 @@ describe("String library", () =>
 
         expect( (<Date>dtmResult).getFullYear() )
         .toBe(2024);
+
+        expect( (<Date>dtmResult).getMonth() )
+        .toBe(1);
+
+        expect( (<Date>dtmResult).getDate() )
+        .toBe(29);
+
+        expect( (<Date>dtmResult).getHours() )
+        .toBe(0);
+
+        expect( (<Date>dtmResult).getMinutes() )
+        .toBe(0);
+
+        expect( (<Date>dtmResult).getSeconds() )
+        .toBe(0);
+
+        expect( (<Date>dtmResult).getMilliseconds() )
+        .toBe(0);
+
+
+
+       // Date
+        dtmResult = XT.String.toDate("20-02-29", "YY-MM-DD");
+
+        expect(dtmResult)
+        .toBeInstanceOf(Date);
+
+        expect( (<Date>dtmResult).getFullYear() )
+        .toBe(2020);
 
         expect( (<Date>dtmResult).getMonth() )
         .toBe(1);

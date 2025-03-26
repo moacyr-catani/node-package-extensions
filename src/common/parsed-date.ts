@@ -34,7 +34,7 @@ type DateStruct =
     MM:     DateStructNumberValue; // Month (2 digits)
     DD:     DateStructNumberValue; // Day (2 digits) 
     hh:     DateStructNumberValue; // Hour (2 digits, format 12) 
-    HH:     DateStructNumberValue; // Hour (2 digits, format 24) 
+    //HH:     DateStructNumberValue; // Hour (2 digits, format 24) 
     mm:     DateStructNumberValue; // Minute (2 digits) 
     ss:     DateStructNumberValue; // Second (2 digits) 
     nnn:    DateStructNumberValue; // Millisecond (3 digits) 
@@ -52,7 +52,6 @@ const DateStructFixedLengthKeys: Array<keyof DateStruct> =
     "MM", 
     "DD", 
     "hh", 
-    "HH", 
     "mm", 
     "ss", 
     "nnn",
@@ -110,9 +109,9 @@ export class ParsedDate
                                         .trim();
     
 
-                // Offset from UTC or AM/PM indicator
+                // AM/PM indicator
                 if ("tt" === strDatePart)
-                    this.#DateParts[strDatePart].value = strValue;
+                    this.#DateParts[strDatePart].value = strValue.toUpperCase();
 
 
                 // Tries to convert to int only if string represents a valid integer
@@ -121,48 +120,51 @@ export class ParsedDate
     
     
                 // "Removes" parsed part
-                p_ParseFormat.replace(strDatePart, "*".repeat(this.#DateParts[strDatePart].length));
+                p_ParseFormat = p_ParseFormat.replace(strDatePart, "*".repeat(this.#DateParts[strDatePart].length));
             }
         }
     
     
         // Validate values
-        let intDayMax:   number  = 0;
-        let blnLeapYear: boolean = (this.#DateParts.YYYY.value % 4 == 0);
     
-    
-        // Validate AM/PM indicator
-        if (this.#DateParts.tt.value !== "")
-        {
-            this.#DateParts.tt.value = this.#DateParts.tt.value.toLowerCase();
-            if (this.#DateParts.tt.value !== "am" && this.#DateParts.tt.value !== "pm")
-            {
-                this.#Invalid = true;
-                return;
-            }
-        }
-
-
-        // Validate hour
-        if (this.#DateParts.HH.value > -1 && this.#DateParts.hh.value > -1) // Both hour tokens were used
+        // Validate year
+        if ( isNaN(this.#DateParts.YY.value) && isNaN(this.#DateParts.YYYY.value) ) 
         {
             this.#Invalid = true;
             return;
         }
-        else if (this.#DateParts.HH.value > -1)
-        {
-            this.#DateParts.hh.value = this.#DateParts.HH.value % 12
-        }
-        else
-        {
-            if ("" === this.#DateParts.tt.value)
-            {
-                this.#Invalid = true;
-                return;
-            }
+        else if (!isNaN(this.#DateParts.YY.value))
+            this.#DateParts.YYYY.value = 2000 + this.#DateParts.YY.value;
 
-            this.#DateParts.hh.value = this.#DateParts.HH.value + ("pm" === this.#DateParts.tt.value ? 12 : 0);
+
+        // Validate hour
+        if (this.#DateParts.hh.value > 0)
+        {
+            // Validate AM/PM indicator
+            if (this.#DateParts.tt.value !== "")
+            {
+                if ( (this.#DateParts.tt.value !== "AM" && this.#DateParts.tt.value !== "PM") ||
+                     (this.#DateParts.tt.value === "PM" && this.#DateParts.hh.value > 13) )
+                {
+                    this.#Invalid = true;
+                    return;
+                }
+
+                if (this.#DateParts.tt.value === "PM")
+                {
+                    this.#Hours12 = this.#DateParts.hh.value;
+                    this.#DateParts.hh.value+= 12;    
+                }
+            }
+            else
+            {
+                this.#DateParts.tt.value = this.#DateParts.hh.value > 12 ? 
+                                            "PM" : 
+                                            "AM";
+                this.#Hours12 = this.#DateParts.hh.value % 12;
+            }
         }
+
 
 
         // Validade UTC offset
@@ -182,12 +184,15 @@ export class ParsedDate
             }
 
 
-            this.#UTCMinutesOffset = (p_StringLib.toInt(strOffsetSign + p_StringLib.trimStart(strOffsetHours, "0"))! * 60) +
-                                     (p_StringLib.toInt(strOffsetSign + p_StringLib.trimStart(strOffsetMinutes, "0"))!);
+            this.#UTCMinutesOffset = (p_StringLib.toInt(strOffsetSign + strOffsetHours.trim() /* + p_StringLib.trimStart(strOffsetHours, "0") */)! * 60) +
+                                     (p_StringLib.toInt(strOffsetSign + strOffsetMinutes.trim() /* + p_StringLib.trimStart(strOffsetMinutes, "0") */)!);
         }
 
 
         // Defines maximum day number for every month, including February on leap years
+        let intDayMax:   number  = 0;
+        let blnLeapYear: boolean = (this.#DateParts.YYYY.value % 4 == 0);
+    
         if ( 1  == this.#DateParts.MM.value ||
              3  == this.#DateParts.MM.value ||
              5  == this.#DateParts.MM.value ||
@@ -205,32 +210,15 @@ export class ParsedDate
     
             
         // Validate
-        if ( !( (this.#DateParts.MM.value < 1 || this.#DateParts.MM.value > 12)        || // Month
-                (this.#DateParts.DD.value < 1 || this.#DateParts.DD.value > intDayMax) || // Day
-                (this.#DateParts.hh.value < 0 || this.#DateParts.hh.value > 23)        || // Hour
-                (this.#DateParts.mm.value < 0 || this.#DateParts.mm.value > 59)        || // Minute
-                (this.#DateParts.ss.value < 0 || this.#DateParts.ss.value > 59) ) )       // Second
+        if ( !( isNaN(this.#DateParts.YYYY.value) ||
+                isNaN(this.#DateParts.MM.value)   ||
+                isNaN(this.#DateParts.DD.value)   ||
+                (this.#DateParts.MM.value < 1  || this.#DateParts.MM.value > 12)        || // Month
+                (this.#DateParts.DD.value < 1  || this.#DateParts.DD.value > intDayMax) || // Day
+                (this.#DateParts.hh.value < 0  || this.#DateParts.hh.value > 23)        || // Hour
+                (this.#DateParts.mm.value < 0  || this.#DateParts.mm.value > 59)        || // Minute
+                (this.#DateParts.ss.value < 0  || this.#DateParts.ss.value > 59) ) )       // Second
             this.#Invalid = false;
-    
-        
-        // // Day
-        // if (this.#DateParts.DD.value < 1 || this.#DateParts.DD.value > intDayMax)
-        //     return undefined;
-    
-    
-        // // Hours
-        // if (this.#DateParts.hh.value < 0 || this.#DateParts.hh.value > 23)
-        //     return undefined;
-    
-        
-        // // Minutes
-        // if (this.#DateParts.mm.value < 0 || this.#DateParts.mm.value > 59)    
-        //     return undefined;
-    
-        
-        // // Seconds
-        // if (this.#DateParts.ss.value < 0 || this.#DateParts.ss.value > 59)
-        //     return undefined;
     }
 
 
@@ -276,15 +264,15 @@ export class ParsedDate
             index_start: -1,
             index_end:   -1,
             length:      2,
-            value:       -1  // If not present, defaults to 0
+            value:       0  // If not present, defaults to 0
         },
-        HH:
-        {
-            index_start: -1,
-            index_end:   -1,
-            length:      2,
-            value:       -1  // If not present, defaults to 0
-        },
+        // HH:
+        // {
+        //     index_start: -1,
+        //     index_end:   -1,
+        //     length:      2,
+        //     value:       -1  // If not present, defaults to 0
+        // },
         mm:
         {
             index_start: -1,
@@ -318,11 +306,12 @@ export class ParsedDate
             index_start: -1,
             index_end:   -1,
             length:      2,
-            value:       ""
+            value:       "AM" // If not present, defaults to 'AM'
         }
     }
     readonly #Invalid:          boolean = true;
-    readonly #UTCMinutesOffset: number  = 0;
+    readonly #Hours12:          number  = 0;
+    readonly #UTCMinutesOffset: number  = NaN;
 
     // #endregion
     // ------------------------------------------------------------------------------------------------------------------------------
@@ -344,7 +333,8 @@ export class ParsedDate
     }
 
 
-    public get DD(): number | undefined
+
+    public get Days(): number | undefined
     {
         if (!this.#Invalid)
             return this.#DateParts.DD.value;
@@ -353,13 +343,15 @@ export class ParsedDate
     }
 
 
+
     public get Invalid(): boolean
     {
         return this.#Invalid;
     }
 
 
-    public get hh(): number | undefined
+
+    public get Hours(): number | undefined
     {
         if (!this.#Invalid)
             return this.#DateParts.hh.value;
@@ -368,16 +360,18 @@ export class ParsedDate
     }
 
 
-    public get HH(): number | undefined
+
+    public get Hours12(): number | undefined
     {
         if (!this.#Invalid)
-            return this.#DateParts.HH.value;
+            return this.#Hours12
 
         return undefined;
     }
 
 
-    public get mm(): number | undefined
+
+    public get Minutes(): number | undefined
     {
         if (!this.#Invalid)
             return this.#DateParts.mm.value;
@@ -386,16 +380,8 @@ export class ParsedDate
     }
 
 
-    public get MM(): number | undefined
-    {
-        if (!this.#Invalid)
-            return this.#DateParts.MM.value;
 
-        return undefined;
-    }
-
-
-    public get nnn(): number | undefined
+    public get Milliseconds(): number | undefined
     {
         if (!this.#Invalid)
             return this.#DateParts.nnn.value;
@@ -404,13 +390,26 @@ export class ParsedDate
     }
 
 
-    public get ss(): number | undefined
+
+    public get Months(): number | undefined
+    {
+        if (!this.#Invalid)
+            return this.#DateParts.MM.value;
+
+        return undefined;
+    }
+
+
+
+
+    public get Seconds(): number | undefined
     {
         if (!this.#Invalid)
             return this.#DateParts.ss.value;
 
         return undefined;
     }
+
 
 
     public get UTCMinutesOffset(): number | undefined
@@ -422,16 +421,8 @@ export class ParsedDate
     }
 
 
-    public get YY(): number | undefined
-    {
-        if (!this.#Invalid)
-            return this.#DateParts.YY.value;
 
-        return undefined;
-    }
-
-
-    public get YYYY(): number | undefined
+    public get Years(): number | undefined
     {
         if (!this.#Invalid)
             return this.#DateParts.YYYY.value;
@@ -452,21 +443,33 @@ export class ParsedDate
 
     public toDate(): Date
     {
-        // Get milliseconds ellapset in UTC
-        let intReturn: number = Date.UTC(this.#DateParts.YYYY.value,
-                                         this.#DateParts.MM.value - 1, // Javascript defines it this way... January = 0
-                                         this.#DateParts.DD.value,
-                                         this.#DateParts.hh.value,
-                                         this.#DateParts.mm.value,
-                                         this.#DateParts.ss.value,
-                                         this.#DateParts.nnn.value);
+        if (!isNaN(this.#UTCMinutesOffset))
+        {
+            // Get milliseconds ellapset in UTC
+            let intReturn: number = Date.UTC(this.#DateParts.YYYY.value,
+                                             this.#DateParts.MM.value - 1, // Javascript defines it this way... January = 0
+                                             this.#DateParts.DD.value,
+                                             this.#DateParts.hh.value,
+                                             this.#DateParts.mm.value,
+                                             this.#DateParts.ss.value,
+                                             this.#DateParts.nnn.value);
 
-        // Add offset
-        if (this.#UTCMinutesOffset !== 0)
-            intReturn += (this.#UTCMinutesOffset * 60_000)
+            // Add offset
+            if (this.#UTCMinutesOffset !== 0)
+                intReturn += (this.#UTCMinutesOffset * 60_000)
 
 
-        return new Date(intReturn);
+            return new Date(intReturn);
+        }
+        else
+            // Get milliseconds ellapset in local time
+            return new Date(this.#DateParts.YYYY.value,
+                            this.#DateParts.MM.value - 1, // Javascript defines it this way... January = 0
+                            this.#DateParts.DD.value,
+                            this.#DateParts.hh.value,
+                            this.#DateParts.mm.value,
+                            this.#DateParts.ss.value,
+                            this.#DateParts.nnn.value);
     }
 
 
@@ -478,7 +481,6 @@ export class ParsedDate
                      .replace(/MM/g,     this.#DateParts.MM.value  .toString().padStart(2, "0"))
                      .replace(/DD/g,     this.#DateParts.DD.value  .toString().padStart(2, "0"))
                      .replace(/hh/g,     this.#DateParts.hh.value  .toString().padStart(2, "0"))
-                     .replace(/HH/g,     this.#DateParts.HH.value  .toString().padStart(2, "0"))
                      .replace(/mm/g,     this.#DateParts.mm.value  .toString().padStart(2, "0"))
                      .replace(/ss/g,     this.#DateParts.ss.value  .toString().padStart(2, "0"))
                      .replace(/nnn/g,    this.#DateParts.nnn.value .toString().padStart(3, "0"))

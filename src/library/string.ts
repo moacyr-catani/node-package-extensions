@@ -1,6 +1,7 @@
 import { IStringLib}             from "./interfaces/string.js"
 import { DateLib }               from "./date.js";
-import { StringExtractionResult} from "./../common/index.js"
+import { ParsedDate, 
+         StringExtractionResult} from "./../common/index.js"
 
 
 
@@ -84,241 +85,6 @@ function EscapeRegExp(p_String: string): string
 
 // #endregion
 // ------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-// // ------------------------------------------------------------------------------------------------------------------------------
-// // #region Interface
-// // ------------------------------------------------------------------------------------------------------------------------------
-
-// interface IStringLib
-// {
-//     /**
-//      * Extracts string among specific substrings
-//      * @param {string|string[]} start String or strings (array) that are just before the text you are looking for
-//      * @param {string|string[]} end   String or strings (array) that are just after the text you are looking for
-//      * @param {boolean}         words If true, indicate the text you are looking for is surrounded by 'non word' characters, i.e.: spaces, tabs, new lines, ...
-//      * @example 
-//      * const procedure = 
-//      * `CREATE PROCEDURE sp_Test
-//      * AS
-//      * SELECT * FROM [TABLE]`
-//      * 
-//      * const procName  = procedure.$_extractBetween(["PROCEDURE", "PROC"], "", true).value;
-//      * const statement = procedure.$_extractBetween("AS", "", true).value;
-//      */
-//     extractBetween( value:  string,
-//                     start?: string | string[] | undefined,
-//                     end?:   string | string[] | undefined,
-//                     words?: boolean ): StringExtractionResult;                          
-
-
-
-
-//     /**
-//      * Decodes Base64Url value into string
-//      */
-//     fromBase64Url( value: string ): string;
-
-
-
-
-//     /**
-//      * Checks if a string represents a valid integer value in decimal format (using numerals from 0 to 9)
-//      */
-//     isInt( value: string ): boolean;
-//     /**
-//      * Checks if a string represents a valid integer in decimal format (using numerals from 0 to 9)
-//      * @param {string} thousandSeparator Character used to separate thousands groups
-//      */
-//     isInt( value:             string,
-//            thousandSeparator: string ): boolean;
-
-
-
-
-//     /**
-//      * Checks if a string represents a valid number in decimal format (using numerals from 0 to 9)
-//      */
-//     isNumber( value: string ): boolean;
-//     /**
-//      * Checks if a string represents a valid number in decimal format (using numerals from 0 to 9)
-//      * @param {string} thousandSeparator Character used to separate thousands groups
-//      * @param {string} decimalSeparator Character used to separate decimal part
-//      */
-//     isNumber( value:             string,
-//               thousandSeparator: string,
-//               decimalSeparator:  string ): boolean;
-    
-
-
-
-//     /**
-//      * Replaces a substring for a new value.
-//      * All occurrences of the searched string will be replaced
-//      * @param {string}  search String to be searched and replaced
-//      * @param {string}  newValue New string
-//      * @param {boolean} caseInsensitive If true, casing of the searched string will be ignored
-//      */
-//     replace(value:            string,
-//             search:           string,
-//             newValue:         string,
-//             caseInsensitive?: boolean): string;
-//     /**
-//      * Replaces several substrings for a new value.
-//      * All occurrences of the searched string will be replaced
-//      * @param {string[]} search Array with strings to be searched and replaced
-//      * @param {string}   newValue New string
-//      * @param {boolean}  caseInsensitive If true, casing of the searched string will be ignored
-//      */
-//     replace( value:            string,
-//              search:           string[],
-//              newValue:         string,
-//              caseInsensitive?: boolean): string;
-
-
-
-
-//     /**
-//      * Remove sequential latin characters
-//      * @example "immediately " will be replaced by "imediately "
-//      */
-//     removeSequentialLatinLetters( value: string ): string;
-
-
-
-
-//     /**
-//      * Encodes string into Base64Url value
-//      */
-//     toBase64Url( value: string ): string;
-
-
-
-
-//     /**
-//      * Keeps only basic latin letter
-//      * @example "á ô ç ñ" will be replaced by "a o c n"
-//      */
-//     toBasicLatinLetters( value: string ): string
-
-
-
-
-//     /**
-//      * Returns a date from a string
-//      * @param parseFormat String representing how date is written in string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
-//      */
-//     toDate( value:       string,
-//             parseFormat: string ): Date | undefined;
-
-
-
-
-//     /**
-//      * Returns a string representing a parsed datetime value from another string in provided format
-//      * @param parsedFormat Representation of how datetime value is written in original string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
-//      * @param resultFormat Representation of how datetime value must be written in result string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
-//      */
-//     toDateString( value:        string,
-//                   parseFormat:  string,
-//                   resultFormat: string ): string | undefined;
-
-
-
-
-//     /**
-//      * Returns a decimal number from a string
-//      */
-//     toDecimal( value: string ): number | undefined;
-//     /**
-//      * Returns a decimal number from a string
-//      * @param {string} decimalSeparator  Character used to separate decimal part
-//      */
-//     toDecimal( value:            string,
-//                decimalSeparator: string ): number | undefined;
-//     /**
-//      * Returns a decimal number from a string
-//      * @param {string} decimalSeparator  Character used to separate decimal part
-//      * @param {string} thousandSeparator Character used to separate thousands groups
-//      */
-//     toDecimal( value:             string,
-//                decimalSeparator:  string,
-//                thousandSeparator: string ): number | undefined;
-
-
-
-
-//     /**
-//      * Returns an integer number from a string
-//      */
-//     toInt( value: string ): number | undefined;
-//     /**
-//      * Returns an integer number from a string
-//      * @param {string} thousandSeparator Character used to separate thousands groups
-//      */
-//     toInt( value:             string,
-//            thousandSeparator: string ): number | undefined;
-
-    
-
-
-//     /**
-//      * Removes specific string or strings (array) from the beginning and the end of a string 
-//      * @param {string|string[]} entries String or strings (array) to be removed
-//      */
-//     trim( value:   string,
-//           entries: string | string[] ): string;
-//     /**
-//      * Removes specific string or strings (array) from the beginning and the end of a string 
-//      * @param {string|string[]} entries String or strings (array) to be removed
-//      * @param {boolean} caseSensitive True indicates that the search should respect entries casing
-//      */
-//     trim( value:          string,
-//           entries:        string | string[], 
-//           caseSensitive?: boolean ): string;
-
-
-
-
-//     /**
-//      * Removes specific string or strings (array) from the end a string 
-//      * @param {string|string[]} entries String or strings (array) to be removed
-//      */
-//     trimEnd( value:   string,
-//              entries: string | string[] ): string;
-//     /**
-//      * Removes specific string or strings (array) from the end a string 
-//      * @param {string|string[]} entries String or strings (array) to be removed
-//      * @param {boolean} caseSensitive True indicates that the search should respect entries casing
-//      */
-//     trimEnd( value:          string,
-//              entries:        string | string[], 
-//              caseSensitive?: boolean ): string;
-
-
-
-
-//     /**
-//      * Removes specific string or strings (array) from the beginning a string 
-//      * @param {string|string[]} entries String or strings (array) to be removed
-//      */
-//     trimStart( value:   string,
-//                entries: string | string[] ): string;
-//     /**
-//      * Removes specific string or strings (array) from the beginning a string 
-//      * @param {string|string[]} entries String or strings (array) to be removed
-//      * @param {boolean} caseSensitive True indicates that the search should respect entries casing
-//      */
-//     trimStart( value:          string,
-//                entries:        string | string[], 
-//                caseSensitive?: boolean ): string;
-// }
-
-// // #endregion
-// // ------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -622,157 +388,163 @@ const StringLib: IStringLib =
     toDate( p_Value:       string,
             p_ParseFormat: string ): Date | undefined
     {
-        const objDateParts: any = 
-        {
-            YYYY:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       NaN  // If not present, throws error
-            },
-            YY:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       NaN  // If not present, throws error
-            },
-            MM:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       NaN  // If not present, throws error
-            },
-            DD:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       NaN  // If not present, throws error
-            },
-            hh:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       0  // If not present, defaults to 0
-            },
-            mm:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       0  // If not present, defaults to 0
-            },
-            ss:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       0  // If not present, defaults to 0
-            },
-            nnn:
-            {
-                index_start: -1,
-                index_end:   -1,
-                value:       0  // If not present, defaults to 0
-            }
-        }
+        const objParse: ParsedDate = new ParsedDate(p_Value, p_ParseFormat, StringLib);
 
-
-        // Scans string for value holders
-        for (const strDatePart in objDateParts)
-        {
-            objDateParts[strDatePart].index_start = p_ParseFormat.indexOf(strDatePart);
-            objDateParts[strDatePart].index_end   = objDateParts[strDatePart].index_start + strDatePart.length;
-
-            if (objDateParts[strDatePart].index_start >= 0)
-            {
-                // Get substring from date part position
-                const strValue: string = p_Value
-                                        .substring(objDateParts[strDatePart].index_start,
-                                                    objDateParts[strDatePart].index_end)
-                                        .trim();
-
-                // Tries to convert to int only if string represents a valid integer
-                if ( StringLib.isInt(strValue)) //  strValue.$_isInt())
-                    objDateParts[strDatePart].value = StringLib.toInt(strValue); //  strValue.$_toInt();
-
-
-                // "Removes" parsed part
-                p_ParseFormat.replace(strDatePart, "*".repeat(strDatePart.length));
-            }
-        }
-
-
-        // Validate values
-        let intDayMax:   number  = 0;
-        let blnLeapYear: boolean = (objDateParts.YYYY.value % 4 == 0);
-
-
-        // Defines maximum day number for every month, including February on leap years
-        if ( 1  == objDateParts.MM.value ||
-             3  == objDateParts.MM.value ||
-             5  == objDateParts.MM.value ||
-             7  == objDateParts.MM.value ||
-             8  == objDateParts.MM.value ||
-             10 == objDateParts.MM.value ||
-             12 == objDateParts.MM.value)
-             intDayMax = 31;
-
-        else if (2 == objDateParts.MM.value)
-            intDayMax = 28 + (blnLeapYear ? 1 : 0);
-
-
-        else
-            intDayMax = 30;
-
-            
-        // Month
-        if (objDateParts.MM.value < 1 || objDateParts.MM.value > 12)
-            return undefined;
-
-        
-        // Day
-        if (objDateParts.DD.value < 1 || objDateParts.DD.value > intDayMax)
-            return undefined;
-
-
-        // Hours
-        if (objDateParts.hh.value < 0 || objDateParts.hh.value > 23)
-            return undefined;
-
-        
-        // Minutes
-        if (objDateParts.mm.value < 0 || objDateParts.mm.value > 59)    
-            return undefined;
-
-        
-        // Seconds
-        if (objDateParts.ss.value < 0 || objDateParts.ss.value > 59)
-            return undefined;
-
-        
-        // Milliseconds. It is not needed to check, since all values in range are valid (0 - 999)
-
-
-
-        // Create new date value
-        const dtmResult: Date = new Date(objDateParts.YYYY.value,
-                                         objDateParts.MM.value - 1, // Javascript defines it this way... January = 0
-                                         objDateParts.DD.value,
-                                         objDateParts.hh.value,
-                                         objDateParts.mm.value,
-                                         objDateParts.ss.value,
-                                         objDateParts.nnn.value);
-
-
-        // Adjust for timezone
-        //const userTimezoneOffset: number = dtmResult.getTimezoneOffset() * 60000;
-        //return new Date(dtmResult.getTime() - userTimezoneOffset);
-
-
-        // Checks if date is valid
-        if (dtmResult instanceof Date && !isNaN(dtmResult.getTime()))
-            return dtmResult;    
-
+        if (!objParse.Invalid)
+            return objParse.toDate();
 
         return undefined;
+        // const objDateParts: any = 
+        // {
+        //     YYYY:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       NaN  // If not present, throws error
+        //     },
+        //     YY:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       NaN  // If not present, throws error
+        //     },
+        //     MM:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       NaN  // If not present, throws error
+        //     },
+        //     DD:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       NaN  // If not present, throws error
+        //     },
+        //     hh:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       0  // If not present, defaults to 0
+        //     },
+        //     mm:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       0  // If not present, defaults to 0
+        //     },
+        //     ss:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       0  // If not present, defaults to 0
+        //     },
+        //     nnn:
+        //     {
+        //         index_start: -1,
+        //         index_end:   -1,
+        //         value:       0  // If not present, defaults to 0
+        //     }
+        // }
+
+
+        // // Scans string for value holders
+        // for (const strDatePart in objDateParts)
+        // {
+        //     objDateParts[strDatePart].index_start = p_ParseFormat.indexOf(strDatePart);
+        //     objDateParts[strDatePart].index_end   = objDateParts[strDatePart].index_start + strDatePart.length;
+
+        //     if (objDateParts[strDatePart].index_start >= 0)
+        //     {
+        //         // Get substring from date part position
+        //         const strValue: string = p_Value
+        //                                 .substring(objDateParts[strDatePart].index_start,
+        //                                             objDateParts[strDatePart].index_end)
+        //                                 .trim();
+
+        //         // Tries to convert to int only if string represents a valid integer
+        //         if ( StringLib.isInt(strValue)) //  strValue.$_isInt())
+        //             objDateParts[strDatePart].value = StringLib.toInt(strValue); //  strValue.$_toInt();
+
+
+        //         // "Removes" parsed part
+        //         p_ParseFormat.replace(strDatePart, "*".repeat(strDatePart.length));
+        //     }
+        // }
+
+
+        // // Validate values
+        // let intDayMax:   number  = 0;
+        // let blnLeapYear: boolean = (objDateParts.YYYY.value % 4 == 0);
+
+
+        // // Defines maximum day number for every month, including February on leap years
+        // if ( 1  == objDateParts.MM.value ||
+        //      3  == objDateParts.MM.value ||
+        //      5  == objDateParts.MM.value ||
+        //      7  == objDateParts.MM.value ||
+        //      8  == objDateParts.MM.value ||
+        //      10 == objDateParts.MM.value ||
+        //      12 == objDateParts.MM.value)
+        //      intDayMax = 31;
+
+        // else if (2 == objDateParts.MM.value)
+        //     intDayMax = 28 + (blnLeapYear ? 1 : 0);
+
+
+        // else
+        //     intDayMax = 30;
+
+            
+        // // Month
+        // if (objDateParts.MM.value < 1 || objDateParts.MM.value > 12)
+        //     return undefined;
+
+        
+        // // Day
+        // if (objDateParts.DD.value < 1 || objDateParts.DD.value > intDayMax)
+        //     return undefined;
+
+
+        // // Hours
+        // if (objDateParts.hh.value < 0 || objDateParts.hh.value > 23)
+        //     return undefined;
+
+        
+        // // Minutes
+        // if (objDateParts.mm.value < 0 || objDateParts.mm.value > 59)    
+        //     return undefined;
+
+        
+        // // Seconds
+        // if (objDateParts.ss.value < 0 || objDateParts.ss.value > 59)
+        //     return undefined;
+
+        
+        // // Milliseconds. It is not needed to check, since all values in range are valid (0 - 999)
+
+
+
+        // // Create new date value
+        // const dtmResult: Date = new Date(objDateParts.YYYY.value,
+        //                                  objDateParts.MM.value - 1, // Javascript defines it this way... January = 0
+        //                                  objDateParts.DD.value,
+        //                                  objDateParts.hh.value,
+        //                                  objDateParts.mm.value,
+        //                                  objDateParts.ss.value,
+        //                                  objDateParts.nnn.value);
+
+
+        // // Adjust for timezone
+        // //const userTimezoneOffset: number = dtmResult.getTimezoneOffset() * 60000;
+        // //return new Date(dtmResult.getTime() - userTimezoneOffset);
+
+
+        // // Checks if date is valid
+        // if (dtmResult instanceof Date && !isNaN(dtmResult.getTime()))
+        //     return dtmResult;    
+
+
+        // return undefined;
     },
 
 

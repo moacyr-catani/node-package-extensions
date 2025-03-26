@@ -21,52 +21,95 @@ describe("Number library", () =>
                                                       IntegerRepresentations.StringBinary))
         .toBe("101111000110000101001111");
 
+
         expect( XT.Number.changeIntegerRepresentation("0b101111000110000101001111", 
                                                        IntegerRepresentations.Number,
                                                        IntegerRepresentations.StringBinary))
         .toBe(12345679);
+
+
+        expect( XT.Number.changeIntegerRepresentation("101111000110000101001111", 
+                                                       IntegerRepresentations.Number,
+                                                       IntegerRepresentations.StringBinary))
+        .toBe(12345679);
+
+
+        expect( XT.Number.changeIntegerRepresentation("0b101111000110000101001111", 
+                                                       IntegerRepresentations.Number))
+        .toBe(12345679);
+
+
+        expect( XT.Number.changeIntegerRepresentation("12345679", 
+                                                       IntegerRepresentations.StringBinary))
+        .toBe("101111000110000101001111");
+
 
         expect( XT.Number.changeIntegerRepresentation("101111000110000101001111", 
                                                       IntegerRepresentations.Number,
                                                       IntegerRepresentations.StringBinary))
         .toBe(12345679);
 
+
         expect( XT.Number.changeIntegerRepresentation(12345679, 
                                                       IntegerRepresentations.StringHexadecimal))
         .toBe("bc614f");
+
 
         expect( XT.Number.changeIntegerRepresentation("0xbc614f", 
                                                       IntegerRepresentations.Number,
                                                       IntegerRepresentations.StringHexadecimal))
         .toBe(12345679);
 
+
         expect( XT.Number.changeIntegerRepresentation("bc614f", 
                                                       IntegerRepresentations.Number,
                                                       IntegerRepresentations.StringHexadecimal))
         .toBe(12345679);
 
+
         expect( XT.Number.changeIntegerRepresentation(12345679, 
                                                       IntegerRepresentations.StringOctal))
         .toBe("57060517");
+
 
         expect( XT.Number.changeIntegerRepresentation("0o57060517",
                                                       IntegerRepresentations.Number, 
                                                       IntegerRepresentations.StringOctal))
         .toBe(12345679);
 
+
         expect( XT.Number.changeIntegerRepresentation("57060517",
                                                       IntegerRepresentations.Number, 
                                                       IntegerRepresentations.StringOctal))
         .toBe(12345679);
 
+
+        expect( XT.Number.changeIntegerRepresentation("0o57060517",
+                                                      IntegerRepresentations.Number))
+        .toBe(12345679);
+
+
+        expect( XT.Number.changeIntegerRepresentation("57060517",
+                                                      IntegerRepresentations.Number, 
+                                                      IntegerRepresentations.StringOctal))
+        .toBe(12345679);
+
+
         expect( XT.Number.changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
                                                       IntegerRepresentations.BigInt))
         .toBe(932813181816876619725749033491n);
+
+
+        expect( XT.Number.changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
+                                                      IntegerRepresentations.StringDecimal))
+        .toBe("932813181816876619725749033491");
+
 
         expect( XT.Number.changeIntegerRepresentation("bc614faa872dc46efdf3f1a13", 
                                                       IntegerRepresentations.BigInt,
                                                       IntegerRepresentations.StringHexadecimal))
         .toBe(932813181816876619725749033491n);
+
 
         expect( XT.Number.changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
                                                       IntegerRepresentations.StringHexadecimal))
@@ -76,6 +119,61 @@ describe("Number library", () =>
         expect( XT.Number.changeIntegerRepresentation(932813181816876619725749033491n, 
                                                       IntegerRepresentations.StringHexadecimal))
         .toBe("bc614faa872dc46efdf3f1a13");
+
+
+        expect( XT.Number.changeIntegerRepresentation(9328131818168766197257490334591n, 
+                                                      IntegerRepresentations.StringBase64))
+        .toBe("dbzRypR8msVeuHcDfw==");
+
+
+        expect( XT.Number.changeIntegerRepresentation("dbzRypR8msVeuHcDfw==", 
+                                                      IntegerRepresentations.BigInt,
+                                                      IntegerRepresentations.StringBase64))
+        .toBe(9328131818168766197257490334591n);
+
+
+        expect( XT.Number.changeIntegerRepresentation(932813181816876619725749033491n, 
+                                                      IntegerRepresentations.StringBase64Url))
+        .toBe("C8YU-qhy3Ebv3z8aEw");
+
+
+        expect( XT.Number.changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+                                                      IntegerRepresentations.BigInt,
+                                                      IntegerRepresentations.StringBase64Url))
+        .toBe(932813181816876619725749033491n);
+
+
+        expect( XT.Number.changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+                                                      IntegerRepresentations.StringBase36,
+                                                      IntegerRepresentations.StringBase64Url))
+        .toBe("2ifrat1mfib4p9c1e0b7");
+
+
+        expect( XT.Number.changeIntegerRepresentation("2ifrat1mfib4p9c1e0b7", 
+                                                      IntegerRepresentations.BigInt,
+                                                      IntegerRepresentations.StringBase36))
+        .toBe(932813181816876619725749033491n);
+
+
+        const objBuffer: Buffer = Buffer.from([98, 112])
+        expect( XT.Number.changeIntegerRepresentation(objBuffer, 
+                                                      IntegerRepresentations.Number))
+        .toBe(25_200);
+
+
+        expect( XT.Number.changeIntegerRepresentation(objBuffer, 
+                                                      IntegerRepresentations.Number,
+                                                      IntegerRepresentations.BufferUInt8))
+        .toBe(25_200);
+
+
+        const objBuffer2: Buffer = <Buffer>XT.Number.changeIntegerRepresentation(25_200, 
+                                                                                 IntegerRepresentations.BufferUInt8)
+        expect( objBuffer2[0] )
+        .toBe(98)
+
+        expect( objBuffer2[1] )
+        .toBe(112)
     });                                                 
 
 
@@ -86,6 +184,11 @@ describe("Number library", () =>
         .toThrow();
 
         expect( () => XT.Number.changeIntegerRepresentation(12345679, IntegerRepresentations.StringBase64, <IntegerRepresentations>"invalid"))
+        .toThrow();
+
+        expect( () => XT.Number.changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+                                                            IntegerRepresentations.Number,
+                                                            IntegerRepresentations.StringBase64Url))
         .toThrow();
     });     
 
@@ -104,10 +207,10 @@ describe("Number library", () =>
     
     test("toDecimal -> invalid", () =>
     {
-        expect( XT.Number.toDecimalString(Infinity, 2))
+        expect( XT.Number.toDecimal(Infinity, 2))
         .toBeUndefined();
 
-        expect( XT.Number.toDecimalString(10/0, 1))
+        expect( XT.Number.toDecimal(10/0, 1))
         .toBeUndefined();
     });                                                 
 

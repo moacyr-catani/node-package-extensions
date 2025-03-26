@@ -1,1 +1,1 @@
-export const DATETIME_FORMAT_ISO: string = "YYYY-MM-DDTHH:mm:ss.nnnOFFSET";
+export const DATETIME_FORMAT_ISO: string = "YYYY-MM-DDThh:mm:ss.nnnOFFSET";

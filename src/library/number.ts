@@ -1,3 +1,4 @@
+import { INumberLib } from "./interfaces/number.js"
 import { StringLib }              from "./string.js";
 import { DecimalPlaces,
          IntegerRepresentations } from "./../common/index.js"
@@ -97,67 +98,6 @@ function _formatInteger(p_Value: string,
 
 
 
-// ------------------------------------------------------------------------------------------------------------------------------
-// #region Interface
-// ------------------------------------------------------------------------------------------------------------------------------
-
-interface INumberLib
-{
-    changeIntegerRepresentation (value:               number | bigint | string | Buffer,
-                                 toRepresentation:    IntegerRepresentations,
-                                 fromRepresentation?: IntegerRepresentations): number | bigint | string | Buffer ;
-
-
- 
-                                 
-    /**
-     * Creates a random integer with size from 1 to 128 bytes (extremelly huge number).
-     * @param {number} p_SizeInBytes Size of the random integer in bytes (from 1 to 128)
-     * @param {IntegerRepresentations} p_ReturnIn The format to return the created integer
-     * @example
-     * // Create a 64 bits (8 bytes) random integer and return it as BigInt
-     * const bigNumber: BigInt = Number.$_randomInt(8, IntegerRepresentations.BigInt);
-     */
-    randomInt (sizeInBytes: number, 
-               returnIn:    IntegerRepresentations): number | bigint | string | ArrayBuffer;
-
-
-    toDecimal (value:         number,
-               decimalPlaces: DecimalPlaces): number | undefined;
- 
-
-    toDecimalString (value:             number): string | undefined;
-
-    toDecimalString (value:             number,
-                     decimalPlaces:     DecimalPlaces): string | undefined;
-
-    toDecimalString (value:             number,
-                     decimalPlaces:     DecimalPlaces,
-                     decimalSeparator:  string): string | undefined;
-
-    toDecimalString (value:             number,
-                     decimalPlaces:     DecimalPlaces,
-                     decimalSeparator:  string,
-                     thousandSeparator: string): string | undefined;
-
-
-    toInt (value: number): number | undefined;
-
-
-
-    toIntString (value:             number): string | undefined;
-
-    toIntString (value:             number,
-                 thousandSeparator: string): string | undefined;
-
-
-
-}
-
-// #endregion
-// ------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 
@@ -196,7 +136,7 @@ const NumberLib: INumberLib =
                 }
 
                 // Decimal
-                else if ( StringLib.isInt(p_Value) ) // p_Value.$_isInt())
+                if ( "undefined" === typeof p_fromRepresentation && StringLib.isInt(p_Value) )
                     p_fromRepresentation = IntegerRepresentations.StringDecimal;
             }
 
@@ -283,9 +223,6 @@ const NumberLib: INumberLib =
             case IntegerRepresentations.StringBase64Url:
                 intValue = BigInt( `0x${Buffer.from(<string>p_Value, 'base64url').toString('hex')}` );
                 break;
-
-            default:
-                throw new Error("Something while generating random integer.")
         }
 
 
@@ -297,14 +234,12 @@ const NumberLib: INumberLib =
                 
 
             case IntegerRepresentations.Number:
-                try
-                {
+                if (intValue <= Number.MAX_SAFE_INTEGER &&
+                    intValue >= Number.MIN_SAFE_INTEGER )
                     return Number(intValue);
-                }
-                catch (p_Exception)
-                {
+
+                else
                     throw new Error("Value cannot be represented in number type");
-                }
 
 
             case IntegerRepresentations.BufferUInt8:
@@ -337,10 +272,6 @@ const NumberLib: INumberLib =
 
             case IntegerRepresentations.StringOctal:
                 return intValue!.toString(8);
-
-                
-            default:
-                throw new Error("Something while generating random integer.")
         }
     },
 
@@ -542,4 +473,4 @@ const NumberLib: INumberLib =
 
 // Export object
 Object.seal(NumberLib)
-export  { INumberLib, NumberLib };
+export  { NumberLib };

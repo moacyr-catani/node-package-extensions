@@ -8,7 +8,8 @@ export default
         "/tests/"
     ],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', "d.ts"],
-    preset: 'ts-jest',
+    preset: "ts-jest/presets/js-with-ts", //'ts-jest',
+    
     maxWorkers: 1,
     reporters:       
     [
@@ -31,6 +32,7 @@ export default
           "ts-jest",
           {
             useESM: true,
+            tsconfig: "<rootDir>/tsconfig.json"
           },
         ]
       },
