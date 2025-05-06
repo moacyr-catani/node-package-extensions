@@ -1,11 +1,18 @@
 export interface IAssertLib
 {
+    date(value:            Date | number): Date | null;
+
     date(value:            Date | number,
          alternativeValue: Date): Date;
 
     date(value:            string,
+         parseFormat:      string): Date | null;
+
+    date(value:            string,
          parseFormat:      string,
          alternativeValue: Date): Date;
+
+    decimal(value: string | number): number | null;
 
     decimal(value:            string | number,
             alternativeValue: number): number;

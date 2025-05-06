@@ -4,8 +4,7 @@
     "description": "A package to add util extensions to JavaScript basic types and objects ",
     "version": "1.0.0",
     "license": "MIT",
-    "keywords": [
-    ],
+    "keywords": [],
     "homepage": "https://https://github.com/moacyr-catani/node-package-extensions#readme",
     "bugs": {
         "url": "https://github.com/moacyr-catani/node-package-extensions/issues"
@@ -28,6 +27,7 @@
         "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
         "build:local": "tsc -p ./configs/tsconfig.library.local.json",
         "clean": "shx rm -rf ./lib",
+        "docs": "typedoc --options configs/typedoc.json",
         "examples": "npm run build:local && node ./dist/examples/index.js",
         "prepack": "npm run build",
         "test": "jest --config=./configs/jest.config.library.ts",
@@ -39,10 +39,13 @@
         "@types/jest": "^29.5.14",
         "@types/node": "^22.13.5",
         "jest": "^29.7.0",
+        "jsdoc": "^4.0.4",
         "shx": "^0.3.4",
         "ts-jest": "^29.2.6",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.3",
+        "typedoc": "^0.28.4",
+        "typedoc-plugin-markdown": "^4.6.3",
         "typescript": "^5.7.3"
     }
 }

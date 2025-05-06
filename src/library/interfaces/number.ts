@@ -14,15 +14,31 @@ export interface INumberLib
     isInt (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 8 bits signed integer; i.e. is in the range -128 (-2⁷) and 127 (2⁷ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isInt8 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 16 bits signed integer; i.e. is in the range -32,768 (-2¹⁵) and 32,767 (2¹⁵ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isInt16 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 32 bits signed integer; i.e. is in the range -2,147,483,648 (-2³¹) and 2,147,483,647 (2³¹ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isInt32 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 64 bits signed integer; i.e. is in the range -9,223,372,036,854,775,808 (-2⁶³) and 9,223,372,036,854,775,807 (2⁶³ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isInt64 (value: number | bigint): boolean;
 
 
