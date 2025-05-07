@@ -117,6 +117,19 @@ export interface IStringLib
 
 
     /**
+     * Returns a big integer number from a string
+     */
+    toBigInt( value: string ): bigint | undefined;
+    /**
+     * Returns a big integer number from a string
+     * @param {string} thousandSeparator Character used to separate thousands groups
+     */
+    toBigInt( value:             string,
+              thousandSeparator: string ): bigint | undefined;
+
+
+
+    /**
      * Returns a date from a string
      * @param parseFormat String representing how date is written in string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
      */

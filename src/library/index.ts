@@ -1,3 +1,7 @@
+import { IAssertLib}   from "./interfaces/assert.js";
+import { AssertLib}    from "./assert.js";
+
+
 import { IDateLib}   from "./interfaces/date.js";
 import { DateLib}    from "./date.js";
 
@@ -12,6 +16,7 @@ import { StringLib}   from "./string.js";
 
 interface IXT
 {
+    Assert: IAssertLib,
     Date:   IDateLib,
     Number: INumberLib,
     String: IStringLib
@@ -20,7 +25,8 @@ interface IXT
 
 const XT: IXT = 
 {
-    Date:  DateLib,
+    Assert: AssertLib,
+    Date:   DateLib,
     Number: NumberLib,
     String: StringLib
 }
@@ -32,6 +38,7 @@ Object.seal(XT);
 export 
 { 
     IXT,
+    IAssertLib,
     IDateLib,
     INumberLib,
     IStringLib,

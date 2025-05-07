@@ -11,6 +11,19 @@ export interface INumberLib
 
  
                
+    /**
+     * Creates a random integer with size from 1 to 128 bytes (extremelly huge number).
+     * @param {number} sizeInBytes Size of the random integer in bytes (from 1 to 128)
+     * @param {IntegerRepresentations} returnIn The format to return the created integer
+     * @example
+     * // Create a 64 bits (8 bytes) random integer and return it as BigInt
+     * const bigNumber: BigInt = Number.$_randomInt(8, IntegerRepresentations.BigInt);
+     */
+    createRandomInt (sizeInBytes: number, 
+                     returnIn:    IntegerRepresentations): number | bigint | string | ArrayBuffer;
+
+
+
     isInt (value: number | bigint): boolean;
 
 
@@ -42,28 +55,42 @@ export interface INumberLib
     isInt64 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 8 bits unsigned integer; i.e. is in the range 0 and 255 (2⁸ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isUInt8 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 16 bits unsigned integer; i.e. is in the range 0 and 65,535 (2¹⁶ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isUInt16 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid 32 bits unsigned integer; i.e. is in the range 0 and 4,294,967,295 (2³² - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isUInt32 (value: number | bigint): boolean;
 
 
+    /**
+     * Checks if the provided parameter is a valid number; i.e. it is not NaN or Infinity
+     * @param {number} value Value to be checked.
+     */
+    isValid (value: number): boolean;
+
+    
+    /**
+     * Checks if the provided parameter is a valid 32 bits unsigned integer; i.e. is in the range 0 and 18,446,744,073,709,551,615 (2⁶⁴ - 1).
+     * @param {number | bigint} value Value to be checked.
+     */
     isUInt64 (value: number | bigint): boolean;
 
 
-    /**
-     * Creates a random integer with size from 1 to 128 bytes (extremelly huge number).
-     * @param {number} p_SizeInBytes Size of the random integer in bytes (from 1 to 128)
-     * @param {IntegerRepresentations} p_ReturnIn The format to return the created integer
-     * @example
-     * // Create a 64 bits (8 bytes) random integer and return it as BigInt
-     * const bigNumber: BigInt = Number.$_randomInt(8, IntegerRepresentations.BigInt);
-     */
-    randomInt (sizeInBytes: number, 
-               returnIn:    IntegerRepresentations): number | bigint | string | ArrayBuffer;
+    toBigInt (p_Value: number | bigint): bigint | undefined;
 
 
     toDecimal (value:         number,

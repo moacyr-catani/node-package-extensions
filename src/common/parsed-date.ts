@@ -494,18 +494,6 @@ export class ParsedDate
         return this.toString( Constants.DATETIME_FORMAT_ISO);
     }
 
-
-    // public toUTCString(format: string): string
-    // {
-
-    // }
-
-
-    // public toUTCStringISO(): string
-    // {
-
-    // }
-
     // #endregion
     // ------------------------------------------------------------------------------------------------------------------------------
 }

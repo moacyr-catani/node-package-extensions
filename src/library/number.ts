@@ -293,6 +293,133 @@ const NumberLib: INumberLib =
     },
 
 
+    createRandomInt (p_SizeInBytes: number, 
+                     p_ReturnIn:    IntegerRepresentations = IntegerRepresentations.BigInt): number | bigint | string | ArrayBuffer
+    {
+        // Check params 
+        //-------------------------------------------------------------------------------------------------------------
+
+        // Assure it is an integer
+        p_SizeInBytes = Math.round(p_SizeInBytes);
+        
+        if (isNaN(p_SizeInBytes) || (p_SizeInBytes < 1 ||
+                                    p_SizeInBytes > 128))
+            throw "Size of random number in bytes must be a positive integer between 1 and 128";
+
+        if (p_SizeInBytes > 6 && p_ReturnIn === IntegerRepresentations.Number)
+            throw "'Number' type can be used only for 6 bytes or less";
+        //-------------------------------------------------------------------------------------------------------------
+
+        
+
+        // Variables
+        //let intRandom: bigint;
+        let strHex:    string = "";
+        let strBin:    string = "";
+        let bufBytes:  Buffer;
+
+
+
+        // Method 2 (crypto), better for 9 bytes or more ...
+        if (p_SizeInBytes >= 9)
+        {
+            // Generate random bytes
+            bufBytes = Buffer.alloc(p_SizeInBytes);
+            Crypto.getRandomValues(bufBytes);
+
+
+            // Get value in hexadecimal
+            strHex = `0x${bufBytes.toString('hex')}`;
+        }
+
+
+        // ... Method 2 (bit array), better for 8 bytes or less
+        else
+        {
+            // Variables
+            const intSize: number        = p_SizeInBytes * 8;
+            const arrBits: Array<number> = new Array(intSize);
+
+
+            // Creates a random boolean value (0|1) for each spot in string
+            for (let intA: number = 0; intA < intSize; intA++)
+            {
+                arrBits[intA] = Math.round(Math.random());
+            }
+
+
+            // Convert binary string representation to BigInt
+            strBin = `0b${arrBits.join("")}`;
+        }
+
+
+        // Return
+        switch (p_ReturnIn)
+        {
+            case IntegerRepresentations.BigInt:
+                return BigInt(strBin || strHex);
+
+
+            case IntegerRepresentations.BufferUInt8:
+                if (p_SizeInBytes >= 9)
+                    return bufBytes!;
+
+                else
+                    return _convertIntToBuffer(BigInt(strBin));
+
+            case IntegerRepresentations.Number:
+                return Number(strBin);
+
+
+            case IntegerRepresentations.StringBase36:
+                return BigInt(strBin || strHex).toString(36);
+
+
+            case IntegerRepresentations.StringBase64:
+                if (p_SizeInBytes >= 9)
+                    return bufBytes!.toString('base64');
+
+                else
+                    return _convertIntToBuffer(BigInt(strBin)).toString('base64');
+
+
+            case IntegerRepresentations.StringBase64Url:
+                if (p_SizeInBytes >= 9)
+                    return bufBytes!.toString('base64url');
+
+                else
+                    return _convertIntToBuffer(BigInt(strBin)).toString('base64url');
+
+
+            case IntegerRepresentations.StringBinary:
+                if (p_SizeInBytes < 9)
+                    return strBin.substring(2);
+
+                else
+                    return BigInt(strHex).toString(2);
+
+
+            case IntegerRepresentations.StringDecimal:
+                return BigInt(strBin || strHex).toString();
+
+
+            case IntegerRepresentations.StringOctal:
+                return BigInt(strBin || strHex).toString(8);
+
+
+            case IntegerRepresentations.StringHexadecimal:
+                if (p_SizeInBytes >= 9)
+                    return strHex.substring(2);
+
+                else
+                    return BigInt(strBin).toString(16);
+
+            default:
+                throw new Error("Something while generating random integer.")
+        }
+    },
+
+
 
     isInt (p_Value: number | bigint): boolean
     {
@@ -381,130 +508,28 @@ const NumberLib: INumberLib =
 
 
 
-    randomInt (p_SizeInBytes: number, 
-               p_ReturnIn:    IntegerRepresentations = IntegerRepresentations.BigInt): number | bigint | string | ArrayBuffer
+    isValid(p_Value: number): boolean 
     {
-        // Check params 
-        //-------------------------------------------------------------------------------------------------------------
-
-        // Assure it is an integer
-        p_SizeInBytes = Math.round(p_SizeInBytes);
-        
-        if (isNaN(p_SizeInBytes) || (p_SizeInBytes < 1 ||
-                                    p_SizeInBytes > 128))
-            throw "Size of random number in bytes must be a positive integer between 1 and 128";
-
-        if (p_SizeInBytes > 6 && p_ReturnIn === IntegerRepresentations.Number)
-            throw "'Number' type can be used only for 6 bytes or less";
-        //-------------------------------------------------------------------------------------------------------------
-
-        
-
-        // Variables
-        //let intRandom: bigint;
-        let strHex:    string = "";
-        let strBin:    string = "";
-        let bufBytes:  Buffer;
+        return !isNaN(p_Value) && isFinite(p_Value);        
+    },
 
 
 
-        // Method 2 (crypto), better for 9 bytes or more ...
-        if (p_SizeInBytes >= 9)
+    toBigInt (p_Value: number | bigint): bigint | undefined
+    {
+        if ("bigint" === typeof p_Value)
+            return p_Value;
+
+        if ("number" === typeof p_Value)
         {
-            // Generate random bytes
-            bufBytes = Buffer.alloc(p_SizeInBytes);
-            Crypto.getRandomValues(bufBytes);
+            const intNumber: number | undefined = NumberLib.toInt(p_Value)
 
-
-            // Get value in hexadecimal
-            strHex = `0x${bufBytes.toString('hex')}`;
+            if ("undefined" !== typeof intNumber)
+                return BigInt(intNumber)
         }
+            
 
-
-        // ... Method 2 (bit array), better for 8 bytes or less
-        else
-        {
-            // Variables
-            const intSize: number        = p_SizeInBytes * 8;
-            const arrBits: Array<number> = new Array(intSize);
-
-
-            // Creates a random boolean value (0|1) for each spot in string
-            for (let intA: number = 0; intA < intSize; intA++)
-            {
-                arrBits[intA] = Math.round(Math.random());
-            }
-
-
-            // Convert binary string representation to BigInt
-            strBin = `0b${arrBits.join("")}`;
-        }
-
-
-        // Return
-        switch (p_ReturnIn)
-        {
-            case IntegerRepresentations.BigInt:
-                return BigInt(strBin || strHex);
-
-
-            case IntegerRepresentations.BufferUInt8:
-                if (p_SizeInBytes >= 9)
-                    return bufBytes!;
-
-                else
-                    return _convertIntToBuffer(BigInt(strBin));
-
-            case IntegerRepresentations.Number:
-                return Number(strBin || strHex);
-
-
-            case IntegerRepresentations.StringBase36:
-                return BigInt(strBin || strHex).toString(36);
-
-
-            case IntegerRepresentations.StringBase64:
-                if (p_SizeInBytes >= 9)
-                    return bufBytes!.toString('base64');
-
-                else
-                    return _convertIntToBuffer(BigInt(strBin)).toString('base64');
-
-
-            case IntegerRepresentations.StringBase64Url:
-                if (p_SizeInBytes >= 9)
-                    return bufBytes!.toString('base64url');
-
-                else
-                    return _convertIntToBuffer(BigInt(strBin)).toString('base64url');
-
-
-            case IntegerRepresentations.StringBinary:
-                if (p_SizeInBytes < 9)
-                    return strBin.substring(2);
-
-                else
-                    return BigInt(strHex).toString(2);
-
-
-            case IntegerRepresentations.StringDecimal:
-                return BigInt(strBin || strHex).toString();
-
-
-            case IntegerRepresentations.StringOctal:
-                return BigInt(strBin || strHex).toString(8);
-
-
-            case IntegerRepresentations.StringHexadecimal:
-                if (p_SizeInBytes >= 9)
-                    return strHex.substring(2);
-
-                else
-                    return BigInt(strBin).toString(16);
-
-            default:
-                throw new Error("Something while generating random integer.")
-        }
+        return undefined
     },
 
 

@@ -219,6 +219,46 @@ describe("String library", () =>
 
 
 
+    test("toBigInt -> valid", () =>
+    {
+        expect( XT.String.toBigInt("1"))
+        .toBe(1n);
+
+        expect( XT.String.toBigInt("-5123456789"))
+        .toBe(-5123456789n);
+
+        expect( XT.String.toBigInt("12345682312316"))
+        .toBe(12345682312316n);
+
+        expect( XT.String.toBigInt("12.345.682.312.316", ".") )
+        .toBe(12345682312316n);
+
+        expect( XT.String.toBigInt("12,345,682,312,316", ","))
+        .toBe(12345682312316n);
+
+        expect( XT.String.toBigInt("12,345,682,312,316,545,545,555", ","))
+        .toBe(12345682312316545545555n);
+    });                                                 
+
+
+
+    test("toBigInt -> invalid", () =>
+    {
+        expect( XT.String.toBigInt("1d"))
+        .toBeUndefined();
+
+        expect( XT.String.toBigInt("-5.123456789"))
+        .toBeUndefined();
+
+        expect( XT.String.toBigInt("rtsd"))
+        .toBeUndefined();
+
+        expect( XT.String.toBigInt("12,345,682,312,316,545,545,555", "."))
+        .toBeUndefined();
+    });
+
+
+
     test("toDate -> valid", () =>
     {
         let dtmResult: Date | undefined;

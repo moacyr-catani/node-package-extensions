@@ -1,7 +1,8 @@
-import { IntegerRepresentations, XT } from "../src/index.js";
+import { XT } from "../src/index.js";
+//import { IntegerRepresentations, XT } from "../src/index.js";
 
-
-
+//XT.Assert.decimal("0,1", ",");
+XT.String.toBigInt("12,345,682,312,316,545,545,555", ".")
 
 // const strA: string = `
 // CREATE PROC sp_Teste
@@ -35,11 +36,11 @@ import { IntegerRepresentations, XT } from "../src/index.js";
 
 
 
-const nm = XT.Number.changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
-                                      IntegerRepresentations.Number,
-                                      IntegerRepresentations.StringBase64Url)
+// const nm = XT.Number.changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+//                                       IntegerRepresentations.Number,
+//                                       IntegerRepresentations.StringBase64Url)
 
-console.log(nm);
+// console.log(nm);
 /*
 
 import { ParsedDate } from "./../src/common/index.js";

@@ -194,6 +194,76 @@ describe("Number library", () =>
 
 
 
+    test("createRandomInt - valid", () =>
+    {
+        expect(typeof XT.Number.createRandomInt(6, IntegerRepresentations.Number))
+        .toBe("number");
+
+        expect(typeof XT.Number.createRandomInt(8, IntegerRepresentations.BigInt))
+        .toBe("bigint");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.BigInt))
+        .toBe("bigint");
+
+        expect(typeof XT.Number.createRandomInt(8, IntegerRepresentations.StringBase64))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringBase64))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(8, IntegerRepresentations.StringBase64Url))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringBase64Url))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringBase36))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(8, IntegerRepresentations.StringBinary))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringBinary))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringDecimal))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(8, IntegerRepresentations.StringHexadecimal))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringHexadecimal))
+        .toBe("string");
+
+        expect(typeof XT.Number.createRandomInt(12, IntegerRepresentations.StringOctal))
+        .toBe("string");
+
+        expect( XT.Number.createRandomInt(8, IntegerRepresentations.BufferUInt8))
+        .toBeInstanceOf(Buffer);
+
+        expect( XT.Number.createRandomInt(12, IntegerRepresentations.BufferUInt8))
+        .toBeInstanceOf(Buffer);
+    });
+
+
+
+    test("createRandomInt - invalid", () =>
+    {
+        expect(() => XT.Number.createRandomInt(7, IntegerRepresentations.Number))
+        .toThrow();
+
+        expect(() => XT.Number.createRandomInt(-1, IntegerRepresentations.BigInt))
+        .toThrow();
+
+        expect(() => XT.Number.createRandomInt(129, IntegerRepresentations.BigInt))
+        .toThrow();
+
+        expect(() => XT.Number.createRandomInt(10, <IntegerRepresentations>"invalid"))
+        .toThrow();
+    });   
+
+
+
     test("isInt", () =>
     {
         expect( XT.Number.isInt(123_123))
@@ -398,6 +468,27 @@ describe("Number library", () =>
 
 
 
+    test("toBigInt -> valid", () =>
+    {
+        expect( XT.Number.toBigInt(123.73))
+        .toBe(123n);
+
+        expect( XT.Number.toBigInt(123.123))
+        .toBe(123n);
+        
+        expect( XT.Number.toBigInt(-42000000001213216n))
+        .toBe(-42000000001213216n);
+
+        expect( XT.Number.toBigInt(4200000000121321665482132488512354n))
+        .toBe(4200000000121321665482132488512354n);
+
+        expect( XT.Number.toBigInt(NaN))
+        .toBeUndefined();
+
+    });    
+
+
+
     test("toDecimal -> valid", () =>
     {
         expect( XT.Number.toDecimal(123.123, 2))
@@ -504,72 +595,5 @@ describe("Number library", () =>
 
         expect( XT.Number.toIntString(Infinity))
         .toBeUndefined();
-    });                                                 
-
-
-
-    test("randomInt - valid", () =>
-    {
-        expect(typeof XT.Number.randomInt(6, IntegerRepresentations.Number))
-        .toBe("number");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.BigInt))
-        .toBe("bigint");
-
-        expect(typeof XT.Number.randomInt(8, IntegerRepresentations.StringBase64))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringBase64))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(8, IntegerRepresentations.StringBase64Url))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringBase64Url))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringBase36))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(8, IntegerRepresentations.StringBinary))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringBinary))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringDecimal))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(8, IntegerRepresentations.StringHexadecimal))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringHexadecimal))
-        .toBe("string");
-
-        expect(typeof XT.Number.randomInt(12, IntegerRepresentations.StringOctal))
-        .toBe("string");
-
-        expect( XT.Number.randomInt(8, IntegerRepresentations.BufferUInt8))
-        .toBeInstanceOf(Buffer);
-
-        expect( XT.Number.randomInt(12, IntegerRepresentations.BufferUInt8))
-        .toBeInstanceOf(Buffer);
-    });
-
-
-
-    test("randomInt - invalid", () =>
-    {
-        expect(() => XT.Number.randomInt(7, IntegerRepresentations.Number))
-        .toThrow();
-
-        expect(() => XT.Number.randomInt(-1, IntegerRepresentations.BigInt))
-        .toThrow();
-
-        expect(() => XT.Number.randomInt(129, IntegerRepresentations.BigInt))
-        .toThrow();
-
-        expect(() => XT.Number.randomInt(10, <IntegerRepresentations>"invalid"))
-        .toThrow();
-    });       
+    });                                                  
 });

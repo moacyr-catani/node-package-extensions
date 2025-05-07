@@ -167,7 +167,7 @@ const StringLib: IStringLib =
             throw new Error("Invalid thousand separator");
 
 
-        return GetRegExp(`^[-+]?\\d{1,3}(${thousandSeparator}\\d{3})*?$`).test(p_Value);
+        return GetRegExp(`^[-+]?\\d{1,3}(${EscapeRegExp(thousandSeparator)}\\d{3})*?$`).test(p_Value);
     },
 
 
@@ -385,6 +385,20 @@ const StringLib: IStringLib =
 
 
 
+    toBigInt( p_Value:             string,
+              p_ThousandSeparator: string = "" ): bigint | undefined
+    {
+        // Checks if value is a valid integer
+        if (StringLib.isInt(p_Value, p_ThousandSeparator))
+            return BigInt( p_ThousandSeparator ? 
+                                StringLib.replace(p_Value, p_ThousandSeparator, "") :
+                                p_Value); 
+
+        return undefined;
+    },
+
+
+
     toDate( p_Value:       string,
             p_ParseFormat: string ): Date | undefined
     {
@@ -587,9 +601,9 @@ const StringLib: IStringLib =
            p_ThousandSeparator: string = "" ): number | undefined
     {
         // Checks if value is a valid integer
-        if (StringLib.isInt(p_Value, p_ThousandSeparator)) // this.$_isInt(p_ThousandSeparator))
+        if (StringLib.isInt(p_Value, p_ThousandSeparator))
             return parseInt( p_ThousandSeparator ? 
-                                StringLib.replace(p_Value, p_ThousandSeparator, "") : // p_Value.$_replace(p_ThousandSeparator, "") : 
+                                StringLib.replace(p_Value, p_ThousandSeparator, "") :
                                 p_Value); 
 
         return undefined;
