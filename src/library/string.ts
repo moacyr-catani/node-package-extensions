@@ -147,7 +147,7 @@ const StringLib: IStringLib =
                         value: undefined,
                         start: -1,
                         end:   -1
-                    };;
+                    };
     },
 
 
@@ -224,45 +224,6 @@ const StringLib: IStringLib =
 
     toBasicLatinLetters( p_Value: string ): string
     {
-        // const arrAUpper: string[] = ["À", "Á", "Â", "Ã", "Ä", "Å", "Æ", "Ā", "Ă", "Ą"];
-        // const arrALower: string[] = ["à", "á", "â", "ã", "ä", "å", "æ", "ā", "ă", "ą"];
-        // const arrCUpper: string[] = ["Ç", "Ć", "Ĉ", "Ċ", "Č"];
-        // const arrCLower: string[] = ["ç", "ć", "ĉ", "ċ", "č"];
-        // const arrDUpper: string[] = ["Ď", "Đ"];
-        // const arrDLower: string[] = ["ď", "đ"];
-        // const arrEUpper: string[] = ["È", "É", "Ê", "Ë", "Ē", "Ĕ", "Ė", "Ę", "Ě"];
-        // const arrELower: string[] = ["è", "é", "ê", "ë", "ē", "ĕ", "ė", "ę", "ě"];
-        // const arrGUpper: string[] = ["Ĝ", "Ğ", "Ġ", "Ģ"];
-        // const arrGLower: string[] = ["ĝ", "ğ", "ġ", "ģ"];
-        // const arrHUpper: string[] = ["Ĥ", "Ħ"];
-        // const arrHLower: string[] = ["ĥ", "ħ"];
-        // const arrIUpper: string[] = ["Ì", "Í", "Î", "Ï", "Ĩ", "Ī", "Ĭ", "Į", "İ", "Ĳ"];
-        // const arrILower: string[] = ["ì", "í", "î", "ï", "ĩ", "ī", "ĭ", "į", "ı", "ĳ"];
-        // const arrJUpper: string[] = ["Ĵ"];
-        // const arrJLower: string[] = ["ĵ"];
-        // const arrKUpper: string[] = ["Ķ"];  
-        // const arrKLower: string[] = ["ķ", "ĸ"];
-        // const arrLUpper: string[] = ["Ĺ", "Ļ", "Ľ", "Ŀ", "Ł"];
-        // const arrLLower: string[] = ["ĺ", "ļ", "ľ", "ŀ", "ł"];
-        // const arrNUpper: string[] = ["Ñ", "Ń", "Ņ", "Ň"];
-        // const arrNLower: string[] = ["ñ", "ń", "ņ", "ň"];
-        // const arrOUpper: string[] = ["Ò", "Ó", "Ô", "Õ", "Ö", "Ø", "Ō", "Ŏ", "Ő", "Œ"];
-        // const arrOLower: string[] = ["ò", "ó", "ô", "õ", "ö", "ø", "ō", "ŏ", "ő", "œ"];
-        // const arrRUpper: string[] = ["Ŕ", "Ŗ", "Ř"];
-        // const arrRLower: string[] = ["ŕ", "ŗ", "ř"];
-        // const arrSUpper: string[] = ["Ś", "Ŝ", "Ş", "Š"];
-        // const arrSLower: string[] = ["ś", "ŝ", "ş", "š", "ß", "ſ"];
-        // const arrTUpper: string[] = ["Ţ", "Ť", "Ŧ"];
-        // const arrTLower: string[] = ["ţ", "ť", "ŧ"];
-        // const arrUUpper: string[] = ["Ù", "Ú", "Û", "Ü", "Ũ", "Ū", "Ŭ", "Ů", "Ű", "Ų"];
-        // const arrULower: string[] = ["ù", "ú", "û", "ü", "ũ", "ū", "ŭ", "ů", "ű", "ų"];
-        // const arrWUpper: string[] = ["Ŵ"];
-        // const arrWLower: string[] = ["ŵ"];
-        // const arrYUpper: string[] = ["Ý", "Ŷ", "Ÿ"];
-        // const arrYLower: string[] = ["ý", "ŷ", "ÿ"];
-        // const arrZUpper: string[] = ["Ź", "Ż", "Ž"];
-        // const arrZLower: string[] = ["ź", "ż", "ž"];
-
         return  StringLib.replace(
                 StringLib.replace(
                 StringLib.replace(
@@ -340,47 +301,6 @@ const StringLib: IStringLib =
                     LATIN_LETTERS_Y_UPPER, "Y"),
                     LATIN_LETTERS_Z_LOWER, "z"),
                     LATIN_LETTERS_Z_UPPER, "Z");
-
-
-
-        // return p_Value.$_replace(arrALower, "a")
-        //         .$_replace(arrAUpper, "A")
-        //         .$_replace(arrCLower, "c")
-        //         .$_replace(arrCUpper, "C")
-        //         .$_replace(arrDLower, "d")
-        //         .$_replace(arrDUpper, "D")
-        //         .$_replace(arrELower, "e")
-        //         .$_replace(arrEUpper, "E")
-        //         .$_replace(arrGLower, "g")
-        //         .$_replace(arrGUpper, "G")
-        //         .$_replace(arrHLower, "h")
-        //         .$_replace(arrHUpper, "H")
-        //         .$_replace(arrILower, "i")
-        //         .$_replace(arrIUpper, "I")
-        //         .$_replace(arrJLower, "j")
-        //         .$_replace(arrJUpper, "J")
-        //         .$_replace(arrKLower, "k")
-        //         .$_replace(arrKUpper, "K")
-        //         .$_replace(arrLLower, "l")
-        //         .$_replace(arrLUpper, "L")
-        //         .$_replace(arrNLower, "n")
-        //         .$_replace(arrNUpper, "N")
-        //         .$_replace(arrOLower, "o")
-        //         .$_replace(arrOUpper, "O")
-        //         .$_replace(arrRLower, "r")
-        //         .$_replace(arrRUpper, "R")
-        //         .$_replace(arrSLower, "s")
-        //         .$_replace(arrSUpper, "S")
-        //         .$_replace(arrTLower, "t")
-        //         .$_replace(arrTUpper, "T")
-        //         .$_replace(arrULower, "u")
-        //         .$_replace(arrUUpper, "U")
-        //         .$_replace(arrWLower, "w")
-        //         .$_replace(arrWUpper, "W")
-        //         .$_replace(arrYLower, "y")
-        //         .$_replace(arrYUpper, "Y")
-        //         .$_replace(arrZLower, "z")
-        //         .$_replace(arrZUpper, "Z");
     },
 
 
@@ -407,158 +327,8 @@ const StringLib: IStringLib =
         if (!objParse.Invalid)
             return objParse.toDate();
 
+
         return undefined;
-        // const objDateParts: any = 
-        // {
-        //     YYYY:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       NaN  // If not present, throws error
-        //     },
-        //     YY:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       NaN  // If not present, throws error
-        //     },
-        //     MM:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       NaN  // If not present, throws error
-        //     },
-        //     DD:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       NaN  // If not present, throws error
-        //     },
-        //     hh:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       0  // If not present, defaults to 0
-        //     },
-        //     mm:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       0  // If not present, defaults to 0
-        //     },
-        //     ss:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       0  // If not present, defaults to 0
-        //     },
-        //     nnn:
-        //     {
-        //         index_start: -1,
-        //         index_end:   -1,
-        //         value:       0  // If not present, defaults to 0
-        //     }
-        // }
-
-
-        // // Scans string for value holders
-        // for (const strDatePart in objDateParts)
-        // {
-        //     objDateParts[strDatePart].index_start = p_ParseFormat.indexOf(strDatePart);
-        //     objDateParts[strDatePart].index_end   = objDateParts[strDatePart].index_start + strDatePart.length;
-
-        //     if (objDateParts[strDatePart].index_start >= 0)
-        //     {
-        //         // Get substring from date part position
-        //         const strValue: string = p_Value
-        //                                 .substring(objDateParts[strDatePart].index_start,
-        //                                             objDateParts[strDatePart].index_end)
-        //                                 .trim();
-
-        //         // Tries to convert to int only if string represents a valid integer
-        //         if ( StringLib.isInt(strValue)) //  strValue.$_isInt())
-        //             objDateParts[strDatePart].value = StringLib.toInt(strValue); //  strValue.$_toInt();
-
-
-        //         // "Removes" parsed part
-        //         p_ParseFormat.replace(strDatePart, "*".repeat(strDatePart.length));
-        //     }
-        // }
-
-
-        // // Validate values
-        // let intDayMax:   number  = 0;
-        // let blnLeapYear: boolean = (objDateParts.YYYY.value % 4 == 0);
-
-
-        // // Defines maximum day number for every month, including February on leap years
-        // if ( 1  == objDateParts.MM.value ||
-        //      3  == objDateParts.MM.value ||
-        //      5  == objDateParts.MM.value ||
-        //      7  == objDateParts.MM.value ||
-        //      8  == objDateParts.MM.value ||
-        //      10 == objDateParts.MM.value ||
-        //      12 == objDateParts.MM.value)
-        //      intDayMax = 31;
-
-        // else if (2 == objDateParts.MM.value)
-        //     intDayMax = 28 + (blnLeapYear ? 1 : 0);
-
-
-        // else
-        //     intDayMax = 30;
-
-            
-        // // Month
-        // if (objDateParts.MM.value < 1 || objDateParts.MM.value > 12)
-        //     return undefined;
-
-        
-        // // Day
-        // if (objDateParts.DD.value < 1 || objDateParts.DD.value > intDayMax)
-        //     return undefined;
-
-
-        // // Hours
-        // if (objDateParts.hh.value < 0 || objDateParts.hh.value > 23)
-        //     return undefined;
-
-        
-        // // Minutes
-        // if (objDateParts.mm.value < 0 || objDateParts.mm.value > 59)    
-        //     return undefined;
-
-        
-        // // Seconds
-        // if (objDateParts.ss.value < 0 || objDateParts.ss.value > 59)
-        //     return undefined;
-
-        
-        // // Milliseconds. It is not needed to check, since all values in range are valid (0 - 999)
-
-
-
-        // // Create new date value
-        // const dtmResult: Date = new Date(objDateParts.YYYY.value,
-        //                                  objDateParts.MM.value - 1, // Javascript defines it this way... January = 0
-        //                                  objDateParts.DD.value,
-        //                                  objDateParts.hh.value,
-        //                                  objDateParts.mm.value,
-        //                                  objDateParts.ss.value,
-        //                                  objDateParts.nnn.value);
-
-
-        // // Adjust for timezone
-        // //const userTimezoneOffset: number = dtmResult.getTimezoneOffset() * 60000;
-        // //return new Date(dtmResult.getTime() - userTimezoneOffset);
-
-
-        // // Checks if date is valid
-        // if (dtmResult instanceof Date && !isNaN(dtmResult.getTime()))
-        //     return dtmResult;    
-
-
-        // return undefined;
     },
 
 
@@ -567,10 +337,10 @@ const StringLib: IStringLib =
                   p_ParseFormat: string,
                   p_ResultFormat: string ): string | undefined
     {
-        const dtmDate: Date | undefined = StringLib.toDate(p_Value, p_ParseFormat); //  this.$_toDate(p_ParseFormat);
+        const dtmDate: Date | undefined = StringLib.toDate(p_Value, p_ParseFormat);
 
         return "undefined" != typeof dtmDate ? 
-                    DateLib.toString(dtmDate, p_ResultFormat) : //  dtmDate.$_toString(p_ResultFormat) :
+                    DateLib.toString(dtmDate, p_ResultFormat) :
                     undefined;
     },
 
@@ -581,10 +351,10 @@ const StringLib: IStringLib =
                thousandSeparator: string = "" ): number | undefined
     {
         // Checks if value is a valid number
-        if (StringLib.isNumber(p_Value, thousandSeparator, decimalSeparator)) //  this.$_isNumber(thousandSeparator, decimalSeparator))
+        if (StringLib.isNumber(p_Value, thousandSeparator, decimalSeparator))
         {
             if (thousandSeparator !== "")
-                p_Value = StringLib.replace(p_Value, thousandSeparator, ""); //  strValue.$_replace(thousandSeparator, "");
+                p_Value = StringLib.replace(p_Value, thousandSeparator, "");
 
             if (decimalSeparator !== ".")
                 p_Value = p_Value.replace(decimalSeparator, ".");
@@ -618,7 +388,7 @@ const StringLib: IStringLib =
         return StringLib.trimEnd(
                StringLib.trimStart(
                     p_Value, 
-                    p_Entries, p_CaseSensitive), // this.$_trimStart(p_Entries, p_CaseSensitive)
+                    p_Entries, p_CaseSensitive),
                     p_Entries, p_CaseSensitive);
     },
 

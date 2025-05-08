@@ -34,7 +34,6 @@ type DateStruct =
     MM:     DateStructNumberValue; // Month (2 digits)
     DD:     DateStructNumberValue; // Day (2 digits) 
     hh:     DateStructNumberValue; // Hour (2 digits, format 12) 
-    //HH:     DateStructNumberValue; // Hour (2 digits, format 24) 
     mm:     DateStructNumberValue; // Minute (2 digits) 
     ss:     DateStructNumberValue; // Second (2 digits) 
     nnn:    DateStructNumberValue; // Millisecond (3 digits) 
@@ -115,8 +114,8 @@ export class ParsedDate
 
 
                 // Tries to convert to int only if string represents a valid integer
-                else if ( p_StringLib.isInt(strValue)) //  strValue.$_isInt())
-                    this.#DateParts[strDatePart].value = <number>p_StringLib.toInt(strValue); //  strValue.$_toInt();
+                else if ( p_StringLib.isInt(strValue))
+                    this.#DateParts[strDatePart].value = <number>p_StringLib.toInt(strValue);
     
     
                 // "Removes" parsed part
@@ -184,8 +183,8 @@ export class ParsedDate
             }
 
 
-            this.#UTCMinutesOffset = (p_StringLib.toInt(strOffsetSign + strOffsetHours.trim() /* + p_StringLib.trimStart(strOffsetHours, "0") */)! * 60) +
-                                     (p_StringLib.toInt(strOffsetSign + strOffsetMinutes.trim() /* + p_StringLib.trimStart(strOffsetMinutes, "0") */)!);
+            this.#UTCMinutesOffset = (p_StringLib.toInt(strOffsetSign + strOffsetHours.trim())! * 60) +
+                                     (p_StringLib.toInt(strOffsetSign + strOffsetMinutes.trim())!);
         }
 
 
@@ -266,13 +265,6 @@ export class ParsedDate
             length:      2,
             value:       0  // If not present, defaults to 0
         },
-        // HH:
-        // {
-        //     index_start: -1,
-        //     index_end:   -1,
-        //     length:      2,
-        //     value:       -1  // If not present, defaults to 0
-        // },
         mm:
         {
             index_start: -1,

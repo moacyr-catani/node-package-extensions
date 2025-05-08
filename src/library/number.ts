@@ -39,7 +39,8 @@ function _convertIntFromBase(p_value: string,
 
     while (intA < p_value.length)
     {
-        arrParts.push(p_value.slice(intA, intA += intSize));
+        arrParts.push(p_value.slice(intA, intA + intSize));
+        intA += intSize
     }
 
     return arrParts.reduce((r, v) => r * intFactor + BigInt(parseInt(v, p_radix)), 0n);
@@ -49,7 +50,7 @@ function _convertIntFromBase(p_value: string,
 
 function _convertIntToBuffer(p_value: number | bigint): Buffer
 {
-    let   intValue: bigint = BigInt(p_value);       // Assert bigint
+    let   intValue: bigint = BigInt(p_value);       // TODO::Assert bigint
     const arrBytes: Array<number> = [];
 
     while (intValue > 0n) 
@@ -304,16 +305,15 @@ const NumberLib: INumberLib =
         
         if (isNaN(p_SizeInBytes) || (p_SizeInBytes < 1 ||
                                     p_SizeInBytes > 128))
-            throw "Size of random number in bytes must be a positive integer between 1 and 128";
+            throw new Error("Size of random number in bytes must be a positive integer between 1 and 128");
 
         if (p_SizeInBytes > 6 && p_ReturnIn === IntegerRepresentations.Number)
-            throw "'Number' type can be used only for 6 bytes or less";
+            throw new Error("'Number' type can be used only for 6 bytes or less");
         //-------------------------------------------------------------------------------------------------------------
 
         
 
         // Variables
-        //let intRandom: bigint;
         let strHex:    string = "";
         let strBin:    string = "";
         let bufBytes:  Buffer;

@@ -1,4 +1,5 @@
-import { StringLib } from "./string";
+import { IObjectLib } from "./interfaces/object.js"
+import { StringLib }  from "./string.js";
 
 
 // ------------------------------------------------------------------------------------------------------------------------------
@@ -88,30 +89,6 @@ function _getObject (p_Object:   Record<string, any>,
 
 
 // ------------------------------------------------------------------------------------------------------------------------------
-// #region Interface
-// ------------------------------------------------------------------------------------------------------------------------------
-
-interface IObjectLib
-{
-    getValue( p_Object: Record<string, any>,
-              p_Accessor: string): any
-
-
-    setValue( p_Object:   Record<string, any>,
-              p_Accessor: string,
-              p_Value:    any): boolean
-
-}
-
-// #endregion
-// ------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-// ------------------------------------------------------------------------------------------------------------------------------
 // #region Object extensions
 // ------------------------------------------------------------------------------------------------------------------------------
 
@@ -126,25 +103,53 @@ const ObjectLib: IObjectLib =
     },
 
 
-    setValue( p_Object:   Record<string, any>,
-              p_Accessor: string,
-              p_Value:    any): boolean
+    setValue( p_Object:     Record<string, any>,
+              p_Accessor:   string,
+              p_Value:      any,
+              p_CreatePath: boolean = false): boolean
     {
         // Acessor parts
         const arrParts: string[] = p_Accessor.split(".");
 
 
+        // Define accessor
+        if (1 === arrParts.length)
+            p_Accessor = "";
+        else
+            p_Accessor = arrParts.slice(0, arrParts.length - 1).join(".");
+
+
         // Gets object
-        const objObject: Record<string, any> | undefined = _getObject(p_Object,
-                                                                      p_Accessor);
+        let objObject: Record<string, any> | undefined = p_Accessor !== "" ?
+                                                             _getObject(p_Object, p_Accessor) :
+                                                             p_Object;
 
         // Checks if object exists
         if ("undefined" == typeof objObject)
-            return false;
+        {
+            if (!p_CreatePath)
+                return false;
+
+
+            // Checks path
+            objObject = "undefined" !==  typeof p_Object ?
+                            p_Object :
+                            {};
+
+            for (let intA: number = 0; intA < arrParts.length - 1; intA++)
+            {
+                if ( !(arrParts[intA] in objObject!))
+                    objObject![arrParts[intA]] = {};
+
+                objObject = objObject![arrParts[intA]];
+            }
+        }
+
+
 
 
         // Sets value
-        objObject[arrParts[arrParts.length - 1]] = p_Value;
+        objObject![arrParts[arrParts.length - 1]] = p_Value;
 
 
         return true;

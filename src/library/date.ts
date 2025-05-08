@@ -1,4 +1,3 @@
-//import { StringLib } from "./string";
 import { IDateLib } from "./interfaces/date.js";
 import { Constants, WeekDays } from "./../common/index.js" 
 
@@ -170,7 +169,7 @@ const DateLib: IDateLib =
                p_FirstWeekDay: WeekDays = WeekDays.SUNDAY ): Date
     {
         let intDay:    number = p_Value.getDay(),
-            intOffset: number = 0;
+            intOffset: number;
 
         switch (p_FirstWeekDay)
         {
@@ -215,7 +214,7 @@ const DateLib: IDateLib =
                  p_FirstWeekDay: WeekDays = WeekDays.SUNDAY ): Date
     {
         let intDay:    number = p_Value.getDay(),
-            intOffset: number = 0;
+            intOffset: number;
 
         switch (p_FirstWeekDay)
         {

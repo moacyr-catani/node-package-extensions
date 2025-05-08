@@ -105,11 +105,8 @@ class AssertLibClass implements IAssertLib
             if (!isNaN(value) && isFinite(value))
                 dtmValue = new Date(value);
         }
-        else
-        {
-            if (!isNaN(value.getDate()))
-                dtmValue = value;
-        }
+        else if (!isNaN(value.getDate()))
+            dtmValue = value;
 
 
 

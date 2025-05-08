@@ -1,8 +1,13 @@
 import { XT } from "../src/index.js";
 //import { IntegerRepresentations, XT } from "../src/index.js";
 
+const objTest: any = {};
+
+XT.Object.setValue(objTest, "prop1.prop2", "v1", true)
+
+
 //XT.Assert.decimal("0,1", ",");
-XT.String.toBigInt("12,345,682,312,316,545,545,555", ".")
+//XT.String.toBigInt("12,345,682,312,316,545,545,555", ".")
 
 // const strA: string = `
 // CREATE PROC sp_Teste
