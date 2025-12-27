@@ -1,4 +1,5 @@
-import { XT, IntegerRepresentations } from "../../../src/index";
+import { XT } from "../../../src/library/index";
+import { IntegerRepresentations } from "../../../src/common/index";
 //import { XT, IntegerRepresentations } from "../../../lib/index";
 
 

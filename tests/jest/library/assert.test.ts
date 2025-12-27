@@ -1,4 +1,4 @@
-import { XT } from "../../../src/index";
+import { XT } from "../../../src/library/index";
 
 
 describe("Assert library", () => 

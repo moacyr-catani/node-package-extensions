@@ -1,4 +1,5 @@
-import { XT, StringExtractionResult } from "../../../src/index";
+import { XT } from "../../../src/library/index";
+import { StringExtractionResult } from "../../../src/common/index";
 
 
 

@@ -1,6 +1,5 @@
-import { XT, 
-         WeekDays } from "../../../src/index";
-
+import { XT } from "../../../src/library/index";
+import { WeekDays } from "../../../src/common/index";
 
 describe("Date library", () => 
 {
