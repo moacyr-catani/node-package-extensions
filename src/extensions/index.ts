@@ -9,8 +9,8 @@ export { IntegerRepresentations };
 
 
 // Declarations
-import "./declarations/$_xt.d.js";
-import "./declarations/$x_int32.d.js";
+//import "./declarations/$_xt.d._ts";
+//import "./declarations/$x_int32.d._ts";
 import "./declarations/array.d.js";
 import "./declarations/date.d.js";
 import "./declarations/number.d.js";
@@ -20,8 +20,8 @@ import "./declarations/string.d.js";
 
 
 // Implementations
-import "./implementations/$_xt.js";
-import "./implementations/$x_int32.js";
+//import "./implementations/$_xt.js";
+//import "./implementations/$x_int32.js";
 import "./implementations/array.js";
 import "./implementations/date.js";
 import "./implementations/number.js";

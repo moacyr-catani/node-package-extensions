@@ -10,8 +10,8 @@
         "declarationMap": false,
         "sourceMap":      false,
       
-        "declarationDir": "../dist/cjs/library/types",
-        "outDir":         "../dist/cjs/library",
+        "declarationDir": "../dist/cjs/types",
+        "outDir":         "../dist/cjs",
     },
     "files": 
     [

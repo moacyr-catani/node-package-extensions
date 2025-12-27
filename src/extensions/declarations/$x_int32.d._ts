@@ -18,7 +18,7 @@ interface $x_Int32Constructor {
     //assert(): boolean;
 
 
-    static isValid(value: string | number | bigint): boolean;
+    isValid(value: string | number | bigint): boolean;
 
     /**
      * Interprets the low bits of a BigInt as a 2's-complement signed integer.

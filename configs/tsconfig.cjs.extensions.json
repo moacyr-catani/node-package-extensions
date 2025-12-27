@@ -2,13 +2,16 @@
     "extends": "./tsconfig.base.json",
     "compilerOptions": 
     {
+        "module": "CommonJS",
+        "moduleResolution": "node",
+
         "diagnostics":    false,
 
         "declarationMap": false,
         "sourceMap":      false,
       
-        "declarationDir": "../dist/esm/types",
-        "outDir":         "../dist/esm",
+        "declarationDir": "../dist/cjs/types",
+        "outDir":         "../dist/cjs",
     },
     "files": 
     [

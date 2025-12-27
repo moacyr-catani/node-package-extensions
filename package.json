@@ -28,18 +28,26 @@
         "dist/**/*"
     ],
     "scripts": {
-        "build":     "npm run clean && npm run build:esm && npm run build:cjs",
-        "build:cjs": "tsc -p ./configs/tsconfig.cjs.library.json && shx mv dist/cjs/library/library/index.js dist/cjs/library/library/index.cjs",
-        "build:esm": "tsc -p ./configs/tsconfig.esm.library.json && shx mv dist/esm/library/library/index.js dist/esm/library/library/index.mjs",
+        "build":         "npm run clean && npm run build:esm && npm run build:cjs",
+        "build:cjs":     "npm run build:cjs:lib && npm run build:cjs:ext",
+        "build:esm":     "npm run build:esm:lib && npm run build:esm:ext",
+        "build:cjs:ext": "tsc -p ./configs/tsconfig.cjs.extensions.json && shx mv dist/cjs/extensions/index.js dist/cjs/extensions/index.cjs",
+        "build:cjs:lib": "tsc -p ./configs/tsconfig.cjs.library.json && shx mv dist/cjs/library/index.js dist/cjs/library/index.cjs",
+        "build:esm:ext": "tsc -p ./configs/tsconfig.esm.extensions.json && shx mv dist/esm/extensions/index.js dist/esm/extensions/index.mjs",
+        "build:esm:lib": "tsc -p ./configs/tsconfig.esm.library.json && shx mv dist/esm/library/index.js dist/esm/library/index.mjs",
 
         "build:esm2":  "tsc -p ./configs/tsconfig.esm.library.json",
         "build:local": "tsc -p ./configs/tsconfig.library.local.json",
         
-        "clean": "shx rm -rf ./dist",
-        "docs": "typedoc --options configs/typedoc.json",
+        "clean":    "shx rm -rf ./dist",
+        "docs":     "typedoc --options configs/typedoc.json",
         "examples": "npm run build:local && node ./dist/examples/index.js",
-        "prepack": "npm run build",
-        "test": "jest --config=./configs/jest.config.library.ts",
+        "prepack":  "npm run build",
+        
+        "test":     "npm run test:lib && npm run test:ext",
+        "test:lib": "jest --config=./configs/jest.config.library.ts",
+        "test:ext": "jest --config=./configs/jest.config.extensions.ts",
+
         "test:cjs": "npm run --silent build && npm run --silent build:local && node ./tests/cjs/index.js",
         "test:esm": "npm run --silent build && npm run --silent build:local && node ./tests/esm/index.js"
     },

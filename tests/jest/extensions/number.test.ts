@@ -137,6 +137,211 @@ describe("Number extensions", () =>
     
 
 
+    test("$_isInt", () =>
+    {
+        expect( (123_123).$_isInt())
+        .toBe(true);
+
+        expect( (123_123.0).$_isInt())
+        .toBe(true);
+
+        expect( (123_123.1).$_isInt())
+        .toBe(false);
+
+        // expect( 12345654321354312353120131n.$_isInt())
+        // .toBe(true);
+
+        // expect( -12345654321354312353120131n.$_isInt())
+        // .toBe(true);
+
+        expect( (0.00001).$_isInt())
+        .toBe(false);
+
+        expect( (10/0).$_isInt())
+        .toBe(false);
+
+        expect( NaN.$_isInt())
+        .toBe(false);
+
+        expect( Infinity.$_isInt())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isInt8", () =>
+    {
+        expect( (123).$_isInt8())
+        .toBe(true);
+
+        expect( (128).$_isInt8())
+        .toBe(false);
+
+        expect( (-128).$_isInt8())
+        .toBe(true);
+
+        expect( (10.0001).$_isInt8())
+        .toBe(false);
+
+        expect( (10/0).$_isInt8())
+        .toBe(false);
+
+        expect( NaN.$_isInt8())
+        .toBe(false);
+
+        expect( Infinity.$_isInt8())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isInt16", () =>
+    {
+        expect( (32_000).$_isInt16())
+        .toBe(true);
+
+        expect( (32_768).$_isInt16())
+        .toBe(false);
+
+        expect( (-32_768).$_isInt16())
+        .toBe(true);
+
+        expect( (-32_769).$_isInt16())
+        .toBe(false);
+
+        expect( (10.0001).$_isInt16())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isInt32", () =>
+    {
+        expect( (1_532_145).$_isInt32())
+        .toBe(true);
+
+        expect( (2_147_483_648).$_isInt32())
+        .toBe(false);
+
+        expect( (-2_147_483_648).$_isInt32())
+        .toBe(true);
+
+        expect( (2_147_483_645).$_isInt32())
+        .toBe(true);
+
+        expect( (-2_147_483_649).$_isInt32())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isInt64", () =>
+    {
+        // expect( 9_223_372_036_854_775_807n.$_isInt64())
+        // .toBe(true);
+
+        // expect( 9_223_372_036_854_775_808n.$_isInt64())
+        // .toBe(false);
+
+        // expect( -9_223_372_036_854_775_808n.$_isInt64())
+        // .toBe(true);
+
+        expect( (2_147_483_645).$_isInt64())
+        .toBe(true);
+
+        // expect( -9_223_372_036_854_775_809n.$_isInt64())
+        // .toBe(false);
+    });                                                 
+
+
+
+    test("$_isUInt8", () =>
+    {
+        expect( (0).$_isUInt8())
+        .toBe(true);
+
+        expect( (123).$_isUInt8())
+        .toBe(true);
+
+        expect( (255).$_isUInt8())
+        .toBe(true);
+
+        expect( (256).$_isUInt8())
+        .toBe(false);
+
+        expect( (-128).$_isUInt8())
+        .toBe(false);
+
+        expect( (10.0001).$_isUInt8())
+        .toBe(false);
+
+        expect( (10/0).$_isUInt8())
+        .toBe(false);
+
+        expect( NaN.$_isUInt8())
+        .toBe(false);
+
+        expect( Infinity.$_isUInt8())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isUInt16", () =>
+    {
+        
+        expect( (32_000).$_isUInt16())
+        .toBe(true);
+
+        expect( (65_535).$_isUInt16())
+        .toBe(true);
+
+        expect( (-32_768).$_isUInt16())
+        .toBe(false);
+
+        expect( (65_536).$_isUInt16())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isUInt32", () =>
+    {
+        expect( (1_532_145).$_isUInt32())
+        .toBe(true);
+
+        expect( (-2).$_isUInt32())
+        .toBe(false);
+
+        expect( (4_294_967_295).$_isUInt32())
+        .toBe(true);
+
+        expect( (4_294_967_296).$_isUInt32())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("$_isUInt64", () =>
+    {
+        expect( (10).$_isUInt64())
+        .toBe(true);
+
+        expect( (-1).$_isUInt64())
+        .toBe(false);
+
+        // expect( (-9_223_372_036_854_775_808n).$_isUInt64())
+        // .toBe(false);
+
+        // expect( 18_446_744_073_709_551_615n.$_isUInt64())
+        // .toBe(true);
+
+        // expect( 18_446_744_073_709_551_616n.$_isUInt64())
+        // .toBe(false);
+    });   
+
+
+
     test(".$_toDecimalString -> invalid", () =>
     {
         expect((10/0).$_toDecimalString())

@@ -218,6 +218,45 @@ describe("String extensions", () =>
 
 
 
+    test("$_toBigInt -> valid", () =>
+    {
+        expect( "1".$_toBigInt() )
+        .toBe(1n);
+
+        expect( "-5123456789".$_toBigInt())
+        .toBe(-5123456789n);
+
+        expect( "12345682312316".$_toBigInt())
+        .toBe(12345682312316n);
+
+        expect( "12.345.682.312.316".$_toBigInt(".") )
+        .toBe(12345682312316n);
+
+        expect( "12,345,682,312,316".$_toBigInt(",") )
+        .toBe(12345682312316n);
+
+        expect( "12,345,682,312,316,545,545,555".$_toBigInt(",") )
+        .toBe(12345682312316545545555n);
+    });                                                 
+
+
+
+    test("$_toBigInt -> invalid", () =>
+    {
+        expect( "1d".$_toBigInt() )
+        .toBeUndefined();
+
+        expect( "-5.123456789".$_toBigInt() )
+        .toBeUndefined();
+
+        expect( "rtsd".$_toBigInt() )
+        .toBeUndefined();
+
+        expect( "12,345,682,312,316,545,545,555".$_toBigInt(".") )
+        .toBeUndefined();
+    });
+
+
     test(".$_toDate -> valid", () =>
     {
         let dtmResult: any;
