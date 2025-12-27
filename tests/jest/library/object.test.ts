@@ -3,7 +3,7 @@ import { XT } from "../../../src/index";
 
 describe("Object library", () => 
 {
-    test("getValue", () =>
+    test("getValue - object", () =>
     {
         const objTest: any = {
             prop1: "value1",
@@ -36,13 +36,60 @@ describe("Object library", () =>
 
 
 
-    test("setValue", () =>
+    test("getValue - array", () =>
+    {
+        // Object with array property
+        const objTest: any = {
+            prop1: "value1",
+            prop2: "value2",
+            prop3:
+            [
+                {
+                    id: "id1",
+                    subid: "subid1",
+                    prop5: "value5",
+                    prop6: "value6"
+                },
+                {
+                    id: "id2",
+                    subid: "subid2",
+                    prop5: "new value5",
+                    prop6: "value6"
+                }
+            ]
+        }
+
+        expect( XT.Object.getValue(objTest, "prop3[id=id1].prop5"))
+        .toBe("value5");
+
+        expect( XT.Object.getValue(objTest, "prop3[id=id3].prop5"))
+        .toBeUndefined();
+
+        const objTest2: any = XT.Object.getValue(objTest, "prop3[id=id1]");
+        console.log(objTest2);
+        // expect( objTest2.prop6 )
+        // .toBe("value6");
+
+
+
+
+        // Object with 2 array properties
+        expect( XT.Object.getValue(objTest, "prop3[id=id2,subid=subid2].prop5"))
+        .toBe("new value5");
+
+        expect( XT.Object.getValue(objTest, "prop3[id=id2,subid=subid3].prop5"))
+        .toBeUndefined();
+
+    });     
+
+
+
+    test("setValue - object", () =>
     {
         const objTest: any = {};
 
         XT.Object.setValue(objTest, "prop1", "v1")
 
-        console.log(objTest);
         expect (objTest.prop1)
         .toBe("v1");
 

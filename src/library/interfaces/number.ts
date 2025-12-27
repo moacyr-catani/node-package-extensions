@@ -20,7 +20,7 @@ export interface INumberLib
      * const bigNumber: BigInt = Number.$_randomInt(8, IntegerRepresentations.BigInt);
      */
     createRandomInt (sizeInBytes: number, 
-                     returnIn:    IntegerRepresentations): number | bigint | string | ArrayBuffer;
+                     returnIn:    IntegerRepresentations): number | bigint | string | Buffer<ArrayBuffer>;
 
 
 

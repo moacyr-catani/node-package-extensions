@@ -14,19 +14,28 @@
         "url": "git+https://github.com/moacyr-catani/node-package-extensions.git"
     },
     "type": "module",
-    "main": "./lib/index.js",
+    "exports": {
+        ".": {
+            "import": "./dist/esm/library/index.js",
+            "require": "./dist/cjs/library/index.js",
+            "__types":  "./lib/types/index.d.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "__main": "./lib/index.js",
     "__types": "./lib/types/index.d.js",
     "files": [
-        "lib/**/*"
+        "dist/**/*"
     ],
     "scripts": {
-        "build": "npm run clean && npm run build:esm",
-        "build2": "npm run clean && npm run build:esm && npm run build:cjs",
-        "build:esm": "tsc -p ./configs/tsconfig.esm.json",
-        "build:esm2": "tsc -p ./configs/tsconfig.esm.json && shx mv lib/esm/index.js lib/esm/index.mjs",
-        "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+        "build":     "npm run clean && npm run build:esm && npm run build:cjs",
+        "build:cjs": "tsc -p ./configs/tsconfig.cjs.library.json && shx mv dist/cjs/library/library/index.js dist/cjs/library/library/index.cjs",
+        "build:esm": "tsc -p ./configs/tsconfig.esm.library.json && shx mv dist/esm/library/library/index.js dist/esm/library/library/index.mjs",
+
+        "build:esm2":  "tsc -p ./configs/tsconfig.esm.library.json",
         "build:local": "tsc -p ./configs/tsconfig.library.local.json",
-        "clean": "shx rm -rf ./lib",
+        
+        "clean": "shx rm -rf ./dist",
         "docs": "typedoc --options configs/typedoc.json",
         "examples": "npm run build:local && node ./dist/examples/index.js",
         "prepack": "npm run build",
@@ -36,16 +45,16 @@
     },
     "devDependencies": {
         "@inquirer/prompts": "^7.3.2",
-        "@types/jest": "^29.5.14",
-        "@types/node": "^22.13.5",
-        "jest": "^29.7.0",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^25.0.3",
+        "jest": "^30.2.0",
         "jsdoc": "^4.0.4",
-        "shx": "^0.3.4",
-        "ts-jest": "^29.2.6",
+        "shx": "^0.4.0",
+        "ts-jest": "^29.4.6",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.3",
         "typedoc": "^0.28.4",
         "typedoc-plugin-markdown": "^4.6.3",
-        "typescript": "^5.7.3"
+        "typescript": "^5.9.3"
     }
 }

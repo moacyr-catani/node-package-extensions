@@ -1,9 +1,36 @@
 import { XT } from "../src/index.js";
 //import { IntegerRepresentations, XT } from "../src/index.js";
 
-const objTest: any = {};
 
-XT.Object.setValue(objTest, "prop1.prop2", "v1", true)
+        // Object with array property
+        const objTest: any = {
+            prop1: "value1",
+            prop2: "value2",
+            prop3:
+            [
+                {
+                    id: "id1",
+                    subid: "subid1",
+                    prop5: "value5",
+                    prop6: "value6"
+                },
+                {
+                    id: "id2",
+                    subid: "subid2",
+                    prop5: "new value5",
+                    prop6: "value6"
+                }
+            ]
+        }
+
+
+        const objTest2: any = XT.Object.getValue(objTest, "prop3");
+        console.log(objTest2);
+
+        
+// const objTest: any = {};
+
+// XT.Object.setValue(objTest, "prop1.prop2", "v1", true)
 
 
 //XT.Assert.decimal("0,1", ",");

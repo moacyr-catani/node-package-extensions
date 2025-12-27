@@ -48,7 +48,7 @@ function _convertIntFromBase(p_value: string,
 
 
 
-function _convertIntToBuffer(p_value: number | bigint): Buffer
+function _convertIntToBuffer(p_value: number | bigint): Buffer<ArrayBuffer>
 {
     let   intValue: bigint = BigInt(p_value);       // TODO::Assert bigint
     const arrBytes: Array<number> = [];
@@ -295,7 +295,7 @@ const NumberLib: INumberLib =
 
 
     createRandomInt (p_SizeInBytes: number, 
-                     p_ReturnIn:    IntegerRepresentations = IntegerRepresentations.BigInt): number | bigint | string | ArrayBuffer
+                     p_ReturnIn:    IntegerRepresentations = IntegerRepresentations.BigInt): number | bigint | string | Buffer<ArrayBuffer>
     {
         // Check params 
         //-------------------------------------------------------------------------------------------------------------
@@ -316,8 +316,9 @@ const NumberLib: INumberLib =
         // Variables
         let strHex:    string = "";
         let strBin:    string = "";
-        let bufBytes:  Buffer;
-
+        //let bufBytes:  Uint8Array<ArrayBuffer> | null = null;
+        //let bufBytes:  Buffer<ArrayBuffer>;
+        let bufBytes:  Buffer<ArrayBuffer>;
 
 
         // Method 2 (crypto), better for 9 bytes or more ...
@@ -325,7 +326,7 @@ const NumberLib: INumberLib =
         {
             // Generate random bytes
             bufBytes = Buffer.alloc(p_SizeInBytes);
-            Crypto.getRandomValues(bufBytes);
+            Crypto.getRandomValues( new Uint8Array<ArrayBuffer>(bufBytes.buffer));
 
 
             // Get value in hexadecimal

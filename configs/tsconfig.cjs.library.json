@@ -1,0 +1,20 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": 
+    {
+        "module": "CommonJS",
+        "moduleResolution": "node",
+
+        "diagnostics":    false,
+
+        "declarationMap": false,
+        "sourceMap":      false,
+      
+        "declarationDir": "../dist/cjs/library/types",
+        "outDir":         "../dist/cjs/library",
+    },
+    "files": 
+    [
+        "../src/library/index.ts",
+    ],
+  }

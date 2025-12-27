@@ -7,15 +7,11 @@
         "declarationMap": false,
         "sourceMap":      false,
       
-        "declarationDir": "../lib/extensions/types",
-        "outDir":         "../lib/extensions",
+        "declarationDir": "../dist/esm/library/types",
+        "outDir":         "../dist/esm/library",
     },
     "files": 
     [
-        "../src/extensions/index.ts",
-    ],
-    "include": 
-    [
-        "../src/extensions/declarations/*"
+        "../src/library/index.ts",
     ],
   }
