@@ -1,7 +1,7 @@
 import { IStringLib}             from "./interfaces/string.js"
 import { DateLib }               from "./date.js";
-import { ParsedDate, 
-         StringExtractionResult} from "./../common/index.js"
+import { ParsedDate }            from "./../common/parsed-date.js"
+import { StringExtractionResult} from "./../common/index.js"
 
 
 

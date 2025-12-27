@@ -469,6 +469,26 @@ describe("Number library", () =>
 
 
 
+    test("isValid", () =>
+    {
+        expect( XT.Number.isValid(10))
+        .toBe(true);
+
+        expect( XT.Number.isValid(-1))
+        .toBe(true);
+
+        expect( XT.Number.isValid(-9_223_372_036_854))
+        .toBe(true);
+
+        expect( XT.Number.isValid(NaN))
+        .toBe(false);
+
+        expect( XT.Number.isValid(153.5156))
+        .toBe(true);
+    });   
+
+
+
     test("toBigInt -> valid", () =>
     {
         expect( XT.Number.toBigInt(123.73))

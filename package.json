@@ -1,8 +1,9 @@
 {
     "author": "Moacyr Catani, Jr.",
-    "name": "extensions-utility",
+    "__name": "extensions-utility",
+    "name": "@moacyr-catani/ct2-ts-extensions",
     "description": "A package to add util extensions to JavaScript basic types and objects ",
-    "version": "1.0.0",
+    "version": "1.0.19",
     "license": "MIT",
     "keywords": [],
     "homepage": "https://https://github.com/moacyr-catani/node-package-extensions#readme",
@@ -15,12 +16,42 @@
     },
     "type": "module",
     "exports": {
+
+
         ".": {
-            "import": "./dist/esm/library/index.js",
-            "require": "./dist/cjs/library/index.js",
-            "__types":  "./lib/types/index.d.js"
+            "import": {
+                "default": "./dist/esm/library/index.mjs",
+                "types":   "./dist/esm/types/library/index.d.ts"
+            },
+            "require": {
+                "default": "./dist/cjs/library/index.cjs",
+                "types":   "./dist/cjs/types/library/index.d.ts"
+            }
         },
-        "./package.json": "./package.json"
+
+        "./extensions": {
+            "import": {
+                "default": "./dist/esm/extensions/index.mjs",
+                "types":   "./dist/esm/types/extensions/index.d.ts"
+            },
+            "require": {
+                "default": "./dist/cjs/extensions/index.cjs",
+                "types":   "./dist/cjs/types/extensions/index.d.ts"
+            }
+        },
+
+        "./common": {
+            "import": {
+                "default": "./dist/esm/common/index.mjs",
+                "types":   "./dist/esm/types/common/index.d.ts"
+            },
+            "require": {
+                "default": "./dist/cjs/common/index.cjs",
+                "types":   "./dist/cjs/types/common/index.d.ts"
+            }
+        },
+
+        "./extensions/package.json": "./package.json"
     },
     "__main": "./lib/index.js",
     "__types": "./lib/types/index.d.js",

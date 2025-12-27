@@ -1,8 +1,6 @@
-import { IDateLib } from "./interfaces/date.js";
-import { Constants, WeekDays } from "./../common/index.js" 
-
-
-
+import { IDateLib }   from "./interfaces/date.js";
+import { WeekDays }   from "./../common/index.js" 
+import * as Constants from "./../common/constants.js";
 
 
 

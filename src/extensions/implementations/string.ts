@@ -1,11 +1,5 @@
-import { XT } from "./../../library/index.js"
-
-export type StringExtractionResult = 
-{ 
-    start: number, 
-    end: number, 
-    value: string | undefined
-};
+import { XT }                     from "./../../library/index.js"
+import { StringExtractionResult } from "./../../common/index.js"
 
 
 

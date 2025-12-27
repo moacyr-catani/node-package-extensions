@@ -1,7 +1,7 @@
 import { IAssertLib } from "./interfaces/assert.js";
-import { Constants } from "./../common/index.js" 
-import { StringLib } from "./string.js";
-import { NumberLib } from "./number.js";
+import * as Constants from "./../common/constants.js";
+import { StringLib }  from "./string.js";
+import { NumberLib }  from "./number.js";
 
 
 
