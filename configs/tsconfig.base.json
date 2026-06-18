@@ -31,7 +31,10 @@
       "noUnusedLocals"                    : true,
       "noUnusedParameters"                : true,
       //"outDir"                            : "./dist",
-      //"sourceMap"                         : false,
+      "rewriteRelativeImportExtensions"   : true,
+      "rootDir"                           : "../src",
+      "skipLibCheck"                      : true,
+      "sourceMap"                         : false,
       "strict"                            : true,
       "strictBindCallApply"               : true,
       "strictBuiltinIteratorReturn"       : true,
@@ -39,7 +42,9 @@
       "strictNullChecks"                  : true,
       "strictPropertyInitialization"      : true,
       "target"                            : "ES2024",
+      "types"                             : ["jest", "node"]
     },
+    
     //"files": ["../src/index.ts", "../src/extensions/index.ts"],
     //"files": ["../src/index.ts"],
     //"include": ["../src/extensions/declarations/*"]

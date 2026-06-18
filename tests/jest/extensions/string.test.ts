@@ -1,8 +1,8 @@
 import "../../../src/extensions/index";
-import { StringExtractionResult } from "../../../src/extensions/index";
+import { StringExtractionResult } from "../../../src/common/index";
 
 
-
+ 
 
 describe("String extensions", () => 
 {

@@ -10,7 +10,7 @@
             "request": "launch",
             "type": "node",
             
-            "program": "${workspaceFolder}\\dist\\debug\\index.js",
+             
             "skipFiles": [
                 "<node_internals>/**"
             ],

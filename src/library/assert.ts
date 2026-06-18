@@ -194,7 +194,10 @@ class AssertLibClass implements IAssertLib
     
 
 
-
+    /**
+     * 
+     * @param value Asserts a value is, or can be converted to, a valid int8
+     */
     int8(value:             string | number): number | null;
     int8(value:             string | number,
          alternativeValue:  number): number;
@@ -203,15 +206,18 @@ class AssertLibClass implements IAssertLib
     {
 
         return <number | null>assertInt(value, 
-                              NumberLib.isInt8,
-                              NumberLib.toInt,
-                              StringLib.toInt,
-                              alternativeValue);
+                                        NumberLib.isInt8,
+                                        NumberLib.toInt,
+                                        StringLib.toInt,
+                                        alternativeValue);
     }
 
 
 
-
+    /**
+     * 
+     * @param value Asserts a value is, or can be converted to, a valid int16
+     */
     int16(value:             string | number): number | null;
     int16(value:             string | number,
           thousandSeparator: string): number | null;

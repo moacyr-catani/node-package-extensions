@@ -2,14 +2,14 @@ import { XT } from "../../../src/library/index";
 import { IntegerRepresentations } from "../../../src/common/index";
 //import { XT, IntegerRepresentations } from "../../../lib/index";
 
+ 
+// declare global {
+//     interface BigInt {
+//         toJSON(): string;
+//     }
+// }
 
-declare global {
-    interface BigInt {
-        toJSON(): string;
-    }
-}
-
-BigInt.prototype.toJSON = function () { return this.toString() }
+// BigInt.prototype.toJSON = function () { return this.toString() }
 
 
 

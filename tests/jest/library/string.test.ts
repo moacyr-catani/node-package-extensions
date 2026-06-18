@@ -2,7 +2,7 @@ import { XT } from "../../../src/library/index";
 import { StringExtractionResult } from "../../../src/common/index";
 
 
-
+ 
 
 
 describe("String library", () => 

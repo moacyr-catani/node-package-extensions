@@ -1,14 +1,14 @@
 import "../../../src/extensions/index";
-import { IntegerRepresentations } from "../../../src/extensions/index";
+import { IntegerRepresentations } from "../../../src/common/index";
 
+ 
+// declare global {
+//     interface BigInt {
+//         toJSON(): string;
+//     }
+// }
 
-declare global {
-    interface BigInt {
-        toJSON(): string;
-    }
-}
-
-BigInt.prototype.toJSON = function () { return this.toString() }
+// BigInt.prototype.toJSON = function () { return this.toString() }
 
 
 
@@ -17,401 +17,190 @@ describe("Number extensions", () =>
 {
     test(".$_changeIntegerRepresentation -> valid", () =>
     {
-        expect(Number.$_changeIntegerRepresentation(12345679, 
-                                                    IntegerRepresentations.StringBinary))
+        expect( Number.$_changeIntegerRepresentation(12345679, 
+                                                     IntegerRepresentations.StringBinary))
         .toBe("101111000110000101001111");
 
-        expect(Number.$_changeIntegerRepresentation("0b101111000110000101001111", 
-                                                    IntegerRepresentations.Number,
-                                                    IntegerRepresentations.StringBinary))
+
+        expect( Number.$_changeIntegerRepresentation("0b101111000110000101001111", 
+                                                     IntegerRepresentations.Number,
+                                                     IntegerRepresentations.StringBinary))
         .toBe(12345679);
 
-        expect(Number.$_changeIntegerRepresentation("101111000110000101001111", 
-                                                    IntegerRepresentations.Number,
-                                                    IntegerRepresentations.StringBinary))
+
+        expect( Number.$_changeIntegerRepresentation("101111000110000101001111", 
+                                                     IntegerRepresentations.Number,
+                                                     IntegerRepresentations.StringBinary))
         .toBe(12345679);
 
-        expect(Number.$_changeIntegerRepresentation(12345679, 
-                                                    IntegerRepresentations.StringHexadecimal))
+
+        expect( Number.$_changeIntegerRepresentation("0b101111000110000101001111", 
+                                                     IntegerRepresentations.Number))
+        .toBe(12345679);
+
+
+        expect( Number.$_changeIntegerRepresentation("12345679", 
+                                                     IntegerRepresentations.StringBinary))
+        .toBe("101111000110000101001111");
+
+
+        expect( Number.$_changeIntegerRepresentation("101111000110000101001111", 
+                                                     IntegerRepresentations.Number,
+                                                     IntegerRepresentations.StringBinary))
+        .toBe(12345679);
+
+
+        expect( Number.$_changeIntegerRepresentation(12345679, 
+                                                     IntegerRepresentations.StringHexadecimal))
         .toBe("bc614f");
 
-        expect(Number.$_changeIntegerRepresentation("0xbc614f", 
-                                                    IntegerRepresentations.Number,
-                                                    IntegerRepresentations.StringHexadecimal))
+
+        expect( Number.$_changeIntegerRepresentation("0xbc614f", 
+                                                     IntegerRepresentations.Number,
+                                                     IntegerRepresentations.StringHexadecimal))
         .toBe(12345679);
 
-        expect(Number.$_changeIntegerRepresentation("bc614f", 
-                                                    IntegerRepresentations.Number,
-                                                    IntegerRepresentations.StringHexadecimal))
+
+        expect( Number.$_changeIntegerRepresentation("bc614f", 
+                                                     IntegerRepresentations.Number,
+                                                     IntegerRepresentations.StringHexadecimal))
         .toBe(12345679);
 
-        expect(Number.$_changeIntegerRepresentation(12345679, 
-                                                    IntegerRepresentations.StringOctal))
+
+        expect( Number.$_changeIntegerRepresentation(12345679, 
+                                                     IntegerRepresentations.StringOctal))
         .toBe("57060517");
 
-        expect(Number.$_changeIntegerRepresentation("0o57060517",
-                                                    IntegerRepresentations.Number, 
-                                                    IntegerRepresentations.StringOctal))
+
+        expect( Number.$_changeIntegerRepresentation("0o57060517",
+                                                     IntegerRepresentations.Number, 
+                                                     IntegerRepresentations.StringOctal))
         .toBe(12345679);
 
-        expect(Number.$_changeIntegerRepresentation("57060517",
-                                                    IntegerRepresentations.Number, 
-                                                    IntegerRepresentations.StringOctal))
+
+        expect( Number.$_changeIntegerRepresentation("57060517",
+                                                     IntegerRepresentations.Number, 
+                                                     IntegerRepresentations.StringOctal))
         .toBe(12345679);
 
-        expect(Number.$_changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
-                                                    IntegerRepresentations.BigInt))
+
+        expect( Number.$_changeIntegerRepresentation("0o57060517",
+                                                     IntegerRepresentations.Number))
+        .toBe(12345679);
+
+
+        expect( Number.$_changeIntegerRepresentation("57060517",
+                                                     IntegerRepresentations.Number, 
+                                                     IntegerRepresentations.StringOctal))
+        .toBe(12345679);
+
+
+        expect( Number.$_changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
+                                                     IntegerRepresentations.BigInt))
         .toBe(932813181816876619725749033491n);
 
-        expect(Number.$_changeIntegerRepresentation("bc614faa872dc46efdf3f1a13", 
-                                                    IntegerRepresentations.BigInt,
-                                                    IntegerRepresentations.StringHexadecimal))
+
+        expect( Number.$_changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
+                                                     IntegerRepresentations.StringDecimal))
+        .toBe("932813181816876619725749033491");
+
+
+        expect( Number.$_changeIntegerRepresentation("bc614faa872dc46efdf3f1a13", 
+                                                     IntegerRepresentations.BigInt,
+                                                     IntegerRepresentations.StringHexadecimal))
         .toBe(932813181816876619725749033491n);
 
-        expect(Number.$_changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
-                                                    IntegerRepresentations.StringHexadecimal))
+
+        expect( Number.$_changeIntegerRepresentation("0xbc614faa872dc46efdf3f1a13", 
+                                                     IntegerRepresentations.StringHexadecimal))
         .toBe("0xbc614faa872dc46efdf3f1a13");
 
 
-        expect(Number.$_changeIntegerRepresentation(932813181816876619725749033491n, 
-                                                    IntegerRepresentations.StringHexadecimal))
+        expect( Number.$_changeIntegerRepresentation(932813181816876619725749033491n, 
+                                                     IntegerRepresentations.StringHexadecimal))
         .toBe("bc614faa872dc46efdf3f1a13");
 
+
+        expect( Number.$_changeIntegerRepresentation(9328131818168766197257490334591n, 
+                                                     IntegerRepresentations.StringBase64))
+        .toBe("dbzRypR8msVeuHcDfw==");
+
+
+        expect( Number.$_changeIntegerRepresentation("dbzRypR8msVeuHcDfw==", 
+                                                     IntegerRepresentations.BigInt,
+                                                     IntegerRepresentations.StringBase64))
+        .toBe(9328131818168766197257490334591n);
+
+
+        expect( Number.$_changeIntegerRepresentation(932813181816876619725749033491n, 
+                                                     IntegerRepresentations.StringBase64Url))
+        .toBe("C8YU-qhy3Ebv3z8aEw");
+
+
+        expect( Number.$_changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+                                                     IntegerRepresentations.BigInt,
+                                                     IntegerRepresentations.StringBase64Url))
+        .toBe(932813181816876619725749033491n);
+
+
+        expect( Number.$_changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+                                                     IntegerRepresentations.StringBase36,
+                                                     IntegerRepresentations.StringBase64Url))
+        .toBe("2ifrat1mfib4p9c1e0b7");
+
+
+        expect( Number.$_changeIntegerRepresentation("2ifrat1mfib4p9c1e0b7", 
+                                                     IntegerRepresentations.BigInt,
+                                                     IntegerRepresentations.StringBase36))
+        .toBe(932813181816876619725749033491n);
+
+
+        const objBuffer: Buffer = Buffer.from([98, 112])
+        expect( Number.$_changeIntegerRepresentation(objBuffer, 
+                                                     IntegerRepresentations.Number))
+        .toBe(25_200);
+
+
+        expect( Number.$_changeIntegerRepresentation(objBuffer, 
+                                                     IntegerRepresentations.Number,
+                                                     IntegerRepresentations.BufferUInt8))
+        .toBe(25_200);
+
+
+        const objBuffer2: Buffer = <Buffer>Number.$_changeIntegerRepresentation(25_200, 
+                                                                                IntegerRepresentations.BufferUInt8)
+        expect( objBuffer2[0] )
+        .toBe(98)
+
+        expect( objBuffer2[1] )
+        .toBe(112)
     });                                                 
 
 
 
-    test(".$_changeIntegerRepresentation -> invalid", () =>
+    test("changeIntegerRepresentation -> invalid", () =>
     {
         expect( () => Number.$_changeIntegerRepresentation(12345679, <IntegerRepresentations>"invalid"))
         .toThrow();
 
         expect( () => Number.$_changeIntegerRepresentation(12345679, IntegerRepresentations.StringBase64, <IntegerRepresentations>"invalid"))
         .toThrow();
+
+        expect( () => Number.$_changeIntegerRepresentation("C8YU-qhy3Ebv3z8aEw", 
+                                                            IntegerRepresentations.Number,
+                                                            IntegerRepresentations.StringBase64Url))
+        .toThrow();
     });     
 
 
 
-    test(".$_toDecimal -> valid", () =>
-    {
-        expect(Number(123.123).$_toDecimal(2))
-        .toBe(123.12);
-
-        expect(Number(123).$_toDecimal(2))
-        .toBe(123.0);
-    });                                                 
-
-
-    
-    test(".$_toDecimal -> invalid", () =>
-    {
-        expect(Infinity.$_toDecimal(2))
-        .toBeUndefined();
-
-        expect((10/0).$_toDecimal(1))
-        .toBeUndefined();
-    });                                                 
-
-
-
-    test(".$_toDecimalString -> valid", () =>
-    {
-        expect((1234.1234).$_toDecimalString(0))
-        .toBe("1234");
-
-        expect((1234.1234).$_toDecimalString())
-        .toBe("1234.12");
-
-        expect((12345678.1234).$_toDecimalString(2, ",", "."))
-        .toBe("12.345.678,12");
-
-        expect((123456781234.1234).$_toDecimalString(5, ".", ","))
-        .toBe("123,456,781,234.12340");
-
-        expect((1234.1234).$_toDecimalString(2, ",", "."))
-        .toBe("1.234,12");
-
-        expect((1234.1234).$_toDecimalString(3))
-        .toBe("1234.123");
-    });       
-    
-
-
-    test("$_isInt", () =>
-    {
-        expect( (123_123).$_isInt())
-        .toBe(true);
-
-        expect( (123_123.0).$_isInt())
-        .toBe(true);
-
-        expect( (123_123.1).$_isInt())
-        .toBe(false);
-
-        // expect( 12345654321354312353120131n.$_isInt())
-        // .toBe(true);
-
-        // expect( -12345654321354312353120131n.$_isInt())
-        // .toBe(true);
-
-        expect( (0.00001).$_isInt())
-        .toBe(false);
-
-        expect( (10/0).$_isInt())
-        .toBe(false);
-
-        expect( NaN.$_isInt())
-        .toBe(false);
-
-        expect( Infinity.$_isInt())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isInt8", () =>
-    {
-        expect( (123).$_isInt8())
-        .toBe(true);
-
-        expect( (128).$_isInt8())
-        .toBe(false);
-
-        expect( (-128).$_isInt8())
-        .toBe(true);
-
-        expect( (10.0001).$_isInt8())
-        .toBe(false);
-
-        expect( (10/0).$_isInt8())
-        .toBe(false);
-
-        expect( NaN.$_isInt8())
-        .toBe(false);
-
-        expect( Infinity.$_isInt8())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isInt16", () =>
-    {
-        expect( (32_000).$_isInt16())
-        .toBe(true);
-
-        expect( (32_768).$_isInt16())
-        .toBe(false);
-
-        expect( (-32_768).$_isInt16())
-        .toBe(true);
-
-        expect( (-32_769).$_isInt16())
-        .toBe(false);
-
-        expect( (10.0001).$_isInt16())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isInt32", () =>
-    {
-        expect( (1_532_145).$_isInt32())
-        .toBe(true);
-
-        expect( (2_147_483_648).$_isInt32())
-        .toBe(false);
-
-        expect( (-2_147_483_648).$_isInt32())
-        .toBe(true);
-
-        expect( (2_147_483_645).$_isInt32())
-        .toBe(true);
-
-        expect( (-2_147_483_649).$_isInt32())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isInt64", () =>
-    {
-        // expect( 9_223_372_036_854_775_807n.$_isInt64())
-        // .toBe(true);
-
-        // expect( 9_223_372_036_854_775_808n.$_isInt64())
-        // .toBe(false);
-
-        // expect( -9_223_372_036_854_775_808n.$_isInt64())
-        // .toBe(true);
-
-        expect( (2_147_483_645).$_isInt64())
-        .toBe(true);
-
-        // expect( -9_223_372_036_854_775_809n.$_isInt64())
-        // .toBe(false);
-    });                                                 
-
-
-
-    test("$_isUInt8", () =>
-    {
-        expect( (0).$_isUInt8())
-        .toBe(true);
-
-        expect( (123).$_isUInt8())
-        .toBe(true);
-
-        expect( (255).$_isUInt8())
-        .toBe(true);
-
-        expect( (256).$_isUInt8())
-        .toBe(false);
-
-        expect( (-128).$_isUInt8())
-        .toBe(false);
-
-        expect( (10.0001).$_isUInt8())
-        .toBe(false);
-
-        expect( (10/0).$_isUInt8())
-        .toBe(false);
-
-        expect( NaN.$_isUInt8())
-        .toBe(false);
-
-        expect( Infinity.$_isUInt8())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isUInt16", () =>
-    {
-        
-        expect( (32_000).$_isUInt16())
-        .toBe(true);
-
-        expect( (65_535).$_isUInt16())
-        .toBe(true);
-
-        expect( (-32_768).$_isUInt16())
-        .toBe(false);
-
-        expect( (65_536).$_isUInt16())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isUInt32", () =>
-    {
-        expect( (1_532_145).$_isUInt32())
-        .toBe(true);
-
-        expect( (-2).$_isUInt32())
-        .toBe(false);
-
-        expect( (4_294_967_295).$_isUInt32())
-        .toBe(true);
-
-        expect( (4_294_967_296).$_isUInt32())
-        .toBe(false);
-    });                                                 
-
-
-
-    test("$_isUInt64", () =>
-    {
-        expect( (10).$_isUInt64())
-        .toBe(true);
-
-        expect( (-1).$_isUInt64())
-        .toBe(false);
-
-        // expect( (-9_223_372_036_854_775_808n).$_isUInt64())
-        // .toBe(false);
-
-        // expect( 18_446_744_073_709_551_615n.$_isUInt64())
-        // .toBe(true);
-
-        // expect( 18_446_744_073_709_551_616n.$_isUInt64())
-        // .toBe(false);
-    });   
-
-
-
-    test(".$_toDecimalString -> invalid", () =>
-    {
-        expect((10/0).$_toDecimalString())
-        .toBeUndefined();
-
-        expect(Infinity.$_toDecimalString(2, ",", "."))
-        .toBeUndefined();
-    });    
-
-    
-
-    test(".$_toInt -> valid", () =>
-    {
-        expect(Number(123.73).$_toInt())
-        .toBe(123.0);
-
-        expect(Number(123.123).$_toInt())
-        .toBe(123.0);
-        
-        expect(Number(-42.0000000012).$_toInt())
-        .toBe(-42.0);
-    });                                                 
-
-
-
-    test(".$_toInt -> invalid", () =>
-    {
-        expect( (10/0).$_toInt())
-        .toBeUndefined();
-
-        expect( Infinity.$_toInt())
-        .toBeUndefined();
-    });                                                 
-
-
-
-    test(".$_toIntString -> valid", () =>
-    {
-
-        expect(Number(-5).$_toIntString())
-        .toBe("-5");
-
-        expect(Number(123.73).$_toIntString())
-        .toBe("123");
-
-        expect(Number(123456789).$_toIntString("."))
-        .toBe("123.456.789");
-
-        expect(Number(23456789).$_toIntString("_"))
-        .toBe("23_456_789");
-
-    });                                                 
-
-
-
-    test(".$_toIntString -> invalid", () =>
-    {
-        expect( (10/0).$_toIntString())
-        .toBeUndefined();
-
-        expect( Infinity.$_toIntString())
-        .toBeUndefined();
-    });                                                 
-
-
-
-    test(".$_randomInt - valid", () =>
+    test("createRandomInt - valid", () =>
     {
         expect(typeof Number.$_randomInt(6, IntegerRepresentations.Number))
         .toBe("number");
+
+        expect(typeof Number.$_randomInt(8, IntegerRepresentations.BigInt))
+        .toBe("bigint");
 
         expect(typeof Number.$_randomInt(12, IntegerRepresentations.BigInt))
         .toBe("bigint");
@@ -449,16 +238,16 @@ describe("Number extensions", () =>
         expect(typeof Number.$_randomInt(12, IntegerRepresentations.StringOctal))
         .toBe("string");
 
-        expect(Number.$_randomInt(8, IntegerRepresentations.BufferUInt8))
+        expect( Number.$_randomInt(8, IntegerRepresentations.BufferUInt8))
         .toBeInstanceOf(Buffer);
 
-        expect(Number.$_randomInt(12, IntegerRepresentations.BufferUInt8))
+        expect( Number.$_randomInt(12, IntegerRepresentations.BufferUInt8))
         .toBeInstanceOf(Buffer);
     });
 
 
 
-    test(".$_randomInt - invalid", () =>
+    test("createRandomInt - invalid", () =>
     {
         expect(() => Number.$_randomInt(7, IntegerRepresentations.Number))
         .toThrow();
@@ -471,5 +260,484 @@ describe("Number extensions", () =>
 
         expect(() => Number.$_randomInt(10, <IntegerRepresentations>"invalid"))
         .toThrow();
+    });   
+
+
+
+    test("Number.$_isInt", () =>
+    {
+        expect( Number.$_isInt(123_123))
+        .toBe(true);
+
+        expect( Number.$_isInt(123_123.0))
+        .toBe(true);
+
+        expect( Number.$_isInt(123_123.1))
+        .toBe(false);
+
+        expect( Number.$_isInt(12345654321354312353120131n))
+        .toBe(true);
+
+        expect( Number.$_isInt(-12345654321354312353120131n))
+        .toBe(true);
+
+        expect( Number.$_isInt(0.00001))
+        .toBe(false);
+
+        expect( Number.$_isInt(10/0))
+        .toBe(false);
+
+        expect( Number.$_isInt(NaN))
+        .toBe(false);
+
+        expect( Number.$_isInt(Infinity))
+        .toBe(false);
+    });                                                 
+
+
+
+
+    test(".$_isInt", () =>
+    {
+        expect( (123_123).$_isInt())
+        .toBe(true);
+
+        expect( (123_123.0).$_isInt())
+        .toBe(true);
+
+        expect( (123_123.1).$_isInt())
+        .toBe(false);
+
+        expect( (0.00001).$_isInt())
+        .toBe(false);
+
+        expect( (10/0).$_isInt())
+        .toBe(false);
+
+        expect( (NaN).$_isInt())
+        .toBe(false);
+
+        expect( (Infinity).$_isInt())
+        .toBe(false);
+    });                                                 
+
+
+
+
+    test("Number.$_isInt8", () =>
+    {
+        expect( Number.$_isInt8(123))
+        .toBe(true);
+
+        expect( Number.$_isInt8(128))
+        .toBe(false);
+
+        expect( Number.$_isInt8(-128))
+        .toBe(true);
+
+        expect( Number.$_isInt8(10.0001))
+        .toBe(false);
+
+        expect( Number.$_isInt8(10/0))
+        .toBe(false);
+
+        expect( Number.$_isInt8(123))
+        .toBe(true);
+
+        expect( Number.$_isInt8(128))
+        .toBe(false);
+
+        expect( Number.$_isInt8(-128))
+        .toBe(true);
+
+        expect( Number.$_isInt8(10.0001))
+        .toBe(false);
+
+        expect( Number.$_isInt8(10/0))
+        .toBe(false);
+
+        expect( Number.$_isInt8(NaN))
+        .toBe(false);
+
+        expect( Number.$_isInt8(Infinity))
+        .toBe(false);
+    });        
+
+
+
+
+    test(".$_isInt8", () =>
+    {
+        expect( (123).$_isInt8())
+        .toBe(true);
+
+        expect( (128).$_isInt8())
+        .toBe(false);
+
+        expect( (-128).$_isInt8())
+        .toBe(true);
+
+        expect( 10.0001.$_isInt8())
+        .toBe(false);
+
+        expect( (10/0).$_isInt8())
+        .toBe(false);
+
+        expect( (123).$_isInt8())
+        .toBe(true);
+
+        expect( (128).$_isInt8())
+        .toBe(false);
+
+        expect( (-128).$_isInt8())
+        .toBe(true);
+
+        expect( (10.0001).$_isInt8())
+        .toBe(false);
+
+        expect( (10/0).$_isInt8())
+        .toBe(false);
+
+        expect( (NaN).$_isInt8())
+        .toBe(false);
+
+        expect( (Infinity).$_isInt8())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("Number.$_isInt16", () =>
+    {
+        expect( Number.$_isInt16(32_000))
+        .toBe(true);
+
+        expect( Number.$_isInt16(32_768))
+        .toBe(false);
+
+        expect( Number.$_isInt16(-32_768))
+        .toBe(true);
+
+        expect( Number.$_isInt16(-32_769))
+        .toBe(false);
+
+        expect( Number.$_isInt16(10.0001))
+        .toBe(false);
+    });   
+
+
+    test("$_isInt16", () =>
+    {
+        expect( (32_000).$_isInt16())
+        .toBe(true);
+
+        expect( (32_768).$_isInt16())
+        .toBe(false);
+
+        expect( (-32_768).$_isInt16())
+        .toBe(true);
+
+        expect( (-32_769).$_isInt16())
+        .toBe(false);
+
+        expect( (10.0001).$_isInt16())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("Number.$_isInt32", () =>
+    {
+        expect( Number.$_isInt32(1_532_145))
+        .toBe(true);
+
+        expect( Number.$_isInt32(2_147_483_648))
+        .toBe(false);
+
+        expect( Number.$_isInt32(-2_147_483_648))
+        .toBe(true);
+
+        expect( Number.$_isInt32(2_147_483_645))
+        .toBe(true);
+
+        expect( Number.$_isInt32(-2_147_483_649))
+        .toBe(false);
+    });                                                 
+
+
+
+    test(".$_isInt32", () =>
+    {
+        expect( (1_532_145).$_isInt32())
+        .toBe(true);
+
+        expect( (2_147_483_648).$_isInt32())
+        .toBe(false);
+
+        expect( (-2_147_483_648).$_isInt32())
+        .toBe(true);
+
+        expect( (2_147_483_645).$_isInt32())
+        .toBe(true);
+
+        expect( (-2_147_483_649).$_isInt32())
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isInt64", () =>
+    {
+        expect( Number.$_isInt64(9_223_372_036_854_775_807n))
+        .toBe(true);
+
+        expect( Number.$_isInt64(9_223_372_036_854_775_808n))
+        .toBe(false);
+
+        expect( Number.$_isInt64(-9_223_372_036_854_775_808n))
+        .toBe(true);
+
+        expect( Number.$_isInt64(2_147_483_645))
+        .toBe(true);
+
+        expect( Number.$_isInt64(-9_223_372_036_854_775_809n))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt8", () =>
+    {
+        expect( Number.$_isUInt8(0))
+        .toBe(true);
+
+        expect( Number.$_isUInt8(123))
+        .toBe(true);
+
+        expect( Number.$_isUInt8(255))
+        .toBe(true);
+
+        expect( Number.$_isUInt8(256))
+        .toBe(false);
+
+        expect( Number.$_isUInt8(-128))
+        .toBe(false);
+
+        expect( Number.$_isUInt8(10.0001))
+        .toBe(false);
+
+        expect( Number.$_isUInt8(10/0))
+        .toBe(false);
+
+        expect( Number.$_isUInt8(NaN))
+        .toBe(false);
+
+        expect( Number.$_isUInt8(Infinity))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt16", () =>
+    {
+        expect( Number.$_isUInt16(32_000))
+        .toBe(true);
+
+        expect( Number.$_isUInt16(65_535))
+        .toBe(true);
+
+        expect( Number.$_isUInt16(-32_768))
+        .toBe(false);
+
+        expect( Number.$_isUInt16(65_536))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt32", () =>
+    {
+        expect( Number.$_isUInt32(1_532_145))
+        .toBe(true);
+
+        expect( Number.$_isUInt32(-2))
+        .toBe(false);
+
+        expect( Number.$_isUInt32(4_294_967_295))
+        .toBe(true);
+
+        expect( Number.$_isUInt32(4_294_967_296))
+        .toBe(false);
+    });                                                 
+
+
+
+    test("isUInt64", () =>
+    {
+        expect( Number.$_isUInt64(10))
+        .toBe(true);
+
+        expect( Number.$_isUInt64(-1))
+        .toBe(false);
+
+        expect( Number.$_isUInt64(-9_223_372_036_854_775_808n))
+        .toBe(false);
+
+        expect( Number.$_isUInt64(18_446_744_073_709_551_615n))
+        .toBe(true);
+
+        expect( Number.$_isUInt64(18_446_744_073_709_551_616n))
+        .toBe(false);
+    });   
+
+
+
+    test("isValid", () =>
+    {
+        expect( Number.$_isValid(10))
+        .toBe(true);
+
+        expect( Number.$_isValid(-1))
+        .toBe(true);
+
+        expect( Number.$_isValid(-9_223_372_036_854))
+        .toBe(true);
+
+        expect( Number.$_isValid(NaN))
+        .toBe(false);
+
+        expect( Number.$_isValid(153.5156))
+        .toBe(true);
+    });   
+
+
+
+    // test("toBigInt -> valid", () =>
+    // {
+    //     expect( Number.$_toBigInt(123.73))
+    //     .toBe(123n);
+
+    //     expect( Number.$_toBigInt(123.123))
+    //     .toBe(123n);
+        
+    //     expect( Number.$_toBigInt(-42000000001213216n))
+    //     .toBe(-42000000001213216n);
+
+    //     expect( Number.$_toBigInt(4200000000121321665482132488512354n))
+    //     .toBe(4200000000121321665482132488512354n);
+
+    //     expect( Number.$_toBigInt(NaN))
+    //     .toBeUndefined();
+
+    // });    
+
+
+
+    test("toDecimal -> valid", () =>
+    {
+        expect( Number.$_toDecimal(123.123, 2))
+        .toBe(123.12);
+
+        expect( Number.$_toDecimal(123, 2))
+        .toBe(123.0);
+    });                                                 
+
+
+    
+    test("toDecimal -> invalid", () =>
+    {
+        expect( Number.$_toDecimal(Infinity, 2))
+        .toBeUndefined();
+
+        expect( Number.$_toDecimal(10/0, 1))
+        .toBeUndefined();
+    });                                                 
+
+
+
+    test("toDecimalString -> valid", () =>
+    {
+        expect( Number.$_toDecimalString(1234.1234, 0))
+        .toBe("1234");
+
+        expect( Number.$_toDecimalString(1234.1234))
+        .toBe("1234.12");
+
+        expect( Number.$_toDecimalString(12345678.1234, 2, ",", "."))
+        .toBe("12.345.678,12");
+
+        expect( Number.$_toDecimalString(123456781234.1234, 5, ".", ","))
+        .toBe("123,456,781,234.12340");
+
+        expect( Number.$_toDecimalString(1234.1234, 2, ",", "."))
+        .toBe("1.234,12");
+
+        expect( Number.$_toDecimalString(1234.1234, 3))
+        .toBe("1234.123");
     });       
+    
+
+
+    test("toDecimalString -> invalid", () =>
+    {
+        expect( Number.$_toDecimalString(10/0, 2))
+        .toBeUndefined();
+
+        expect(Number.$_toDecimalString(Infinity, 2, ",", "."))
+        .toBeUndefined();
+    });    
+
+    
+
+    test("toInt -> valid", () =>
+    {
+        expect( Number.$_toInt(123.73))
+        .toBe(123.0);
+
+        expect( Number.$_toInt(123.123))
+        .toBe(123.0);
+        
+        expect( Number.$_toInt(-42.0000000012))
+        .toBe(-42.0);
+    });                                                 
+
+
+
+    test("toInt -> invalid", () =>
+    {
+        expect( Number.$_toInt(10/0))
+        .toBeUndefined();
+
+        expect( Number.$_toInt(Infinity))
+        .toBeUndefined();
+    });                                                 
+
+
+
+    test("toIntString -> valid", () =>
+    {
+
+        expect( Number.$_toIntString(-5))
+        .toBe("-5");
+
+        expect( Number.$_toIntString(123.73))
+        .toBe("123");
+
+        expect( Number.$_toIntString(123456789, "."))
+        .toBe("123.456.789");
+
+        expect( Number.$_toIntString(23456789, "_"))
+        .toBe("23_456_789");
+    });                                                 
+
+
+
+    test("toIntString -> invalid", () =>
+    {
+        expect( Number.$_toIntString(10/0))
+        .toBeUndefined();
+
+        expect( Number.$_toIntString(Infinity))
+        .toBeUndefined();
+    });      
 });

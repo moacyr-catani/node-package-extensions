@@ -1,3 +1,8 @@
 {
-    "extends": "./configs/tsconfig.library.local.json"
+    "extends": "./configs/tsconfig.library.local.json",
+    "compilerOptions": 
+    {
+            "rootDir": "./src",
+    },
+    "types"                             : ["jest", "node"]
 }
