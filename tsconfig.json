@@ -1,8 +1,12 @@
 {
     "extends": "./configs/tsconfig.library.local.json",
+
     "compilerOptions": 
     {
-            "rootDir": "./src",
+        "module":           "NodeNext",
+        "moduleResolution": "NodeNext", // This fixes the 'node:buffer' highlight error
+        "types": ["node", "jest"]
     },
-    "types"                             : ["jest", "node"]
+    "include": ["src/**/*", "tests/**/*"]
+   
 }

@@ -1,5 +1,5 @@
-import "../../../src/extensions/index";
-import { IntegerRepresentations } from "../../../src/common/index";
+import "../../../src/extensions/index.ts";
+import { IntegerRepresentations } from "../../../src/common/index.ts";
 
  
 // declare global {

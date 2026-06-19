@@ -12,6 +12,74 @@ declare global
 {
     interface NumberConstructor
     {
+
+        /**
+         * Asserts the provided value is (or represents) a valid decimal.
+         * @overload
+         * @param {string | number} value Value to be checked
+         * @returns A decimal number or null (if provided value is not a valid decimal)
+         */
+        $_assertDecimal(value: string | number): number | null;
+        
+        /**
+         * Asserts the provided value is (or represents) a valid decimal.
+         * @overload
+         * @param {string} value Value to be checked
+         * @param {string} decimalSeparator Character used as decimal separator
+         * @returns A decimal number or null (if provided value is not a valid decimal)
+         */
+        $_assertDecimal(value:            string,
+                        decimalSeparator: string): number | null;
+
+        /**
+         * Asserts the provided value is (or represents) a valid decimal.
+         * @overload
+         * @param {string} value Value to be checked
+         * @param {string} decimalSeparator Character used as decimal separator
+         * @param {string} thousandSeparator Character used as thousand separator
+         * @returns A decimal number or null (if provided value is not a valid decimal)
+         */
+        $_assertDecimal(value:             string,
+                        decimalSeparator:  string,      
+                        thousandSeparator: string): number | null;
+
+        /**
+         * Asserts the provided value is (or represents) a valid decimal.
+         * @overload
+         * @param {string | number} value Value to be checked
+         * @param {number} alternativeValue Value to be returned case the provided param is not a valid decimal
+         * @returns A decimal number from de first param (if a valid decimal), or alternativeValue, otherwise
+         */
+        $_assertDecimal(value:            string | number,
+                        alternativeValue: number): number;
+
+        /**
+         * Asserts the provided value is (or represents) a valid decimal.
+         * @overload
+         * @param {string | number} value Value to be checked
+         * @param {string} decimalSeparator Character used as decimal separator
+         * @param {number} alternativeValue Value to be returned case the provided param is not a valid decimal
+         * @returns A decimal number from de first param (if a valid decimal), or alternativeValue, otherwise
+         */
+        $_assertDecimal(value:            string,
+                        decimalSeparator: string,
+                        alternativeValue: number): number;
+        /**
+         * Asserts the provided value is (or represents) a valid decimal.
+         * @overload
+         * @param {string | number} value Value to be checked
+         * @param {string} decimalSeparator Character used as decimal separator
+         * @param {string} thousandSeparator Character used as thousand separator
+         * @param {number} alternativeValue Value to be returned case the provided param is not a valid decimal
+         * @returns A decimal number from de first param (if a valid decimal), or alternativeValue, otherwise
+         */
+        $_assertDecimal(value:             string,
+                        decimalSeparator:  string,      
+                        thousandSeparator: string,      
+                        alternativeValue:  number): number;
+
+
+
         /**
          * 
          * Asserts a value is, or can be converted to, a valid int8
@@ -45,10 +113,10 @@ declare global
         $_assertInt32(value:             string | number,
                       thousandSeparator: string): number | null;
         $_assertInt32(value:             string | number,
-                      alternativeValue:  number): number;
+                      alternativeValue:  number): number | null;
         $_assertInt32(value:             string | number,
                       thousandSeparator: string,
-                      alternativeValue:  number): number;
+                      alternativeValue:  number): number | null;
 
 
 
@@ -316,7 +384,7 @@ declare global
          * 
          * Changes de representation of an integer
          */
-        $_changeIntegerRepresentation(p_toRepresentation: IntegerRepresentations): number | bigint | string | ArrayBuffer;
+        $_changeIntegerRepresentation(p_toRepresentation: IntegerRepresentations): number | bigint | string | Buffer;
 
 
 
