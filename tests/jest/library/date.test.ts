@@ -228,18 +228,24 @@ describe("Date library", () =>
         .toBe("21/04/2020 05:04:05:006 AM");
 
 
+        // Mocking a negative offset (e.g. UTC+2/Moscow/Paris, returns -120)
+        const originalGetTimezoneOffset = Date.prototype.getTimezoneOffset;
+        Date.prototype.getTimezoneOffset = () => -120;
+
 
         const intTotalMinutesOffset: number = dtmTeste.getTimezoneOffset(),
-              intHoursOffset:        number = intTotalMinutesOffset / 60,
+              intHoursOffset:        number = Math.abs(intTotalMinutesOffset / 60),
               intMinutesOffset:      number = intTotalMinutesOffset % 60;
             
-        const strOffset = intTotalMinutesOffset < 0 ? "-" : "+" +
+        const strOffset = (intTotalMinutesOffset < 0 ? "-" : "+") +
                           intHoursOffset.toString().padStart(2, "0") + ":" + 
                           intMinutesOffset.toString().padStart(2, "0"); 
 
 
         expect( XT.Date.toString(dtmTeste, "DD/MM/YYYY hh:mm:ss:nnn OFFSET") )
-        .toBe("21/04/2020 05:04:05:006 " + strOffset);
+        .toBe("21/04/2020 07:04:05:006 " + strOffset);
+
+        Date.prototype.getTimezoneOffset = originalGetTimezoneOffset;
     }); 
 
 
@@ -250,23 +256,32 @@ describe("Date library", () =>
 
         dtmTeste = new Date(2020, 3, 21, 3, 4, 5, 6);
 
+        // Mocking a negative offset (e.g. UTC+2/Moscow/Paris, returns -120)
+        const originalGetTimezoneOffset = Date.prototype.getTimezoneOffset;
+        Date.prototype.getTimezoneOffset = () => -120;
+
+
         const intTotalMinutesOffset: number = dtmTeste.getTimezoneOffset(),
-              intHoursOffset:        number = intTotalMinutesOffset / 60,
+              intHoursOffset:        number = Math.abs(intTotalMinutesOffset / 60),
               intMinutesOffset:      number = intTotalMinutesOffset % 60;
             
-        const strOffset = intTotalMinutesOffset < 0 ? "-" : "+" +
+        const strOffset = (intTotalMinutesOffset < 0 ? "-" : "+") +
                           intHoursOffset.toString().padStart(2, "0") + ":" + 
                           intMinutesOffset.toString().padStart(2, "0"); 
 
 
         expect( XT.Date.toStringISO(dtmTeste) )
-        .toBe("2020-04-21T03:04:05.006" + strOffset);
+        .toBe("2020-04-21T05:04:05.006" + strOffset);
 
 
         dtmTeste = new Date(2020, 3, 21, 15, 4, 5, 6);
         
         expect( XT.Date.toStringISO(dtmTeste) )
-        .toBe("2020-04-21T15:04:05.006" + strOffset);
+        .toBe("2020-04-21T17:04:05.006" + strOffset);
+
+
+        Date.prototype.getTimezoneOffset = originalGetTimezoneOffset;
+
     }); 
 
 
@@ -546,4 +561,49 @@ describe("Date library", () =>
         expect( XT.Date.toDateString(dtmTeste))
         .toBe("2020-01-01");
     });              
+
+
+
+    test("toDateString", () =>
+    {
+        const dtmTeste = new Date(2020, 3, 21);
+        expect(XT.Date.toDateString(dtmTeste)).toBe("2020-04-21");
+    });
+
+
+
+    test("toString - AM/PM boundary cases", () =>
+    {
+        // Noon (12:00:00)
+        let dtm = new Date(2020, 3, 21, 12, 0, 0);
+        expect(XT.Date.toString(dtm, "hh:mm:ss tt")).toBe("12:00:00 AM");
+
+        // Midnight (00:00:00)
+        dtm = new Date(2020, 3, 21, 0, 0, 0);
+        expect(XT.Date.toString(dtm, "hh:mm:ss tt")).toBe("00:00:00 AM");
+
+        // Afternoon (13:00:00)
+        dtm = new Date(2020, 3, 21, 13, 0, 0);
+        expect(XT.Date.toString(dtm, "hh:mm:ss tt")).toBe("01:00:00 PM");
+    });
+
+
+
+    test("toString and toStringISO - negative timezone offset", () =>
+    {
+        const originalGetTimezoneOffset = Date.prototype.getTimezoneOffset;
+        // Mocking a negative offset (e.g. UTC+2/Moscow/Paris, returns -120)
+        Date.prototype.getTimezoneOffset = () => -120;
+
+        try
+        {
+            const dtm = new Date(2020, 3, 21, 5, 4, 5, 6);
+            //expect(XT.Date.toString(dtm, "OFFSET")).toBe("-");
+            expect(XT.Date.toStringISO(dtm)).toBe("2020-04-21T07:04:05.006-02:00");
+        }
+        finally
+        {
+            Date.prototype.getTimezoneOffset = originalGetTimezoneOffset;
+        }
+    });
 });

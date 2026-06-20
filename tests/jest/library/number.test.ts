@@ -502,10 +502,14 @@ describe("Number library", () =>
 
         expect( XT.Number.toBigInt(4200000000121321665482132488512354n))
         .toBe(4200000000121321665482132488512354n);
+    });    
 
+
+
+    test("toBigInt -> invalid", () =>
+    {
         expect( XT.Number.toBigInt(NaN))
         .toBeUndefined();
-
     });    
 
 

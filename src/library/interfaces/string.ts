@@ -1,240 +1,251 @@
 import { StringExtractionResult} from "./../../common/index.js"
 
-
-
 export interface IStringLib
 {
     /**
-     * Extracts string among specific substrings
-     * @param {string|string[]} start String or strings (array) that are just before the text you are looking for
-     * @param {string|string[]} end   String or strings (array) that are just after the text you are looking for
-     * @param {boolean}         words If true, indicate the text you are looking for is surrounded by 'non word' characters, i.e.: spaces, tabs, new lines, ...
-     * @example 
-     * const procedure = 
-     * `CREATE PROCEDURE sp_Test
-     * AS
-     * SELECT * FROM [TABLE]`
-     * 
-     * const procName  = procedure.$_extractBetween(["PROCEDURE", "PROC"], "", true).value;
-     * const statement = procedure.$_extractBetween("AS", "", true).value;
+     * Extracts text between specified start and end strings.
+     * @param value Source string.
+     * @param start One or more strings that appear before the target text.
+     * @param end One or more strings that appear after the target text.
+     * @param words When `true`, matches must be whole words.
+     * @returns A `StringExtractionResult` with extracted text and indexes.
+     * @example
+     * const procedure = `CREATE PROCEDURE sp_Test\nAS\nSELECT * FROM [TABLE]`;
+     * const procName = XT.String.extractBetween(procedure, ["PROCEDURE", "PROC"], "", true).value;
      */
-    extractBetween( value:  string,
-                    start?: string | string[] | undefined,
-                    end?:   string | string[] | undefined,
-                    words?: boolean ): StringExtractionResult;                          
-
-
-
+    extractBetween(value:  string,
+                   start?: string | string[] | undefined,
+                   end?:   string | string[] | undefined,
+                   words?: boolean): StringExtractionResult;
 
     /**
-     * Decodes Base64Url value into string
+     * Decodes a Base64Url-encoded string.
+     * @param value Base64Url string to decode.
+     * @returns Decoded string.
      */
-    fromBase64Url( value: string ): string;
-
-
-
+    fromBase64Url(value: string): string;
 
     /**
-     * Checks if a string represents a valid integer value in decimal format (using numerals from 0 to 9)
+     * Checks whether the string is a valid integer.
+     * @param value String to check.
+     * @returns `true` when the string contains a valid integer.
      */
-    isInt( value: string ): boolean;
-    /**
-     * Checks if a string represents a valid integer in decimal format (using numerals from 0 to 9)
-     * @param {string} thousandSeparator Character used to separate thousands groups
-     */
-    isInt( value:             string,
-           thousandSeparator: string ): boolean;
-
-
-
+    isInt(value: string): boolean;
 
     /**
-     * Checks if a string represents a valid number in decimal format (using numerals from 0 to 9)
+     * Checks whether the string is a valid integer using a thousand separator.
+     * @param value String to check.
+     * @param thousandSeparator Separator used between thousands.
+     * @returns `true` when the string contains a valid integer.
      */
-    isNumber( value: string ): boolean;
-    /**
-     * Checks if a string represents a valid number in decimal format (using numerals from 0 to 9)
-     * @param {string} thousandSeparator Character used to separate thousands groups
-     * @param {string} decimalSeparator Character used to separate decimal part
-     */
-    isNumber( value:             string,
-              thousandSeparator: string,
-              decimalSeparator:  string ): boolean;
-    
-
-
+    isInt(value:             string,
+          thousandSeparator: string): boolean;
 
     /**
-     * Replaces a substring for a new value.
-     * All occurrences of the searched string will be replaced
-     * @param {string}  search String to be searched and replaced
-     * @param {string}  newValue New string
-     * @param {boolean} caseInsensitive If true, casing of the searched string will be ignored
+     * Checks whether the string is a valid decimal number.
+     * @param value String to check.
+     * @returns `true` when the string contains a valid number.
+     */
+    isNumber(value: string): boolean;
+
+    /**
+     * Checks whether the string is a valid decimal number using custom separators.
+     * @param value String to check.
+     * @param thousandSeparator Separator used between thousands.
+     * @param decimalSeparator Separator used for the decimal part.
+     * @returns `true` when the string contains a valid number.
+     */
+    isNumber(value:             string,
+             thousandSeparator: string,
+             decimalSeparator:  string): boolean;
+
+    /**
+     * Replaces all occurrences of a search string with a new value.
+     * @param value Source string.
+     * @param search Search string.
+     * @param newValue Replacement string.
+     * @param caseInsensitive When true, search is case-insensitive.
+     * @returns Updated string.
      */
     replace(value:            string,
             search:           string,
             newValue:         string,
             caseInsensitive?: boolean): string;
-    /**
-     * Replaces several substrings for a new value.
-     * All occurrences of the searched string will be replaced
-     * @param {string[]} search Array with strings to be searched and replaced
-     * @param {string}   newValue New string
-     * @param {boolean}  caseInsensitive If true, casing of the searched string will be ignored
-     */
-    replace( value:            string,
-             search:           string[],
-             newValue:         string,
-             caseInsensitive?: boolean): string;
-
-
-
 
     /**
-     * Remove sequential latin characters
-     * @example "immediately " will be replaced by "imediately "
+     * Replaces all occurrences of any search strings with a new value.
+     * @param value Source string.
+     * @param search Array of search strings.
+     * @param newValue Replacement string.
+     * @param caseInsensitive When true, search is case-insensitive.
+     * @returns Updated string.
      */
-    removeSequentialLatinLetters( value: string ): string;
-
-
-
+    replace(value:            string,
+            search:           string[],
+            newValue:         string,
+            caseInsensitive?: boolean): string;
 
     /**
-     * Encodes string into Base64Url value
+     * Removes consecutive duplicate Latin letters.
+     * @param value Input string.
+     * @returns String with sequential Latin letters collapsed.
+     * @example
+     * const result = XT.String.removeSequentialLatinLetters("immediately");
      */
-    toBase64Url( value: string ): string;
-
-
-
+    removeSequentialLatinLetters(value: string): string;
 
     /**
-     * Keeps only basic latin letter
-     * @example "á ô ç ñ" will be replaced by "a o c n"
+     * Encodes a string as Base64Url.
+     * @param value Input string.
+     * @returns Base64Url-encoded string.
      */
-    toBasicLatinLetters( value: string ): string
-
-
-
+    toBase64Url(value: string): string;
 
     /**
-     * Returns a big integer number from a string
+     * Converts extended Latin characters to basic Latin letters.
+     * @param value Input string.
+     * @returns Normalized string containing basic Latin letters.
+     * @example
+     * const text = XT.String.toBasicLatinLetters("á ô ç ñ");
      */
-    toBigInt( value: string ): bigint | undefined;
-    /**
-     * Returns a big integer number from a string
-     * @param {string} thousandSeparator Character used to separate thousands groups
-     */
-    toBigInt( value:             string,
-              thousandSeparator: string ): bigint | undefined;
-
-
+    toBasicLatinLetters(value: string): string;
 
     /**
-     * Returns a date from a string
-     * @param parseFormat String representing how date is written in string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
+     * Parses a string into a BigInt.
+     * @param value Input string.
+     * @returns Parsed BigInt when valid, otherwise `undefined`.
      */
-    toDate( value:       string,
-            parseFormat: string ): Date | undefined;
-
-
-
+    toBigInt(value: string): bigint | undefined;
 
     /**
-     * Returns a string representing a parsed datetime value from another string in provided format
-     * @param parsedFormat Representation of how datetime value is written in original string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
-     * @param resultFormat Representation of how datetime value must be written in result string. Valid tokens are YYYY, YY, MM, DD, hh, mm, ss, nnn
+     * Parses a string into a BigInt using a thousand separator.
+     * @param value Input string.
+     * @param thousandSeparator Separator used between thousands.
+     * @returns Parsed BigInt when valid, otherwise `undefined`.
      */
-    toDateString( value:        string,
-                  parseFormat:  string,
-                  resultFormat: string ): string | undefined;
-
-
-
+    toBigInt(value:             string,
+             thousandSeparator: string): bigint | undefined;
 
     /**
-     * Returns a decimal number from a string
+     * Parses a string into a Date using the specified format.
+     * @param value Input string.
+     * @param parseFormat Format with tokens such as `YYYY`, `MM`, `DD`, `hh`, `mm`, `ss`, `nnn`.
+     * @returns Parsed Date when valid, otherwise `undefined`.
      */
-    toDecimal( value: string ): number | undefined;
-    /**
-     * Returns a decimal number from a string
-     * @param {string} decimalSeparator  Character used to separate decimal part
-     */
-    toDecimal( value:            string,
-               decimalSeparator: string ): number | undefined;
-    /**
-     * Returns a decimal number from a string
-     * @param {string} decimalSeparator  Character used to separate decimal part
-     * @param {string} thousandSeparator Character used to separate thousands groups
-     */
-    toDecimal( value:             string,
-               decimalSeparator:  string,
-               thousandSeparator: string ): number | undefined;
-
-
-
+    toDate(value:       string,
+           parseFormat: string): Date | undefined;
 
     /**
-     * Returns an integer number from a string
+     * Converts a datetime string from one format to another.
+     * @param value Input string.
+     * @param parseFormat Format used to parse the string.
+     * @param resultFormat Format used to build the output string.
+     * @returns Formatted datetime string when parsing succeeds, otherwise `undefined`.
      */
-    toInt( value: string ): number | undefined;
-    /**
-     * Returns an integer number from a string
-     * @param {string} thousandSeparator Character used to separate thousands groups
-     */
-    toInt( value:             string,
-           thousandSeparator: string ): number | undefined;
-
-    
-
+    toDateString(value:        string,
+                 parseFormat:  string,
+                 resultFormat: string): string | undefined;
 
     /**
-     * Removes specific string or strings (array) from the beginning and the end of a string 
-     * @param {string|string[]} entries String or strings (array) to be removed
+     * Parses a numeric string to a decimal number.
+     * @param value Input string.
+     * @returns Parsed number when valid, otherwise `undefined`.
      */
-    trim( value:   string,
-          entries: string | string[] ): string;
-    /**
-     * Removes specific string or strings (array) from the beginning and the end of a string 
-     * @param {string|string[]} entries String or strings (array) to be removed
-     * @param {boolean} caseSensitive True indicates that the search should respect entries casing
-     */
-    trim( value:          string,
-          entries:        string | string[], 
-          caseSensitive?: boolean ): string;
-
-
-
+    toDecimal(value: string): number | undefined;
 
     /**
-     * Removes specific string or strings (array) from the end a string 
-     * @param {string|string[]} entries String or strings (array) to be removed
+     * Parses a numeric string to a decimal number using a custom decimal separator.
+     * @param value Input string.
+     * @param decimalSeparator Separator used for the decimal part.
+     * @returns Parsed number when valid, otherwise `undefined`.
      */
-    trimEnd( value:   string,
-             entries: string | string[] ): string;
-    /**
-     * Removes specific string or strings (array) from the end a string 
-     * @param {string|string[]} entries String or strings (array) to be removed
-     * @param {boolean} caseSensitive True indicates that the search should respect entries casing
-     */
-    trimEnd( value:          string,
-             entries:        string | string[], 
-             caseSensitive?: boolean ): string;
-
-
-
+    toDecimal(value:            string,
+              decimalSeparator: string): number | undefined;
 
     /**
-     * Removes specific string or strings (array) from the beginning a string 
-     * @param {string|string[]} entries String or strings (array) to be removed
+     * Parses a numeric string to a decimal number using custom separators.
+     * @param value Input string.
+     * @param decimalSeparator Separator used for the decimal part.
+     * @param thousandSeparator Separator used between thousands.
+     * @returns Parsed number when valid, otherwise `undefined`.
      */
-    trimStart( value:   string,
-               entries: string | string[] ): string;
+    toDecimal(value:             string,
+              decimalSeparator:  string,
+              thousandSeparator: string): number | undefined;
+
     /**
-     * Removes specific string or strings (array) from the beginning a string 
-     * @param {string|string[]} entries String or strings (array) to be removed
-     * @param {boolean} caseSensitive True indicates that the search should respect entries casing
+     * Parses a string to an integer.
+     * @param value Input string.
+     * @returns Parsed integer when valid, otherwise `undefined`.
      */
-    trimStart( value:          string,
-               entries:        string | string[], 
-               caseSensitive?: boolean ): string;
+    toInt(value: string): number | undefined;
+
+    /**
+     * Parses a string to an integer using a thousand separator.
+     * @param value Input string.
+     * @param thousandSeparator Separator used between thousands.
+     * @returns Parsed integer when valid, otherwise `undefined`.
+     */
+    toInt(value:             string,
+          thousandSeparator: string): number | undefined;
+
+    /**
+     * Trims the specified entries from both ends of a string.
+     * @param value Input string.
+     * @param entries String or strings to remove.
+     * @returns Trimmed string.
+     */
+    trim(value:   string,
+         entries: string | string[]): string;
+
+    /**
+     * Trims the specified entries from both ends of a string.
+     * @param value Input string.
+     * @param entries String or strings to remove.
+     * @param caseSensitive When true, comparisons respect case.
+     * @returns Trimmed string.
+     */
+    trim(value:          string,
+         entries:        string | string[],
+         caseSensitive?: boolean): string;
+
+    /**
+     * Trims the specified entries from the end of a string.
+     * @param value Input string.
+     * @param entries String or strings to remove.
+     * @returns Trimmed string.
+     */
+    trimEnd(value:   string,
+            entries: string | string[]): string;
+
+    /**
+     * Trims the specified entries from the end of a string.
+     * @param value Input string.
+     * @param entries String or strings to remove.
+     * @param caseSensitive When true, comparisons respect case.
+     * @returns Trimmed string.
+     */
+    trimEnd(value:          string,
+            entries:        string | string[],
+            caseSensitive?: boolean): string;
+
+    /**
+     * Trims the specified entries from the start of a string.
+     * @param value Input string.
+     * @param entries String or strings to remove.
+     * @returns Trimmed string.
+     */
+    trimStart(value:   string,
+              entries: string | string[]): string;
+
+    /**
+     * Trims the specified entries from the start of a string.
+     * @param value Input string.
+     * @param entries String or strings to remove.
+     * @param caseSensitive When true, comparisons respect case.
+     * @returns Trimmed string.
+     */
+    trimStart(value:          string,
+              entries:        string | string[],
+              caseSensitive?: boolean): string;
 }

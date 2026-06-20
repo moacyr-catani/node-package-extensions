@@ -103,11 +103,34 @@ const DateLib: IDateLib =
               p_ResultFormat: string ): string
     {
         let strAMPM:   string = "",
-            intHour:   number = p_Value.getHours(),
             strOffset: string = "";
+        let dtmValue:  Date = new Date(p_Value);
+
+
+
+        // Include Offset from UTC
+        if ( p_ResultFormat.indexOf("OFFSET") > -1)
+        {
+            const intTotalMinutesOffset: number = dtmValue.getTimezoneOffset();
+            const intHoursOffset:        number = Math.abs(intTotalMinutesOffset / 60);
+            const intMinutesOffset:      number = intTotalMinutesOffset % 60;
+
+                  
+            // Include timezone offset
+            dtmValue = DateLib.addMinutes(new Date(dtmValue), intTotalMinutesOffset * -1);
+
+
+            strOffset = (intTotalMinutesOffset < 0 ? "-" : "+") +
+                        intHoursOffset.toString().padStart(2, "0") + ":" + 
+                        intMinutesOffset.toString().padStart(2, "0"); 
+
+            p_ResultFormat = p_ResultFormat.replace(/OFFSET/g, strOffset);
+        }
 
 
         // Includes AM/PM indicator
+        let intHour:   number = dtmValue.getHours();
+
         if ( p_ResultFormat.indexOf("tt") > -1)
         {
             if (intHour > 12)
@@ -122,29 +145,14 @@ const DateLib: IDateLib =
         }
 
 
-        // Include Offset from UTC
-        if ( p_ResultFormat.indexOf("OFFSET") > -1)
-        {
-            const intTotalMinutesOffset: number = p_Value.getTimezoneOffset(),
-                  intHoursOffset:        number = intTotalMinutesOffset / 60,
-                  intMinutesOffset:      number = intTotalMinutesOffset % 60;
-            
-            strOffset = intTotalMinutesOffset < 0 ? "-" : "+" +
-                        intHoursOffset.toString().padStart(2, "0") + ":" + 
-                        intMinutesOffset.toString().padStart(2, "0"); 
-
-            p_ResultFormat = p_ResultFormat.replace(/OFFSET/g, strOffset);
-        }
-
-
-        return p_ResultFormat.replace(/YYYY/g, p_Value.getFullYear()    .toString())
-                             .replace(/YY/g,   p_Value.getFullYear()    .toString().substring(2))
-                             .replace(/MM/g,  (p_Value.getMonth() + 1)  .toString().padStart(2, "0"))
-                             .replace(/DD/g,   p_Value.getDate()        .toString().padStart(2, "0"))
-                             .replace(/hh/g,   intHour                  .toString().padStart(2, "0"))
-                             .replace(/mm/g,   p_Value.getMinutes()     .toString().padStart(2, "0"))
-                             .replace(/ss/g,   p_Value.getSeconds()     .toString().padStart(2, "0"))
-                             .replace(/nnn/g,  p_Value.getMilliseconds().toString().padStart(3, "0"));
+        return p_ResultFormat.replace(/YYYY/g, dtmValue.getFullYear()    .toString())
+                             .replace(/YY/g,   dtmValue.getFullYear()    .toString().substring(2))
+                             .replace(/MM/g,  (dtmValue.getMonth() + 1)  .toString().padStart(2, "0"))
+                             .replace(/DD/g,   dtmValue.getDate()        .toString().padStart(2, "0"))
+                             .replace(/hh/g,   intHour                   .toString().padStart(2, "0"))
+                             .replace(/mm/g,   dtmValue.getMinutes()     .toString().padStart(2, "0"))
+                             .replace(/ss/g,   dtmValue.getSeconds()     .toString().padStart(2, "0"))
+                             .replace(/nnn/g,  dtmValue.getMilliseconds().toString().padStart(3, "0"));
     },
 
 
